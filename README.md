@@ -1,5 +1,7 @@
 # nr1-catalog
 
+![whiteboard_1](assets/whiteboard_1.jpg)
+
 New Relic One Catalog repo of repos. PR's to this repo  trigger the review process for either adding an NR1 project to the New Relic One Catalog or to our upgrading an existing NR1 project.
 
 ## Usage
