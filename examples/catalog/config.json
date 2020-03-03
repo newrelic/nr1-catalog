@@ -1,0 +1,24 @@
+{
+  "repository": "<REPO URL>.git",
+  "details": "<description using \n for line breaks when/as necessary>",
+  "support": {
+    "issues": {
+      "url": "<REPO'S ISSUES URL>"
+    },
+    "email": {
+      "address": "opensource+<repo name>@newrelic.com"
+    },
+    "website": {
+      "url": "<LINK TO EXPLORERS HUB TOPIC>"
+    }
+  },
+  "whatsNew": [
+    "LASTEST",
+    "CHANGES",
+    "FROM",
+    "CHANGELOG",
+    "BUT",
+    "MORE",
+    "READABLE"
+  ]
+}
