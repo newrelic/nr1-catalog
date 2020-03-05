@@ -1,6 +1,7 @@
 {
-  "repository": "<REPO URL>.git",
-  "details": "<description using \n for line breaks when/as necessary>",
+  "tagline": "The example of all examples",
+  "repository": "<REPO URL ENDING in .git>",
+  "details": "<description using \n for line breaks when/as necessary. Must be under 1000 characters>",
   "support": {
     "issues": {
       "url": "<REPO'S ISSUES URL>"
@@ -8,17 +9,9 @@
     "email": {
       "address": "opensource+<repo name>@newrelic.com"
     },
-    "website": {
+    "community": {
       "url": "<LINK TO EXPLORERS HUB TOPIC>"
     }
   },
-  "whatsNew": [
-    "LASTEST",
-    "CHANGES",
-    "FROM",
-    "CHANGELOG",
-    "BUT",
-    "MORE",
-    "READABLE"
-  ]
+  "whatsNew": "You can now sort your cloud dependencies with a great new look using bullets and /n"
 }
