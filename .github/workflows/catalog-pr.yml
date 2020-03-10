@@ -1,0 +1,254 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  log_context:
+    runs-on: [ubuntu-latest]
+    if: 1 == 1 # make false to skip
+    steps:
+      # Dump all contexts
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
+        
+  
+  checkout:
+    runs-on: ubuntu-latest
+
+    steps:
+      
+
+      # Checkout base repo
+      #- name: Checkout
+      #  uses: actions/checkout@v2
+
+      # List contents of repo
+#       - name: List directory
+#         run: ls -la
+
+      # This would checkout all the submodules, even though we only need the one for _this_ PR
+#      - name: Checkout submodules
+#        uses: srt32/git-actions@v0.0.3
+#        with:
+#          args: git submodule update --init --recursive
+      
+      # Checkout PR branch and all history (not just last commit)
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      
+      # Git Log
+      - name: Git Log
+        run: git log
+        
+      # Checkout submodules, without --depth=1  
+      - name: Checkout submodules
+        shell: bash
+        run: |
+          # If your submodules are configured to use SSH instead of HTTPS please uncomment the following line
+          git config --global url."https://github.com/".insteadOf "git@github.com:"
+          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          git submodule sync --recursive
+          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
+      
+#       # List contents of repo
+#       - name: List directory
+#         run: ls -la
+
+      # This would checkout submodule `foo` (if we can get foo...)
+      #- uses: Mushus/checkout-submodule@v1
+      #  with:
+      #    submodulePath: ./foo
+      
+#       # Git Status
+#       - name: Git Status
+#         run: git status
+        
+#       # Git Log
+#       - name: Git Log
+#         run: git log
+      
+      # Git Diffs
+      - name: Git Diff
+        run: |
+          git diff --submodule=log --diff-filter=AM ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}
+          echo ::set-env name=SUBMODULE_NAME::$(git diff --submodule=log --diff-filter=AM ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | awk '{for (I=1;I<=NF;I++) if ($I == "Submodule") {print $(I+1)};}')
+        
+      - name: Check SUBMODULE_NAME
+        run: |
+          echo ${{ env.SUBMODULE_NAME }}
+          echo ::set-env name=TEST::env.SUBMODULE_NAME
+          
+#       - name: cd
+#         run: |
+#           pwd
+#           cd ${{ env.SUBMODULE_NAME }}
+#           ls -la
+#           pwd
+
+      - name: files-present-action
+        uses: ./.github/actions/files-present-action
+        with:
+          # Array describing the files
+          files: "README.md, .prettierrc.js, .eslintrc.js, .gitignore, package.json, LICENSE, THIRD_PARTY_NOTICES.md, CODE_OF_CONDUCT.md, cla.md, .github/ISSUE_TEMPLATE/bug_report.md, .github/ISSUE_TEMPLATE/enhancement.md, nr1.json, catalog/config.json"
+
+      - name: Check for OSS Files
+        run: |
+          rootDir=./${{ env.SUBMODULE_NAME }}/
+          
+          ls -la $rootDir
+          ls -la $rootDir/.github
+          
+          if [ -d "${rootDir}/.github" ]; then
+            ls -la $rootDir/.github
+          else
+            echo ".github directory not found"
+          fi
+          
+          if [ -d "${rootDir}/.github/ISSUE_TEMPLATE" ]; then
+            ls -la $rootDir/.github/ISSUE_TEMPLATE
+          else
+            echo "ISSUE_TEMPLATE directory not found"
+          fi
+          
+          declare -a files=(
+            "README.md"
+            ".prettierrc.js"
+            ".eslintrc.js"
+            ".gitignore"
+            "package.json"
+            "LICENSE"
+            "THIRD_PARTY_NOTICES.md"
+            "CODE_OF_CONDUCT.md"
+            "cla.md"
+            ".github/ISSUE_TEMPLATE/bug_report.md"
+            ".github/ISSUE_TEMPLATE/enhancement.md"
+            nr1.json
+            catalog/config.json
+          )
+          
+          for FILE in "${files[@]}"
+          do
+            if [ ! -f "${rootDir}$FILE" ]; then
+              printf "\n"
+              echo "Error: $FILE is missing from Nerdpack"
+              printf "\n"
+              exit 1
+            else
+              echo "Found "${rootDir}$FILE
+            fi
+          done
+
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+
+      - name: Install Dependencies
+        working-directory: ./${{ env.SUBMODULE_NAME }}
+        run: npm install
+
+      - name: Install NR1 CLI
+        run: curl -s https://cli.nr-ext.net/installer.sh | sudo bash
+
+      - name: NR1 Nerdpack Build
+        working-directory: ./${{ env.SUBMODULE_NAME }}
+        run: nr1 nerdpack:build
+
+      # Could be its own job that depends on `checkout and build` job?
+      - name: ESLinting
+        working-directory: ./${{ env.SUBMODULE_NAME }}
+        run: npm run eslint-check
+
+      # Could be its own job that depends on `checkout and build` job?
+      - name: Test Code
+        working-directory: ./${{ env.SUBMODULE_NAME }}
+        run: npm test
+
+
+      # Validate Ability to publish code (Issue #2)
+      # Requires API Key
+      # Could be its own job that depends on `checkout and build` job?
+      - name: Validate Publish Nerdpack
+        env:
+          NR1_API_KEY: ${{ secrets.DEMOTRON_V2_API_KEY }}
+          NR1_REGION: us
+        run: |
+          cd ${{ env.SUBMODULE_NAME }}
+          nr1 profiles:add --name workflow --api-key "$NR1_API_KEY" --region "$NR1_REGION" &&
+          nr1 nerdpack:publish --profile=workflow --dry-run 
+
+      #        nr1 nerdpack:publish --profile=workflow &&
+      #        nr1 nerdpack:deploy --channel="$NR1_DEPLOY_CHANNEL"
+
+
+      # Could be its own job that depends on `checkout and build` job?
+      - name: Validate Catalog Data (#1)
+        run: |
+          rootDir=./${{ env.SUBMODULE_NAME }}/
+          
+          declare -a files=(
+            nr1.json
+            icon.png
+            catalog/config.json
+          )
+          
+          for FILE in "${files[@]}"
+          do
+            if [ ! -f "${rootDir}$FILE" ]; then
+              printf "\n"
+              echo "Error: $FILE is missing from Nerdpack"
+              printf "\n"
+              exit 1
+            else
+              echo "Found "${rootDir}$FILE
+            fi
+          done
+          
+#           TODO:
+#             # Validate package.json semantic versioning
+#             # Need to validate screenshot in catalog/screenshots
+
+
+
+# Until Actions has better support for cross-job usage of env variables, it 
+# might not make sense to split work across jobs
+#   build:
+#     if: env.TEST == 'test'
+#     runs-on: ubuntu-latest
+#     needs: checkout
+#     steps:
+#       - name: Please dont run
+#         run: |
+#           echo "Well darn."
+#           echo "Test: ${{ env.TEST }}"
+#           echo "SUBMODULE_NAME: ${{ env.SUBMODULE_NAME }}"
+    
+  
+  
