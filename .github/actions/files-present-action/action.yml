@@ -1,0 +1,12 @@
+name: 'files-present-action'
+description: 'Checks for presence of files'
+author: 'JJ'
+branding:
+  icon: watch
+  color: green
+inputs:
+  files:
+    description: 'Array describing the files'
+runs:
+  using: 'node12'
+  main: 'lib/main.js'
