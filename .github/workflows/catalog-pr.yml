@@ -63,9 +63,7 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
       
-      # Git Log
-      - name: Git Log
-        run: git log
+
         
       # Checkout submodules, without --depth=1  
       - name: Checkout submodules
@@ -77,47 +75,27 @@ jobs:
           git submodule sync --recursive
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
       
-#       # List contents of repo
-#       - name: List directory
-#         run: ls -la
 
       # This would checkout submodule `foo` (if we can get foo...)
       #- uses: Mushus/checkout-submodule@v1
       #  with:
       #    submodulePath: ./foo
       
-#       # Git Status
-#       - name: Git Status
-#         run: git status
-        
-#       # Git Log
-#       - name: Git Log
-#         run: git log
-      
-      # Git Diffs
-      - name: Git Diff
+      # Get Submodule_name using Git Diff
+      - name: Get SUBMODULE_NAME
         run: |
           git diff --submodule=log --diff-filter=AM ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }}
           echo ::set-env name=SUBMODULE_NAME::$(git diff --submodule=log --diff-filter=AM ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | awk '{for (I=1;I<=NF;I++) if ($I == "Submodule") {print $(I+1)};}')
-        
-      - name: Check SUBMODULE_NAME
-        run: |
-          echo ${{ env.SUBMODULE_NAME }}
-          echo ::set-env name=TEST::env.SUBMODULE_NAME
+          echo SUBMODULE_NAME: ${{ env.SUBMODULE_NAME }}
           
-#       - name: cd
-#         run: |
-#           pwd
-#           cd ${{ env.SUBMODULE_NAME }}
-#           ls -la
-#           pwd
-
+      # Custom action to check for OSS files
       - name: files-present-action
         uses: ./.github/actions/files-present-action
         with:
           # Array describing the files
           files: "README.md, .prettierrc.js, .eslintrc.js, .gitignore, package.json, LICENSE, THIRD_PARTY_NOTICES.md, CODE_OF_CONDUCT.md, cla.md, .github/ISSUE_TEMPLATE/bug_report.md, .github/ISSUE_TEMPLATE/enhancement.md, nr1.json, catalog/config.json"
 
+      # Old method of checking for OSS files
       - name: Check for OSS Files
         run: |
           rootDir=./${{ env.SUBMODULE_NAME }}/
@@ -191,7 +169,6 @@ jobs:
         working-directory: ./${{ env.SUBMODULE_NAME }}
         run: npm test
 
-
       # Validate Ability to publish code (Issue #2)
       # Requires API Key
       # Could be its own job that depends on `checkout and build` job?
@@ -249,6 +226,3 @@ jobs:
 #           echo "Well darn."
 #           echo "Test: ${{ env.TEST }}"
 #           echo "SUBMODULE_NAME: ${{ env.SUBMODULE_NAME }}"
-    
-  
-  
