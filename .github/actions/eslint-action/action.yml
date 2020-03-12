@@ -1,0 +1,19 @@
+name: Run ESLint
+description: Run ESLint on JavaScript files
+author: stefanoeb
+inputs:
+  path:
+    description: Path to run ESLint from
+    required: true
+    default: '.'
+  files:
+    description: Blob of files to lint
+    required: false
+    default: '.'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args: ['${{ inputs.path }}', '${{ inputs.files }}']
+branding: 
+  icon: circle
+  color: purple

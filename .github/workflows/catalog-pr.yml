@@ -114,6 +114,7 @@ jobs:
         uses: ./.github/actions/files-present-action
         with:
           # Array describing the files
+          path: ./${{ env.SUBMODULE_NAME }}
           files: "README.md, .prettierrc.js, .eslintrc.js, .gitignore, package.json, LICENSE, THIRD_PARTY_NOTICES.md, CODE_OF_CONDUCT.md, cla.md, .github/ISSUE_TEMPLATE/bug_report.md, .github/ISSUE_TEMPLATE/enhancement.md, nr1.json, catalog/config.json"
 
       # Old method of checking for OSS files
@@ -258,22 +259,102 @@ jobs:
           auth_header="$(git config --local --get http.https://github.com/.extraheader)"
           git submodule sync --recursive
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
-
+          
       - name: Download submodule_name artifact
         uses: actions/download-artifact@v1
         with:
           name: submodule_name
       
-      # TODO: Should add check in case submodule_name is null
       - name: Set SUBMODULE_NAME env var
-        run: | 
-          echo ::set-env name=SUBMODULE_NAME::$(cat submodule_name/submodule_name.txt)
-          echo SUBMODULE_NAME: $(cat submodule_name/submodule_name.txt)
+        run: |
+          SUB_NAME=$(cat submodule_name/submodule_name.txt)
 
-      - name: ESLinting
+          if [ -z "$SUB_NAME" ]; then
+            echo "Error: Could not determine submodule name from artifact"
+            exit 1
+          else
+            echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
+            echo SUBMODULE_NAME: $SUB_NAME
+          fi
+
+#       - name: Setup node
+#         if: env.SUBMODULE_NAME != ''
+#         uses: actions/setup-node@v1
+#         with:
+#           node-version: "10.x"
+        
+#       - name: Install Dependencies
+#         if: env.SUBMODULE_NAME != ''
+#         working-directory: ./${{ env.SUBMODULE_NAME }}
+#         run: npm install
+        
+#       - name: ESLinting
+#         if: env.SUBMODULE_NAME != ''
+#         working-directory: ./${{ env.SUBMODULE_NAME }}
+#         run: npm run eslint-check
+
+      - name: Run eslint
+        uses: ./.github/actions/eslint-action
+        with:
+#           files: ./${{ env.SUBMODULE_NAME }}/nerdlets/
+          path: ${{ env.SUBMODULE_NAME }}
+
+  test:
+    name: test
+    needs: checkout-and-build
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+        
+      # Checkout submodules
+      # Note: Uses 8 jobs for checking out submodules quicker
+      - name: Checkout submodules
+        shell: bash
+        run: |
+          # If your submodules are configured to use SSH instead of HTTPS please uncomment the following line
+          git config --global url."https://github.com/".insteadOf "git@github.com:"
+          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          git submodule sync --recursive
+          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
+          
+      - name: Download submodule_name artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: submodule_name
+      
+      - name: Set SUBMODULE_NAME env var
+        run: |
+          SUB_NAME=$(cat submodule_name/submodule_name.txt)
+
+          if [ -z "$SUB_NAME" ]; then
+            echo "Error: Could not determine submodule name from artifact"
+            exit 1
+          else
+            echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
+            echo SUBMODULE_NAME: $SUB_NAME
+          fi          
+
+      # TODO: Convert these steps to docker-based action
+      - name: Setup node
+        if: env.SUBMODULE_NAME != ''
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+        
+      - name: Install Dependencies
         if: env.SUBMODULE_NAME != ''
         working-directory: ./${{ env.SUBMODULE_NAME }}
-        run: npm run eslint-check
+        run: npm install
+        
+      - name: Run npm test
+        if: env.SUBMODULE_NAME != ''
+        working-directory: ./${{ env.SUBMODULE_NAME }}
+        run: npm test
 
   publish: 
     name: Publish Nerdpack
@@ -288,11 +369,17 @@ jobs:
         with:
           name: submodule_name
       
-      # TODO: Should add check in case submodule_name is null
       - name: Set SUBMODULE_NAME env var
-        run: | 
-          echo ::set-env name=SUBMODULE_NAME::$(cat submodule_name.txt)
-          echo SUBMODULE_NAME: $(cat submodule_name.txt)
+        run: |
+          SUB_NAME=$(cat submodule_name/submodule_name.txt)
+
+          if [ -z "$SUB_NAME" ]; then
+            echo "Error: Could not determine submodule name from artifact"
+            exit 1
+          else
+            echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
+            echo SUBMODULE_NAME: $SUB_NAME
+          fi 
 
       # Validate Ability to publish code (Issue #2)
       # Requires API Key stored as secret

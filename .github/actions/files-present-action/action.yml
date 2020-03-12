@@ -7,6 +7,8 @@ branding:
 inputs:
   files:
     description: 'Array describing the files'
+  path:
+    description: 'Base path to run this action from'
 runs:
   using: 'node12'
   main: 'lib/main.js'
