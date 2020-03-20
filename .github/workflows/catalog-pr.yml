@@ -245,7 +245,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          # ref: ${{ github.head_ref }}
           fetch-depth: 0
         
       # Checkout submodules
@@ -307,7 +307,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          # ref: ${{ github.head_ref }}
           fetch-depth: 0
         
       # Checkout submodules
@@ -364,7 +364,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          # ref: ${{ github.head_ref }}
           fetch-depth: 0
         
       # Checkout submodules
@@ -526,7 +526,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          # ref: ${{ github.head_ref }}
           fetch-depth: 0
         
       # Checkout submodules
@@ -610,7 +610,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          # ref: ${{ github.head_ref }}
           fetch-depth: 0
         
       # Checkout submodules
