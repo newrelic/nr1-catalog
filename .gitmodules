@@ -1,0 +1,3 @@
+[submodule "nr1-top"]
+	path = nr1-top
+	url = git@github.com:newrelic/nr1-top.git
