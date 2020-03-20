@@ -515,7 +515,7 @@ jobs:
   map-global-uuid:
     name: map-global-uuid
     env:
-      SUBMODULE_NAME: prototype-nr1-actions
+      SUBMODULE_NAME: nr1-top
       NR1_API_KEY: ${{ secrets.DEMOTRON_V2_API_KEY_PROD }}
       NR1_REGION: us
 #    needs: checkout-and-build
