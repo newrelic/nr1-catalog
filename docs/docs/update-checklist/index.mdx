@@ -18,7 +18,7 @@ List the functional changes in the pull request.
 
 Validate that the following are present in your PR ahead of submitting:
 
-- [ ] Your application's reference in `.gitmodules` file is updated to the check-in your expect
+- [ ] Your application's submodule commit reference (SHA-hash value) has been updated to the value you expect (validate via `git submodule status`)
 - [ ] No other code in the `nr1-catalog` repo has been modified by your PR
 - [ ] the project contains only one Nerdpack with as many artifacts (launchers, nerdlets, etc.) as you choose
 - [ ] No changes have been made in the repo name or title
