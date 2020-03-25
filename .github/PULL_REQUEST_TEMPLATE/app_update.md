@@ -1,11 +1,11 @@
-# PR checklist to update an application already in the New Relic One Catalog
+## PR checklist to update an application already in the New Relic One Catalog
 
-## Nerdpack Approver
+## [Nerdpack Approver](#nerdpack-approver)
 
-- Provide the **GitHub handle** for the final Approver of this Nerdpack in your Pull Request. *Note: this is the person who will need to provide explicit sign off for the change ahead of deployment.*
-- If known, what is the requested date for the deployment of this functionality? *Note: this information is regarded as a courtesy. Neither New Relic nor the **nr1-catalog maintainer team** are under any obligation to meet this request. It simply provides a useful target for completion.*
+- List the **GitHub handle** for the final Approver of this Nerdpack. *Note: this is the person who will need to provide explicit sign off for the change ahead of deployment.*
+- What is the requested date for the deployment of this functionality? *Note: this information is regarded as a courtesy. Neither New Relic nor the **nr1-catalog maintainer team** are under any obligation to meet this request. It simply provides a useful target for completion.*
 
-### Functional Changes
+### [Functional Changes](#functional-changes)
 
 List the functional changes in the pull request.
 
@@ -14,7 +14,7 @@ List the functional changes in the pull request.
 
 *Note: The rest of this template is a checklist and guide for ensuring that your pull request is swiftly and consistently approved.*
 
-## Basic Nerdpack Validation
+## [Basic Nerdpack Validation](#basic-nerdpack-validation)
 
 Validate that the following are present in your PR ahead of submitting:
 
@@ -26,7 +26,7 @@ Validate that the following are present in your PR ahead of submitting:
 - [ ] Your linked submodule repository contains updated `whatsNew` field in `catalog/config.json`
 - [ ] (if appropriate) Your linked submodule repository contains updated catalog documentation and screenshots
 
-## Code Review Guidance
+## [Code Review Guidance](#code-review-guidance)
 
 *The following are meant to highlight the types of common issues that can degraded performance for your application.*
 
@@ -34,16 +34,16 @@ Validate that the following are present in your PR ahead of submitting:
 - [ ] The code does not contain hard-coded New Relic account ids, user ids, or other identifiers that should be retrieved via the NR1 API based on the user viewing the nerdpack
 - [ ] The code makes efficient use of the `PlatformStateContext` and `NerdletStateContext` (i.e. not wrapping the entire Nerdlet in a state context when it's not necessary)
 - [ ] The code avoids the use of `await` with React's `setState` method
-- [ ] The code is appropriate aware of the asynchronous nature of `setState` updates
+- [ ] The code handles the asynchronous nature of `setState` updates
 - [ ] The code does not perform imperative data fetching (ex. `NerdGraphQuery.query`) in the `render` method
 - [ ] Whenever appropriate, the code's React components extend `React.PureComponent` vs. `React.Component`
 - [ ] The code's React components that do extend `React.Component` implement the `shouldComponentUpdate` React lifecycle method
 
-### UI/UX Review Guidance
+### [Design Review Guidance](#design-review-guidance)
 
 - [ ] The code does not override or amend core NR1 styles
 
-### Security Review Guidance
+### [Security Review Guidance](#security-review-guidance)
 
 - [ ] The code does not contain hard-coded API keys, access tokens, or other security credentials
 - [ ] The code does not include additional `SCRIPT` tags
@@ -54,7 +54,7 @@ Validate that the following are present in your PR ahead of submitting:
 - [ ] The code does not interact with an outside URL without clear documentation on what is being retrieved
 - [ ] The code does not write unspecified object data to `NerdStorage`
 
-### *If appropriate*, NerdStorage Guidance
+### [NerdStorage Review Guidance](#nerdstorage-review-guidance)
 
 Where appropriate, the code follows the guidance regarding [NerdStorage limits and usage](https://developer.newrelic.com/build-tools/new-relic-one-applications/nerdstorage)
 

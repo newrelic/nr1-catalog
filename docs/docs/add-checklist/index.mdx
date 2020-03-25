@@ -1,11 +1,11 @@
 ## PR checklist to add a new application to the New Relic One Catalog
 
-## Nerdpack Approver
+## [Nerdpack Approver](nerdpack-approver)
 
 - Provide the **GitHub handle** for the final Approver of this Nerdpack in your Pull Request. *Note: this is the person who will need to provide explicit sign off for the change ahead of deployment.*
 - If known, what is the requested date for the deployment of this functionality? *Note: this information is regarded as a courtesy. Neither New Relic nor the **nr1-catalog maintainer team** are under any obligation to meet this request. It simply provides a useful target for completion.*
 
-### Functional Changes
+### [Functional Changes](#functional-changes)
 
 List the functional changes in the pull request, highlighting the major features of the application.
 
@@ -14,7 +14,7 @@ List the functional changes in the pull request, highlighting the major features
 
 *Note: The rest of this template is a checklist and guide for ensuring that your pull request is swiftly and consistently approved.*
 
-## Project Naming Guidance
+## [Project Naming Guidance](#project-naming-guidance)
 
 - [ ] Repo names and titles must not include the word `New Relic` or `newrelic`
 - [ ] Repo names and titles should be named with human-readable, functionally descriptive names
@@ -22,7 +22,7 @@ List the functional changes in the pull request, highlighting the major features
 - [ ] Project titles should use title case (e.g. “Deployment Analyzer”, not “Deployment analyzer”)
 - [ ] Projects must not include profanity or crude language in titles, repo names, or any documentation
 
-## Basic Nerdpack Validation
+## [Basic Nerdpack Validation](#basic-nerdpack-validation)
 
 Validate that the following are present in your PR ahead of submitting:
 
@@ -30,11 +30,11 @@ Validate that the following are present in your PR ahead of submitting:
 - [ ] No other code in the `nr1-catalog` repo has been modified by your PR
 - [ ] the project contains only one Nerdpack with as many artifacts (launchers, nerdlets, etc.) as you choose
 
-### Features and Roadmap
+### [Features and Roadmap](#features-and-roadmap)
 
 - [ ] Does this application have a workflow and/or documentation within the UI for managing an empty state?
 
-## Repository setup
+## [Repository setup](#repository-setup)
 
 Your linked submodule repository must contain:
 
@@ -52,7 +52,7 @@ Your linked submodule repository must contain:
 
 *Note: we do not permit projects that contain **any** [viral licensing](https://en.wikipedia.org/wiki/Viral_license) into the New Relic One Catalog.*
 
-### Catalog Metadata
+### [Catalog Metadata](#catalog-metadata)
 
 Your project must contain a `catalog` directory with the following:
 
@@ -73,7 +73,7 @@ Your project must contain a `catalog` directory with the following:
 - [ ] `documentation.md` a markdown file  containing no HTML markup nor any markdown images ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/catalog/documentation.md))
 - [ ] (optional) `additionalInfo.md` a markdown file  containing no HTML markup nor any markdown images ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/catalog/additionalInfo.md))
 
-## Code Review Guidance
+## [Code Review Guidance](#code-review-guidance)
 
 *The following are meant to highlight the types of common issues that can degraded performance for your application.*
 
@@ -86,11 +86,11 @@ Your project must contain a `catalog` directory with the following:
 - [ ] Whenever appropriate, the code's React components extend `React.PureComponent` vs. `React.Component`
 - [ ] The code's React components that do extend `React.Component` implement the `shouldComponentUpdate` React lifecycle method
 
-### UI/UX Review Guidance
+### [Design Review Guidance](#design-review-guidance)
 
 - [ ] The code does not override or amend core NR1 styles
 
-### Security Review Guidance
+### [Security Review Guidance](#security-review-guidance)
 
 - [ ] The code does not contain hard-coded API keys, access tokens, or other security credentials
 - [ ] The code does not include additional `SCRIPT` tags
@@ -101,7 +101,7 @@ Your project must contain a `catalog` directory with the following:
 - [ ] The code does not interact with an outside URL without clear documentation on what is being retrieved
 - [ ] The code does not write unspecified object data to `NerdStorage`
 
-### *If appropriate*, NerdStorage Guidance
+### [NerdStorage Review Guidance](#nerdstorage-review-guidance)
 
 Where appropriate, the code follows the guidance regarding [NerdStorage limits and usage](https://developer.newrelic.com/build-tools/new-relic-one-applications/nerdstorage)
 
@@ -110,7 +110,7 @@ Where appropriate, the code follows the guidance regarding [NerdStorage limits a
 - [ ] The code does not store personal data ([PII](https://www.gdpreu.org/the-regulation/key-concepts/personal-data/)) in `NerdStorage`
 
 
-## If submitted within New Relic
+## [New Relic only](#new-relic-only)
 
 *Note: These concluding sections of instruction are for projects submitted by New Relic teams. If that doesn't apply to you, ignore this section in your PR.*
 
