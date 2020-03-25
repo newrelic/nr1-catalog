@@ -1,9 +1,0 @@
-name: 'map-global-uuid'
-description: 'Maps global uuid to nr1.json for catalog app to publish metadata'
-author: 'jbeveland27'
-inputs:
-  submodule-name:              # change this
-    description: 'submodule to run'
-runs:
-  using: 'node12'
-  main: 'dist/index.js'
