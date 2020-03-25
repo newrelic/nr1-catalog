@@ -11,10 +11,10 @@ const heading = {
 export default {
   initialColorMode: 'light',
   colors: {
-    text: '#000',
+    text: 'rgb(70, 78, 78)',
     background: '#fff',
-    primary: '#33e',
-    secondary: '#119',
+    primary: '#007E8A',
+    secondary: '#007E8A',
     muted: '#f6f6f6',
     highlight: '#ffffcc',
     gray: '#777',
@@ -32,9 +32,9 @@ export default {
       },
       deep: {
         text: 'hsl(210, 50%, 96%)',
-        background: 'hsl(230, 25%, 18%)',
-        primary: 'hsl(260, 100%, 80%)',
-        secondary: 'hsl(290, 100%, 80%)',
+        background: 'rgb(112, 204, 211)',
+        primary: '#003555',
+        secondary: '#003555',
         purple: 'hsl(290, 100%, 80%)',
         muted: 'hsla(230, 20%, 0%, 20%)',
         gray: 'hsl(210, 50%, 60%)',
@@ -51,7 +51,7 @@ export default {
     },
   },
   fonts: {
-    body: 'system-ui, sans-serif',
+    body: 'Open Sans',
     heading: 'inherit',
     monospace: 'Menlo, monospace',
   },
