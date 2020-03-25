@@ -29,7 +29,14 @@ export default class ProcessTimeline extends React.PureComponent {
                     </ul>
                     <h3>Description</h3>
                     <p>
-                    <strong>Developer</strong> forks the <strong>nr1-catalog</strong> repository, reviews documentation on this website as well as the PR checklist, preps their nerdpack, and adds that repository as a submodule under the <strong>apps</strong> directory.
+                    <strong>Developer</strong> <a href="https://help.github.com/en/github/getting-started-with-github/fork-a-repo">forks</a> the <strong><a href="https://github.com/newrelic/nr1-catalog">nr1-catalog</a></strong> repository, reviews <a href="/">documentation</a> on this website as well as the <a href="/add-checklist">PR checklist</a>, preps their nerdpack, and adds that repository as a <a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">git submodule</a> under the <strong>apps</strong> directory.
+                    </p>
+                    <p>
+                    <code>
+                      #checked out nr1-catalog<br/>
+                      cd apps<br/>
+                      git submodule add [YOUR REPO]<br/>
+                    </code>
                     </p>
                     <h3>Outcomes</h3>
                     <ul>
