@@ -17,14 +17,14 @@ export default class ProcessTimeline extends React.PureComponent {
                     <ul className="timelineKey">
                       <li style={{backgroundColor: '#20A4F3'}}>Developer</li>
                     </ul>
-                    <h3>Description</h3>
+                    <h3>Step(s)</h3>
                     <p>
                       <img src="https://github.com/newrelic/nr1-catalog/blob/master/docs/docs/images/screenshot01.jpg" style={{width:'95%'}} />
                     </p>
                     <ul>
                       <li><strong>Developer</strong> <a href="https://help.github.com/en/github/getting-started-with-github/fork-a-repo">forks</a> the <strong><a href="https://github.com/newrelic/nr1-catalog">nr1-catalog</a></strong> repository</li>
                       <li><strong>Developer</strong> reviews <a href="/">documentation</a> on this website</li>
-                      <li><strong>Developer</strong> preps their nerdpack based on the <a href="/add-checklist">PR checklist</a></li>
+                      <li><strong>Developer</strong> preps their nerdpack based on the PR checklist to either <a href="/add-checklist">add</a> or <a href="/update-checklist">update</a> code</li>
                       <li><strong>Developer</strong> adds that repository as a <a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">git submodule</a> under the <strong>apps</strong> directory in the following manner:</li>
                     </ul>
                     <p>
@@ -56,7 +56,7 @@ export default class ProcessTimeline extends React.PureComponent {
                     <ul className="timelineKey">
                       <li style={{backgroundColor: '#20A4F3'}}>Developer</li>
                     </ul>
-                    <h3>Steps</h3>
+                    <h3>Step(s)</h3>
                     <p>
                       <img src="https://help.github.com/assets/images/help/pull_requests/pull-request-start-review-button.png" style={{maxWidth:'50%'}} />
                     </p>
@@ -86,7 +86,7 @@ export default class ProcessTimeline extends React.PureComponent {
                       <li style={{backgroundColor: '#F44708'}}>Reviewer</li>
                       <li style={{backgroundColor: '#3357B2'}}>Maintainer</li>
                     </ul>
-                    <h3>Steps</h3>
+                    <h3>Step(s)</h3>
                     <p>
                       <img src="https://help.github.com/assets/images/help/pull_requests/pull-request-review-statuses.png" style={{maxWidth:'95%'}} />
                     </p>
@@ -119,7 +119,7 @@ export default class ProcessTimeline extends React.PureComponent {
                       <li style={{backgroundColor: '#FAA613'}}>Approver</li>
                       <li style={{backgroundColor: '#3357B2'}}>Maintainer</li>
                     </ul>
-                    <h3>Description</h3>
+                    <h3>Step(s)</h3>
                     <p>
                       <img src="https://i.stack.imgur.com/0WXlq.gif" style={{maxWidth:'95%'}} />
                     </p>
@@ -138,17 +138,20 @@ export default class ProcessTimeline extends React.PureComponent {
                     dateInnerStyle={{ background: '#3357B2' }}
                     style={{ color: '#3357B2' }}>
                     <h2>Deployment to the New Relic One Catalog</h2>
-                    <h3>Stakeholders</h3>
+                    <h3>Actor(s)</h3>
                     <ul className="timelineKey">
                       <li style={{backgroundColor: '#3357B2'}}>Maintainer</li>
                     </ul>
-                    <h3>Description</h3>
-                    <p>Once approved, the <strong>Maintainer</strong> will merge the nerdpack (attached as a git submodule) to the master branch of <strong>nr1-catalog</strong>, and automation will perform the following:
+                    <h3>Step(s)</h3>
+                    <p>
+                      <img src="https://i.stack.imgur.com/lnBI8.png" style={{ width: '95%'}} />
+                    </p>
+                    <p>Once approved, the <strong>Maintainer</strong> will merge the nerdpack (attached as a git submodule) to the master branch of <strong>newrelic/nr1-catalog</strong>, and automation will perform the following:
                     <ul>
                       <li>Build the application</li>
                       <li>Assign/retrieve the application's global catalog uuid</li>
-                      <li>Publish the application</li>
-                      <li>Update the NR1 Catalog service with the application's metadata</li>
+                      <li>Publish the application to New Relic One</li>
+                      <li>Update the New Relic One Catalog service with the application's metadata</li>
                     </ul>
                     </p>
                   </TimelineItem>
