@@ -52,7 +52,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+#           ref: ${{ github.head_ref }}
           fetch-depth: 0
         
       # Checkout submodules
@@ -95,7 +95,6 @@ jobs:
         with:
           name: submodule_name
           path: ./submodule_name.txt
-      
 
       - name: Setup node
         if: env.SUBMODULE_NAME != ''
@@ -103,19 +102,19 @@ jobs:
         with:
           node-version: "10.x"
 
-      # Custom action to check for OSS files
-      - name: compile-action
-        run: |
-          cd ./.github/actions/files-present-action
-          npm install
-          npm run build
-      
-      - name: files-present-action
-        uses: ./.github/actions/files-present-action
-        with:
-          # Array describing the files
-          path: ./${{ env.SUBMODULE_NAME }}
-          files: "README.md, .prettierrc.js, .eslintrc.js, .gitignore, package.json, LICENSE, THIRD_PARTY_NOTICES.md, CODE_OF_CONDUCT.md, cla.md, .github/ISSUE_TEMPLATE/bug_report.md, .github/ISSUE_TEMPLATE/enhancement.md, nr1.json, catalog/config.json"
+#      # Custom action to check for OSS files
+#      - name: compile-action
+#        run: |
+#          cd ./.github/actions/files-present-action
+#          npm install
+#          npm run build
+#      
+#      - name: files-present-action
+#        uses: ./.github/actions/files-present-action
+#        with:
+#          # Array describing the files
+#          path: ./${{ env.SUBMODULE_NAME }}
+#          files: "README.md, .prettierrc.js, .eslintrc.js, .gitignore, package.json, LICENSE, THIRD_PARTY_NOTICES.md, CODE_OF_CONDUCT.md, cla.md, .github/ISSUE_TEMPLATE/bug_report.md, .github/ISSUE_TEMPLATE/enhancement.md, nr1.json, icon.png, catalog/config.json"
 
       # Old method of checking for OSS files
 #      - name: Check for OSS Files
@@ -182,17 +181,17 @@ jobs:
 
       # Could be its own job that depends on `checkout and build` job?
       #   A: Only if we can pass submodule_name between jobs as artifact
-      - name: ESLinting
-        if: env.SUBMODULE_NAME != ''
-        working-directory: ./${{ env.SUBMODULE_NAME }}
-        run: npm run eslint-check
-
-      # Could be its own job that depends on `checkout and build` job?
-      #   A: Only if we can pass submodule_name between jobs as artifact
-      - name: Test Code
-        if: env.SUBMODULE_NAME != ''
-        working-directory: ./${{ env.SUBMODULE_NAME }}
-        run: npm test
+#      - name: ESLinting
+#        if: env.SUBMODULE_NAME != ''
+#        working-directory: ./${{ env.SUBMODULE_NAME }}
+#        run: npm run eslint-check
+#
+#      # Could be its own job that depends on `checkout and build` job?
+#      #   A: Only if we can pass submodule_name between jobs as artifact
+#      - name: Test Code
+#        if: env.SUBMODULE_NAME != ''
+#        working-directory: ./${{ env.SUBMODULE_NAME }}
+#        run: npm test
 
 #      # Validate Ability to publish code (Issue #2)
 #      # Requires API Key
@@ -210,28 +209,28 @@ jobs:
 
       # Could be its own job that depends on `checkout and build` job?
       #   A: Only if we can pass submodule_name between jobs as artifact
-      - name: Validate Catalog Data (#1)
-        if: env.SUBMODULE_NAME != ''
-        run: |
-          rootDir=./${{ env.SUBMODULE_NAME }}/
-          
-          declare -a files=(
-            nr1.json
-            icon.png
-            catalog/config.json
-          )
-          
-          for FILE in "${files[@]}"
-          do
-            if [ ! -f "${rootDir}$FILE" ]; then
-              printf "\n"
-              echo "Error: $FILE is missing from Nerdpack"
-              printf "\n"
-              exit 1
-            else
-              echo "Found "${rootDir}$FILE
-            fi
-          done
+#      - name: Validate Catalog Data (#1)
+#        if: env.SUBMODULE_NAME != ''
+#        run: |
+#          rootDir=./${{ env.SUBMODULE_NAME }}/
+#          
+#          declare -a files=(
+#            nr1.json
+#            icon.png
+#            catalog/config.json
+#          )
+#          
+#          for FILE in "${files[@]}"
+#          do
+#            if [ ! -f "${rootDir}$FILE" ]; then
+#              printf "\n"
+#              echo "Error: $FILE is missing from Nerdpack"
+#              printf "\n"
+#              exit 1
+#            else
+#              echo "Found "${rootDir}$FILE
+#            fi
+#          done
           
 #           TODO:
 #             # Validate package.json semantic versioning
@@ -246,7 +245,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          # ref: ${{ github.head_ref }}
           fetch-depth: 0
         
       # Checkout submodules
@@ -308,7 +307,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          # ref: ${{ github.head_ref }}
           fetch-depth: 0
         
       # Checkout submodules
@@ -355,6 +354,327 @@ jobs:
         if: env.SUBMODULE_NAME != ''
         working-directory: ./${{ env.SUBMODULE_NAME }}
         run: npm test
+  
+  validate-catalog-nerdpack:
+    name: validate-catalog-requirements
+    needs: checkout-and-build
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          # ref: ${{ github.head_ref }}
+          fetch-depth: 0
+        
+      # Checkout submodules
+      # Note: Uses 8 jobs for checking out submodules quicker
+      - name: Checkout submodules
+        shell: bash
+        run: |
+          # If your submodules are configured to use SSH instead of HTTPS please uncomment the following line
+          git config --global url."https://github.com/".insteadOf "git@github.com:"
+          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          git submodule sync --recursive
+          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
+          
+      - name: Download submodule_name artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: submodule_name
+      
+      - name: Set SUBMODULE_NAME env var
+        run: |
+          SUB_NAME=$(cat submodule_name/submodule_name.txt)
+
+          if [ -z "$SUB_NAME" ]; then
+            echo "Error: Could not determine submodule name from artifact"
+            exit 1
+          else
+            echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
+            echo SUBMODULE_NAME: $SUB_NAME
+          fi
+
+      # TODO: Convert these steps to docker-based action
+      - name: Setup node
+        if: env.SUBMODULE_NAME != ''
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+
+      # Custom action to check for OSS files
+      - name: compile files-present-action
+        if: env.SUBMODULE_NAME != ''
+        run: |
+          cd ./.github/actions/files-present-action
+          npm install
+          npm run build && npm run pack
+      
+      - name: files-present-action
+        if: env.SUBMODULE_NAME != ''
+        uses: ./.github/actions/files-present-action
+        with:
+          # Array describing the files
+          path: ./${{ env.SUBMODULE_NAME }}
+          files: "README.md, .prettierrc.js, .eslintrc.js, .gitignore, package.json, LICENSE, THIRD_PARTY_NOTICES.md, CODE_OF_CONDUCT.md, cla.md, .github/ISSUE_TEMPLATE/bug_report.md, .github/ISSUE_TEMPLATE/enhancement.md, nr1.json, icon.png, catalog/config.json"
+
+      # Custom action to check new npm version in package.json
+#      - name: compile version-check action
+#        if: env.SUBMODULE_NAME != ''
+#        run: |
+#          cd ./.github/actions/version-check
+#          npm install
+#          npm run build
+#
+#      - name: package.json version check
+#        if: env.SUBMODULE_NAME != ''
+#        uses: ./.github/actions/version-check
+#        id: versionCheck
+#        with:
+#          diff-search: true
+#          file-name: ./${{ env.SUBMODULE_NAME }}/package.json
+#          token: ${{ secrets.GITHUB_TOKEN }}
+
+#      - name: version changed
+#        if: steps.check.outputs.changed == 'true'
+#        run: 'echo "Version change found! New version: ${{ steps.check.outputs.version }} (${{ steps.check.outputs.type }})"'
+#
+#      - name: version unchanged
+#        if: steps.check.outputs.changed != 'true'
+#        run: 'echo "No version change :/"'
+
+# Revisit this idea at later time
+#      # Custom action to check for package.json version
+#      - name: compile package-json-updated-action
+#        if: env.SUBMODULE_NAME != ''
+#        run: |
+#          cd ./.github/actions/package-json-updated-action
+#          npm install
+#
+#      - name: package.json version check output
+#        uses: ./.github/actions/package-json-updated-action
+#        with:
+#          currentRef: ${{ github.event.pull_request.head.sha }}
+#          previousRef: ${{ github.event.pull_request.base.sha }}
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - name: echo version check output
+#        run: |
+#          echo ${{ steps.version-updated.outputs.has-updated }}
+
+      # Old method of checking for OSS files
+#      - name: Check for OSS Files
+#        if: env.SUBMODULE_NAME != ''
+#        run: |
+#          rootDir=./${{ env.SUBMODULE_NAME }}/
+#          
+#          ls -la $rootDir
+#          ls -la $rootDir/.github
+#          
+#          if [ -d "${rootDir}/.github" ]; then
+#            ls -la $rootDir/.github
+#          else
+#            echo ".github directory not found"
+#          fi
+#          
+#          if [ -d "${rootDir}/.github/ISSUE_TEMPLATE" ]; then
+#            ls -la $rootDir/.github/ISSUE_TEMPLATE
+#          else
+#            echo "ISSUE_TEMPLATE directory not found"
+#          fi
+#          
+#          declare -a files=(
+#            "README.md"
+#            ".prettierrc.js"
+#            ".eslintrc.js"
+#            ".gitignore"
+#            "package.json"
+#            "LICENSE"
+#            "THIRD_PARTY_NOTICES.md"
+#            "CODE_OF_CONDUCT.md"
+#            "cla.md"
+#            ".github/ISSUE_TEMPLATE/bug_report.md"
+#            ".github/ISSUE_TEMPLATE/enhancement.md"
+#            nr1.json
+#            catalog/config.json
+#          )
+#          
+#          for FILE in "${files[@]}"
+#          do
+#            if [ ! -f "${rootDir}$FILE" ]; then
+#              printf "\n"
+#              echo "Error: $FILE is missing from Nerdpack"
+#              printf "\n"
+#              exit 1
+#            else
+#              echo "Found "${rootDir}$FILE
+#            fi
+#          done
+
+  # Just for test
+  map-global-uuid:
+    name: map-global-uuid
+    env:
+      SUBMODULE_NAME: nr1-top
+      NR1_API_KEY: ${{ secrets.DEMOTRON_V2_API_KEY_PROD }}
+      NR1_REGION: us
+#    needs: checkout-and-build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          # ref: ${{ github.head_ref }}
+          fetch-depth: 0
+        
+      # Checkout submodules
+      # Note: Uses 8 jobs for checking out submodules quicker
+      - name: Checkout submodules
+        shell: bash
+        run: |
+          # If your submodules are configured to use SSH instead of HTTPS please uncomment the following line
+          git config --global url."https://github.com/".insteadOf "git@github.com:"
+          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          git submodule sync --recursive
+          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
+          
+#      - name: Download submodule_name artifact
+#        uses: actions/download-artifact@v1
+#        with:
+#          name: submodule_name
+      
+#      - name: Set SUBMODULE_NAME env var
+#        run: |
+#          SUB_NAME=$(cat submodule_name/submodule_name.txt)
+#
+#          if [ -z "$SUB_NAME" ]; then
+#            echo "Error: Could not determine submodule name from artifact"
+#            exit 1
+#          else
+#            echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
+#            echo SUBMODULE_NAME: $SUB_NAME
+#          fi
+
+      # TODO: Convert these steps to docker-based action
+
+      - name: Setup node
+        if: env.SUBMODULE_NAME != ''
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+
+      - name: Install NR1 CLI
+        if: env.SUBMODULE_NAME != ''
+        run: |
+          curl -s https://cli.nr-ext.net/installer.sh | sudo bash
+          nr1 profiles:add --name workflow_staging --api-key "$NR1_API_KEY" --region "$NR1_REGION"
+          which nr1
+          cd ${{ env.SUBMODULE_NAME }}
+          nr1 nerdpack:info
+          
+      - name: compile map-global-uuid
+        if: env.SUBMODULE_NAME != ''
+        run: |
+          cd ./.github/actions/map-global-uuid
+          npm install
+          npm run build && npm run pack
+      
+      - name: map-global-uuid
+        if: env.SUBMODULE_NAME != ''
+        uses: ./.github/actions/map-global-uuid
+        with:
+          # Array describing the files
+          submodule-name: ${{ env.SUBMODULE_NAME }}
+
+  # Tasks - this should all be wrapped in an action if possible:
+  #   Checkout repo and submodule
+  #   Get UUID from globals.json, using SUBMOBULE_NAME as key
+  #   if it doesn't exist
+  #     call nr1 nerdpack:uuid -gf
+  #     copy uuid value from nr1.json INTO globals.json
+  #     commit globals.json
+  #     TODO: evaluate if this is all we should do, as I'm unsure if the CI tooling can commit to a PR branch from a fork without permission.
+  #     TODO: Copying the UUID into nr1.json could possibly happen on merge 
+  #   else
+  #     copy value from globals.json into nr1.json
+  #
+  # TODO: Check that this only happens on release
+  validate-catalog-uuid-and-publish:
+    name: validate-catalog-uuid-and-publish
+    needs: checkout-and-build
+    if: github.event_name != 'pull_request'  
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          # ref: ${{ github.head_ref }}
+          fetch-depth: 0
+        
+      # Checkout submodules
+      # Note: Uses 8 jobs for checking out submodules quicker
+      - name: Checkout submodules
+        shell: bash
+        run: |
+          # If your submodules are configured to use SSH instead of HTTPS please uncomment the following line
+          git config --global url."https://github.com/".insteadOf "git@github.com:"
+          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          git submodule sync --recursive
+          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
+          
+      - name: Download submodule_name artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: submodule_name
+      
+      - name: Set SUBMODULE_NAME env var
+        run: |
+          SUB_NAME=$(cat submodule_name/submodule_name.txt)
+
+          if [ -z "$SUB_NAME" ]; then
+            echo "Error: Could not determine submodule name from artifact"
+            exit 1
+          else
+            echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
+            echo SUBMODULE_NAME: $SUB_NAME
+          fi
+
+      # TODO: Create action to handle finding and creating/updating UUID
+
+      # Validate Ability to publish code (Issue #2)
+      # Requires API Key stored as secret
+      - name: Publish Nerdpack
+        if: env.SUBMODULE_NAME != ''
+        env:
+          NR1_API_KEY_US: ${{ secrets.DEMOTRON_V2_API_KEY_US }}
+          NR1_API_KEY_EU: ${{ secrets.DEMOTRON_V2_API_KEY_EU }}
+          NR1_API_KEY_STAGING: ${{ secrets.DEMOTRON_V2_API_KEY_STAGING }}
+          NR1_REGION_US: us
+          NR1_REGION_EU: eu
+          NR1_REGION_STAGING: staging
+        run: |
+          cd ${{ env.SUBMODULE_NAME }}
+          nr1 profiles:add --name workflow_staging --api-key "$NR1_API_KEY_STAGING" --region "$NR1_REGION_US"
+          nr1 profiles:add --name workflow_eu --api-key "$NR1_API_KEY_EU" --region "$NR1_REGION_US"
+          nr1 profiles:add --name workflow_us --api-key "$NR1_API_KEY_US" --region "$NR1_REGION_US"
+
+          # check current profile
+          nr1 profiles:list
+          
+          # submit catalog for US
+          nr1 nerdpack:publish --profile=workflow #just to production
+          nr1 catalog:submit
+
+          # submit catalog for EU
+          nr1 profiles:default --name=workflow_eu
+          nr1 catalog:submit
+
+          # submit catalog for STAGING
+          nr1 profiles:default --name=workflow_staging
+          nr1 catalog:submit
+
 
   publish: 
     name: Publish Nerdpack
