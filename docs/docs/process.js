@@ -35,6 +35,7 @@ export default class ProcessTimeline extends React.PureComponent {
                       # example: git submodule add https://github.com/newrelic/nr1-browser-analyzer.git
                     </code>
                     </p>
+                    <p><em>Note: You must use an <strong>https</strong> URL for the git repository versus the <strong>ssh</strong> URL.</em></p>
                     <h3>Outcomes</h3>
                     <ul>
                       <li>
