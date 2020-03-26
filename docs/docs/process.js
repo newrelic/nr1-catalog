@@ -19,7 +19,7 @@ export default class ProcessTimeline extends React.PureComponent {
                     </ul>
                     <h3>Step(s)</h3>
                     <p>
-                      <img src="https://github.com/newrelic/nr1-catalog/blob/master/docs/docs/images/screenshot01.jpg" style={{width:'95%'}} />
+                      <img src="https://github.com/newrelic/nr1-catalog/blob/master/docs/docs/images/screenshot01.png" style={{width:'95%'}} />
                     </p>
                     <ul>
                       <li><strong>Developer</strong> <a href="https://help.github.com/en/github/getting-started-with-github/fork-a-repo">forks</a> the <strong><a href="https://github.com/newrelic/nr1-catalog">nr1-catalog</a></strong> repository</li>
