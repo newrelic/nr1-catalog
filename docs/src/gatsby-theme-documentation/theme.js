@@ -1,13 +1,3 @@
-const heading = {
-  fontFamily: 'heading',
-  fontWeight: 'heading',
-  lineHeight: 'heading',
-  a: {
-    color: 'inherit',
-    textDecoration: 'none'
-  }
-}
-
 export default {
   initialColorMode: 'light',
   colors: {
@@ -19,6 +9,7 @@ export default {
     highlight: '#ffffcc',
     gray: '#777',
     purple: '#609',
+    header: '#000d0d',
     modes: {
       dark: {
         text: '#fff',
@@ -58,17 +49,26 @@ export default {
   fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 72],
   fontWeights: {
     body: '400',
-    heading: '700',
+    heading: '600',
   },
   lineHeights: {
     body: 1.5,
     heading: 1.25,
   },
   textStyles: {
-    heading,
+    heading: {
+      fontFamily: 'heading',
+      fontWeight: 'heading',
+      lineHeight: 'heading',
+      // color: `#000d0d`,
+      a: {
+        color: 'inherit',
+        textDecoration: 'none'
+      }
+    },
     display: {
       variant: 'textStyles.heading',
-      fontSize: [5, 6, 7],
+      fontSize: [5],
       mt: 3,
     },
   },
@@ -81,29 +81,32 @@ export default {
       fontFamily: 'body',
       lineHeight: 'body',
       fontWeight: 'body',
+      fontSize: 1
     },
     h1: {
       variant: 'textStyles.display',
+      fontWeight: 700,
+      color: `#000d0d`
     },
     h2: {
       variant: 'textStyles.heading',
-      fontSize: 5,
+      fontSize: 4,
     },
     h3: {
       variant: 'textStyles.heading',
-      fontSize: 4,
+      fontSize: 3,
     },
     h4: {
       variant: 'textStyles.heading',
-      fontSize: 3,
+      fontSize: 2,
     },
     h5: {
       variant: 'textStyles.heading',
-      fontSize: 2,
+      fontSize: 1,
     },
     h6: {
       variant: 'textStyles.heading',
-      fontSize: 1,
+      fontSize: 0,
     },
     a: {
       color: 'primary',
@@ -127,6 +130,7 @@ export default {
       fontFamily: 'monospace',
       color: 'secondary',
       fontSize: 1,
+      padding: '30px'
     },
     inlineCode: {
       fontFamily: 'monospace',

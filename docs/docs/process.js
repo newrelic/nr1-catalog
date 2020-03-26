@@ -9,7 +9,7 @@ export default class ProcessTimeline extends React.PureComponent {
                 <Timeline lineColor={'#ddd'}>
                   <TimelineItem
                     key="001"
-                    dateText="Pre PR"
+                    dateText="1: Pre PR"
                     dateInnerStyle={{ background: '#20A4F3' }}
                     style={{ color: '#20A4F3' }}>
                     <h2>Before Developer submits a PR</h2>
@@ -35,6 +35,7 @@ export default class ProcessTimeline extends React.PureComponent {
                       # example: git submodule add https://github.com/newrelic/nr1-browser-analyzer.git
                     </code>
                     </p>
+                    <p><em>Note: You must use an <strong>https</strong> URL for the git repository versus the <strong>ssh</strong> URL.</em></p>
                     <h3>Outcomes</h3>
                     <ul>
                       <li>
@@ -48,7 +49,7 @@ export default class ProcessTimeline extends React.PureComponent {
                   </TimelineItem>
                   <TimelineItem
                     key="002"
-                    dateText="Submit PR"
+                    dateText="2: Submit PR"
                     dateInnerStyle={{ background: '#20A4F3' }}
                     style={{ color: '#20A4F3' }}>
                     <h2>Developer submits a PR</h2>
@@ -76,7 +77,7 @@ export default class ProcessTimeline extends React.PureComponent {
                   </TimelineItem>
                   <TimelineItem
                     key="003"
-                    dateText="Review"
+                    dateText="3: Review"
                     dateInnerStyle={{ background: '#3357B2' }}
                     style={{ color: '#3357B2' }}>
                     <h2>Review of the Nerdpack</h2>
@@ -110,7 +111,7 @@ export default class ProcessTimeline extends React.PureComponent {
                   </TimelineItem>
                   <TimelineItem
                     key="004"
-                    dateText="Approval"
+                    dateText="4: Approval"
                     dateInnerStyle={{ background: '#FAA613' }}
                     style={{ color: '#FAA613' }}>
                     <h2>Final Approval of the Nerdpack</h2>
@@ -134,7 +135,7 @@ export default class ProcessTimeline extends React.PureComponent {
                   </TimelineItem>
                   <TimelineItem
                     key="005"
-                    dateText="Deployment"
+                    dateText="5: Deployment"
                     dateInnerStyle={{ background: '#3357B2' }}
                     style={{ color: '#3357B2' }}>
                     <h2>Deployment to the New Relic One Catalog</h2>

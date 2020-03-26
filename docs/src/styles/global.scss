@@ -58,3 +58,13 @@ table, th, td {
         padding: 10px;
     }
 }
+
+p, li {
+    // max-width: 70ch;
+}
+code[class*='css'] {
+    padding: 2px;
+    border-radius: 3px;
+    font-size: 13px;
+    background-color: #c2d6d836;
+}
