@@ -43,7 +43,6 @@ export default {
       fontFamily: 'heading',
       fontWeight: 'heading',
       lineHeight: 'heading',
-      color: 'heading',
       a: {
         color: 'inherit',
         textDecoration: 'none'
@@ -68,6 +67,7 @@ export default {
     },
     h1: {
       variant: 'textStyles.display',
+      color: 'heading'
     },
     h2: {
       variant: 'textStyles.heading',
@@ -148,6 +148,14 @@ export default {
     },
     img: {
       maxWidth: '100%'
+    },
+    ul: {
+      fonts: 'body',
+      color: 'text',
+    },
+    p: {
+      fonts: 'body',
+      color: 'text',
     }
   },
   prism: {
