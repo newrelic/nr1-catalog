@@ -56,7 +56,8 @@ function validateScreenshotsDir() {
 }
 
 /**
- * package.json should contain the following commands:
+ * package.json should contain the following fields:
+ *  version
  *  scripts.eslint-check
  *  scripts.eslint-fix
  * @see {@link https://github.com/newrelic/nr1-catalog/issues/3|Issue 3}
@@ -67,6 +68,10 @@ function validatePackageJson() {
         const inputPath: string = core.getInput("path", { required: true });
         const packageJsonPath: string = path.join(wd, inputPath, "package.json");
         const packageJson = require(packageJsonPath);
+
+        if (!packageJson.hasOwnProperty('version')) {
+            core.setFailed("version missing from package.json");
+        }
 
         if (!packageJson.hasOwnProperty('scripts')) {
             core.setFailed("scripts missing from package.json");
