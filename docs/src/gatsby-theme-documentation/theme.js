@@ -72,14 +72,17 @@ export default {
     h2: {
       variant: 'textStyles.heading',
       fontSize: 4,
+      color: 'text'
     },
     h3: {
       variant: 'textStyles.heading',
       fontSize: 3,
+      color: 'text'
     },
     h4: {
       variant: 'textStyles.heading',
       fontSize: 2,
+      color: 'text'
     },
     h5: {
       variant: 'textStyles.heading',

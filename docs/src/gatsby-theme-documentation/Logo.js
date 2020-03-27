@@ -14,7 +14,6 @@ export const Logo = () => {
     }
   }
 
-  console.log(logoUrl());
   return (
     logoUrl()
   )
