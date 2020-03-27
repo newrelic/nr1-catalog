@@ -11,12 +11,11 @@ async function run() {
 
     // input string is of the form "apps/nr1-nerdpack-name"
     const wd: string = process.env[`GITHUB_WORKSPACE`] || ''
-    const submoduleName: string = core
-      .getInput('submodule-name', {
-        required: true
-      })
-      .split('/')[1]
-    const submodulePath: string = path.join(wd, submoduleName)
+    const submoduleNameInput: string = core.getInput('submodule-name', {
+      required: true
+    })
+    const submoduleName: string = submoduleNameInput.split('/')[1]
+    const submodulePath: string = path.join(wd, submoduleNameInput)
 
     const globalsJsonPath: string = path.join(wd, 'globals.json')
     const globalsJson = require(globalsJsonPath)
