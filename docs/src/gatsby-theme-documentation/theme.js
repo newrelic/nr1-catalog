@@ -9,36 +9,19 @@ export default {
     highlight: '#ffffcc',
     gray: '#777',
     purple: '#609',
-    header: '#000d0d',
+    heading: '#000d0d',
     modes: {
       dark: {
-        text: '#fff',
-        background: '#060606',
-        primary: '#3cf',
-        secondary: '#e0f',
-        muted: '#191919',
+        text: '#D8DEE9',
+        background: '#2E3440',
+        primary: '#70ccd2',
+        secondary: '#70ccd2',
+        muted: '#c2d6d82e',
         highlight: '#ffffcc',
         gray: '#999',
         purple: '#c0f',
-      },
-      deep: {
-        text: 'hsl(210, 50%, 96%)',
-        background: 'rgb(112, 204, 211)',
-        primary: '#003555',
-        secondary: '#003555',
-        purple: 'hsl(290, 100%, 80%)',
-        muted: 'hsla(230, 20%, 0%, 20%)',
-        gray: 'hsl(210, 50%, 60%)',
-      },
-      swiss: {
-        text: 'hsl(10, 20%, 20%)',
-        background: 'hsl(10, 10%, 98%)',
-        primary: 'hsl(10, 80%, 50%)',
-        secondary: 'hsl(10, 60%, 50%)',
-        purple: 'hsl(250, 60%, 30%)',
-        muted: 'hsl(10, 20%, 94%)',
-        gray: 'hsl(10, 20%, 50%)',
-      },
+        heading: '#fafbfb',
+      }
     },
   },
   fonts: {
@@ -52,7 +35,7 @@ export default {
     heading: '600',
   },
   lineHeights: {
-    body: 1.5,
+    body: 1.65,
     heading: 1.25,
   },
   textStyles: {
@@ -60,7 +43,7 @@ export default {
       fontFamily: 'heading',
       fontWeight: 'heading',
       lineHeight: 'heading',
-      // color: `#000d0d`,
+      color: 'heading',
       a: {
         color: 'inherit',
         textDecoration: 'none'
@@ -85,8 +68,6 @@ export default {
     },
     h1: {
       variant: 'textStyles.display',
-      fontWeight: 700,
-      color: `#000d0d`
     },
     h2: {
       variant: 'textStyles.heading',
@@ -128,7 +109,8 @@ export default {
     },
     code: {
       fontFamily: 'monospace',
-      color: 'secondary',
+      color: 'primary',
+      BackgroundColor: 'muted',
       fontSize: 1,
       padding: '30px'
     },
