@@ -1,6 +1,5 @@
 import React from 'react';
 import {  useColorMode } from 'theme-ui'
-import logoDark from '../../docs/images/logo-dark.png';
 
 export const Logo = () => {
   const [colorMode] = useColorMode();
@@ -13,7 +12,6 @@ export const Logo = () => {
     }
   }
 
-  console.log(logoUrl());
   return (
     logoUrl()
   )
