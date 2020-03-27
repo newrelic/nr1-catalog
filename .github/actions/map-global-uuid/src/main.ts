@@ -58,6 +58,8 @@ async function run() {
         if (err) return console.log(err)
         console.debug('globals after writing uuid: ', JSON.stringify(globalsJson, null, 2))
         console.debug(`Writing to: ${globalsJsonPath}`)
+
+        core.setOutput('globals-updated', 'true')
       })
 
       // TODO: Commit globals.json (in PR?)
