@@ -22,7 +22,7 @@ async function run() {
 
     if (globalsJson.hasOwnProperty(submoduleName)) {
       // Update nr1.json with globalsJson.submoduleName
-      const uuid = globalsJson.submoduleName
+      const uuid = globalsJson[submoduleName]
 
       const nr1JsonPath: string = path.join(submodulePath, 'nr1.json')
       const content = fs.readFileSync(nr1JsonPath, 'utf8')
