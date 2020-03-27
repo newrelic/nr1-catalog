@@ -720,7 +720,7 @@ jobs:
         if: env.SUBMODULE_NAME != ''
         run: |
           curl -s https://cli.nr-ext.net/installer.sh | sudo bash
-          nr1 profiles:add --name workflow_staging --api-key ${{ secrets.DEMOTRON_V2_API_KEY_US }} --region us
+          nr1 profiles:add --name workflow_us --api-key ${{ secrets.DEMOTRON_V2_API_KEY_US }} --region us
 
       # Add cli-plugin-catalog - checks out release tag with node_modules included
       # so this repo has everything needed to link as a plugin for the nr1 cli
@@ -815,7 +815,7 @@ jobs:
           # NR1_REGION_STAGING: staging
         run: |
           cd ${{ env.SUBMODULE_NAME }}
-          nr1 profiles:add --name workflow_staging --api-key "$NR1_API_KEY_STAGING" --region "$NR1_REGION_US"
+          # nr1 profiles:add --name workflow_staging --api-key "$NR1_API_KEY_STAGING" --region "$NR1_REGION_US"
           # nr1 profiles:add --name workflow_eu --api-key "$NR1_API_KEY_EU" --region "$NR1_REGION_US"
           # nr1 profiles:add --name workflow_us --api-key "$NR1_API_KEY_US" --region "$NR1_REGION_US"
 
