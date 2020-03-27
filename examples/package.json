@@ -1,0 +1,37 @@
+{
+  "private": true,
+  "name": "nr1-browser-analyzer",
+  "description": "NR1 Nerdpack business value analysis of Browser data.",
+  "version": "1.1.0",
+  "bugs": {
+    "email": "opensource+nr1-browser-analyzer@newrelic.com"
+  },
+  "scripts": {
+    "start": "nr1 nerdpack:serve",
+    "test": "exit 0",
+    "eslint-check": "eslint nerdlets/ component/",
+    "eslint-fix": "eslint nerdlets/ component/ --fix"
+  },
+  "dependencies": {
+    "graphql": "^14.5.3",
+    "graphql-tag": "^2.10.1",
+    "lodash": "^4.17.15",
+    "pretty-ms": "^6.0.1",
+    "numeral": "^2.0.6",
+    "prop-types": "^15.6.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
+  },
+  "devDependencies": {
+    "@newrelic/eslint-plugin-newrelic": "^0.3.0",
+    "@semantic-release/changelog": "^3.0.5",
+    "@semantic-release/git": "^7.0.18",
+    "eslint": "^6.8.0",
+    "prettier": "^1.19.1"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "not ie < 11",
+    "not dead"
+  ]
+}

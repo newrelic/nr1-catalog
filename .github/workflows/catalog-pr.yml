@@ -5,12 +5,16 @@ on:
     branches:
       - master
       - v*
+    paths:
+      - 'apps/**'
     tags:
       - v*
 
   pull_request:
     branches:
       - master
+    paths:
+      - 'apps/**'
 
 jobs:
   log-context:
@@ -43,10 +47,81 @@ jobs:
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
         run: echo "$MATRIX_CONTEXT"
         
-  
-  checkout-and-build:
+  checkout-and-build-master:
     runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request' # github.event_name == "push" ?
+    steps:
+      # Checkout PR branch and all history (not just last commit), so we can perform `git diff` below
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          # ref: ${{ github.head_ref }}
+          fetch-depth: 0
+        
+      # Checkout submodules
+      # Note: Uses 8 jobs for checking out submodules quicker
+      - name: Checkout submodules
+        shell: bash
+        run: |
+          # If your submodules are configured to use SSH instead of HTTPS please uncomment the following line
+          git config --global url."https://github.com/".insteadOf "git@github.com:"
+          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          git submodule sync --recursive
+          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
+      
+      # Get Submodule_name using Git Diff -- could go prior to checking out every submodule?
+      - name: Get/Set SUBMODULE_NAME
+        run: |
+          git diff --submodule=log --diff-filter=AM ${{ github.event.before }} ${{ github.event.after }}
+          SUB_NAME=$(git diff --submodule=log --diff-filter=AM ${{ github.event.before }} ${{ github.event.after }} | awk '{for (I=1;I<=NF;I++) if ($I == "Submodule") {print $(I+1)};}')
 
+          if [ -z "$SUB_NAME" ]; then
+            echo "Error: Could not determine submodule name"
+            exit 1
+          else
+            echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
+          fi
+      
+      - name: Check SUBMODULE_NAME was set
+        if: env.SUBMODULE_NAME != ''
+        run: | 
+          echo SUBMODULE_NAME: ${{ env.SUBMODULE_NAME }}
+      
+      # Upload SUBMODULE_NAME as artifact to be used in other jobs
+      - name: Create submodule_name.txt artifact
+        if: env.SUBMODULE_NAME != ''
+        run: |
+          echo ${{ env.SUBMODULE_NAME }} > submodule_name.txt
+
+      - name: Upload SUBMODULE_NAME artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: submodule_name
+          path: ./submodule_name.txt
+
+      - name: Setup node
+        if: env.SUBMODULE_NAME != ''
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+
+      - name: Install Dependencies
+        if: env.SUBMODULE_NAME != ''
+        working-directory: ./${{ env.SUBMODULE_NAME }}
+        run: npm install
+
+      - name: Install NR1 CLI
+        if: env.SUBMODULE_NAME != ''
+        run: curl -s https://cli.nr-ext.net/installer.sh | sudo bash
+
+      - name: NR1 Nerdpack Build
+        if: env.SUBMODULE_NAME != ''
+        working-directory: ./${{ env.SUBMODULE_NAME }}
+        run: nr1 nerdpack:build
+
+  checkout-and-build-pr:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' # github.event_name == "push"
     steps:
       # Checkout PR branch and all history (not just last commit), so we can perform `git diff` below
       - name: Checkout repo
@@ -238,7 +313,7 @@ jobs:
 
   eslint:
     name: lint
-    needs: checkout-and-build
+    needs: checkout-and-build-pr
     runs-on: ubuntu-latest
     steps:
 
@@ -300,7 +375,7 @@ jobs:
 
   test:
     name: test
-    needs: checkout-and-build
+    needs: checkout-and-build-pr
     runs-on: ubuntu-latest
     steps:
 
@@ -357,7 +432,7 @@ jobs:
   
   validate-catalog-nerdpack:
     name: validate-catalog-requirements
-    needs: checkout-and-build
+    needs: checkout-and-build-pr
     runs-on: ubuntu-latest
     steps:
 
@@ -511,82 +586,81 @@ jobs:
 #            fi
 #          done
 
-  # Just for test
-  map-global-uuid:
-    name: map-global-uuid
-    env:
-      SUBMODULE_NAME: nr1-top
-      NR1_API_KEY: ${{ secrets.DEMOTRON_V2_API_KEY_PROD }}
-      NR1_REGION: us
-#    needs: checkout-and-build
-    if: github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Checkout repo
-        uses: actions/checkout@v2
-        with:
-          # ref: ${{ github.head_ref }}
-          fetch-depth: 0
-        
-      # Checkout submodules
-      # Note: Uses 8 jobs for checking out submodules quicker
-      - name: Checkout submodules
-        shell: bash
-        run: |
-          # If your submodules are configured to use SSH instead of HTTPS please uncomment the following line
-          git config --global url."https://github.com/".insteadOf "git@github.com:"
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-          git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
-          
-#      - name: Download submodule_name artifact
-#        uses: actions/download-artifact@v1
-#        with:
-#          name: submodule_name
-      
-#      - name: Set SUBMODULE_NAME env var
-#        run: |
-#          SUB_NAME=$(cat submodule_name/submodule_name.txt)
+# Leaving here for now but this is just for test
+#  map-global-uuid:
+#    name: map-global-uuid
+#    env:
+#      SUBMODULE_NAME: nr1-top
+#      NR1_API_KEY: ${{ secrets.DEMOTRON_V2_API_KEY_PROD }}
+#      NR1_REGION: us
+#  #  needs: checkout-and-build
+#    if: github.event_name != 'pull_request'
+#    runs-on: ubuntu-latest
+#    steps:
 #
-#          if [ -z "$SUB_NAME" ]; then
-#            echo "Error: Could not determine submodule name from artifact"
-#            exit 1
-#          else
-#            echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
-#            echo SUBMODULE_NAME: $SUB_NAME
-#          fi
-
-      # TODO: Convert these steps to docker-based action
-
-      - name: Setup node
-        if: env.SUBMODULE_NAME != ''
-        uses: actions/setup-node@v1
-        with:
-          node-version: "10.x"
-
-      - name: Install NR1 CLI
-        if: env.SUBMODULE_NAME != ''
-        run: |
-          curl -s https://cli.nr-ext.net/installer.sh | sudo bash
-          nr1 profiles:add --name workflow_staging --api-key "$NR1_API_KEY" --region "$NR1_REGION"
-          which nr1
-          cd ${{ env.SUBMODULE_NAME }}
-          nr1 nerdpack:info
-          
-      - name: compile map-global-uuid
-        if: env.SUBMODULE_NAME != ''
-        run: |
-          cd ./.github/actions/map-global-uuid
-          npm install
-          npm run build && npm run pack
-      
-      - name: map-global-uuid
-        if: env.SUBMODULE_NAME != ''
-        uses: ./.github/actions/map-global-uuid
-        with:
-          # Array describing the files
-          submodule-name: ${{ env.SUBMODULE_NAME }}
+#      - name: Checkout repo
+#        uses: actions/checkout@v2
+#        with:
+#          # ref: ${{ github.head_ref }}
+#          fetch-depth: 0
+#        
+#      # Checkout submodules
+#      # Note: Uses 8 jobs for checking out submodules quicker
+#      - name: Checkout submodules
+#        shell: bash
+#        run: |
+#          # If your submodules are configured to use SSH instead of HTTPS please uncomment the following line
+#          git config --global url."https://github.com/".insteadOf "git@github.com:"
+#          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+#          git submodule sync --recursive
+#          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
+#          
+##      - name: Download submodule_name artifact
+##        uses: actions/download-artifact@v1
+##        with:
+##          name: submodule_name
+#      
+##      - name: Set SUBMODULE_NAME env var
+##        run: |
+##          SUB_NAME=$(cat submodule_name/submodule_name.txt)
+##
+##          if [ -z "$SUB_NAME" ]; then
+##            echo "Error: Could not determine submodule name from artifact"
+##            exit 1
+##          else
+##            echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
+##            echo SUBMODULE_NAME: $SUB_NAME
+##          fi
+#
+#      # TODO: Convert these steps to docker-based action
+#      - name: Setup node
+#        if: env.SUBMODULE_NAME != ''
+#        uses: actions/setup-node@v1
+#        with:
+#          node-version: "10.x"
+#
+#      - name: Install NR1 CLI
+#        if: env.SUBMODULE_NAME != ''
+#        run: |
+#          curl -s https://cli.nr-ext.net/installer.sh | sudo bash
+#          nr1 profiles:add --name workflow_staging --api-key "$NR1_API_KEY" --region "$NR1_REGION"
+#          which nr1
+#          cd ${{ env.SUBMODULE_NAME }}
+#          nr1 nerdpack:info
+#          
+#      - name: compile map-global-uuid
+#        if: env.SUBMODULE_NAME != ''
+#        run: |
+#          cd ./.github/actions/map-global-uuid
+#          npm install
+#          npm run build && npm run pack
+#      
+#      - name: map-global-uuid
+#        if: env.SUBMODULE_NAME != ''
+#        uses: ./.github/actions/map-global-uuid
+#        with:
+#          # Array describing the files
+#          submodule-name: ${{ env.SUBMODULE_NAME }}
 
   # Tasks - this should all be wrapped in an action if possible:
   #   Checkout repo and submodule
@@ -603,7 +677,7 @@ jobs:
   # TODO: Check that this only happens on release
   validate-catalog-uuid-and-publish:
     name: validate-catalog-uuid-and-publish
-    needs: checkout-and-build
+    needs: checkout-and-build-master
     if: github.event_name != 'pull_request'  
     runs-on: ubuntu-latest
     steps:
@@ -640,8 +714,93 @@ jobs:
             echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
             echo SUBMODULE_NAME: $SUB_NAME
           fi
+      
+      # Install NR1 CLI - The map-global-uuid action needs the nr1 cli executable
+      - name: Install NR1 CLI
+        if: env.SUBMODULE_NAME != ''
+        run: |
+          curl -s https://cli.nr-ext.net/installer.sh | sudo bash
+          nr1 profiles:add --name workflow_staging --api-key ${{ secrets.DEMOTRON_V2_API_KEY_US }} --region us
 
-      # TODO: Create action to handle finding and creating/updating UUID
+      # Add cli-plugin-catalog - checks out release tag with node_modules included
+      # so this repo has everything needed to link as a plugin for the nr1 cli
+      - name: Checkout repo
+        if: env.SUBMODULE_NAME != ''
+        uses: actions/checkout@v2
+        with:
+          repository: newrelic/cli-plugin-catalog
+          ref: v1.2.0
+          token: ${{ secrets.CLI_PLUGIN_CATALOG_TOKEN }}
+          path: cli-plugin-catalog # is this needed?
+      
+      - name: Install cli-plugin-catalog
+        run: |
+          cd cli-plugin-catalog
+          npm ci
+          nr1 plugins:link
+          nr1 help # verify catalog is listed under commands
+
+
+      # map-global-uuid
+      # TODO: Convert these steps to docker-based action
+      - name: Setup node
+        if: env.SUBMODULE_NAME != ''
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+          
+      - name: compile map-global-uuid
+        if: env.SUBMODULE_NAME != ''
+        run: |
+          cd ./.github/actions/map-global-uuid
+          npm install
+          npm run build && npm run pack
+      
+      - name: map-global-uuid
+        if: env.SUBMODULE_NAME != ''
+        id: uuid
+        uses: ./.github/actions/map-global-uuid
+        with:
+          # Array describing the files
+          submodule-name: ${{ env.SUBMODULE_NAME }}
+
+      # If there's output from the previous Action, commit the globals.json back to master
+      - name: Check and Commit globals.json
+        if: steps.uuid.outputs.globals-updated == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          echo "globals.json was changed -- not committing right now but will soon"
+          # git commit globals.json "Add new UUID for submodule: ${{ env.SUBMODULE_NAME }}"
+      # - name: Push Commit
+      #   if: steps.uuid.outputs.globals-updated == 'true'
+      #   uses: ad-m/github-push-action@v0.5.0
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+
+########################
+#      # Install NR1 CLI and add catalog plugin
+#      - name: Install NR1 CLI
+#        if: env.SUBMODULE_NAME != ''
+#        run: curl -s https://cli.nr-ext.net/installer.sh | sudo bash
+#      
+#      # Add cli-plugin-catalog - checks out release tag with node_modules included
+#      # so this repo has everything needed to link as a plugin for the nr1 cli
+#      - name: Checkout repo
+#        if: env.SUBMODULE_NAME != ''
+#        uses: actions/checkout@v2
+#        with:
+#          repository: newrelic/cli-plugin-catalog
+#          ref: v1.2.0
+#          token: ${{ secrets.CLI_PLUGIN_CATALOG_TOKEN }}
+#          path: cli-plugin-catalog # is this needed?
+#      
+#      - name: Install cli-plugin-catalog
+#        run: |
+#          cd cli-plugin-catalog
+#          nr1 plugins:link
+#          nr1 help # verify catalog is listed under commands
+########################
 
       # Validate Ability to publish code (Issue #2)
       # Requires API Key stored as secret
@@ -649,82 +808,73 @@ jobs:
         if: env.SUBMODULE_NAME != ''
         env:
           NR1_API_KEY_US: ${{ secrets.DEMOTRON_V2_API_KEY_US }}
-          NR1_API_KEY_EU: ${{ secrets.DEMOTRON_V2_API_KEY_EU }}
-          NR1_API_KEY_STAGING: ${{ secrets.DEMOTRON_V2_API_KEY_STAGING }}
+          # NR1_API_KEY_EU: ${{ secrets.DEMOTRON_V2_API_KEY_EU }}
+          # NR1_API_KEY_STAGING: ${{ secrets.DEMOTRON_V2_API_KEY_STAGING }}
           NR1_REGION_US: us
-          NR1_REGION_EU: eu
-          NR1_REGION_STAGING: staging
+          # NR1_REGION_EU: eu
+          # NR1_REGION_STAGING: staging
         run: |
           cd ${{ env.SUBMODULE_NAME }}
           nr1 profiles:add --name workflow_staging --api-key "$NR1_API_KEY_STAGING" --region "$NR1_REGION_US"
-          nr1 profiles:add --name workflow_eu --api-key "$NR1_API_KEY_EU" --region "$NR1_REGION_US"
-          nr1 profiles:add --name workflow_us --api-key "$NR1_API_KEY_US" --region "$NR1_REGION_US"
+          # nr1 profiles:add --name workflow_eu --api-key "$NR1_API_KEY_EU" --region "$NR1_REGION_US"
+          # nr1 profiles:add --name workflow_us --api-key "$NR1_API_KEY_US" --region "$NR1_REGION_US"
 
           # check current profile
+          nr1 profiles:default --name=workflow_us
           nr1 profiles:list
-          
-          # submit catalog for US
-          nr1 nerdpack:publish --profile=workflow #just to production
-          nr1 catalog:submit
+          nr1 catalog:info
 
-          # submit catalog for EU
-          nr1 profiles:default --name=workflow_eu
-          nr1 catalog:submit
+# Don't execute these commands until we're ready to validate they work          
+#          # Publish to Prod Artifact Registry
+#          nr1 nerdpack:publish --profile=workflow_us
+#
+#          # submit catalog for US
+#          nr1 catalog:submit
+#
+#          # submit catalog for EU
+#          nr1 profiles:default --name=workflow_eu
+#          nr1 catalog:submit
+#
+#          # submit catalog for STAGING
+#          nr1 profiles:default --name=workflow_staging
+#          nr1 catalog:submit
 
-          # submit catalog for STAGING
-          nr1 profiles:default --name=workflow_staging
-          nr1 catalog:submit
-
-
-  publish: 
-    name: Publish Nerdpack
-    needs: checkout-and-build
-    if: github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
-
-    steps:
-
-      - name: Download submodule_name artifact
-        uses: actions/download-artifact@v1
-        with:
-          name: submodule_name
-      
-      - name: Set SUBMODULE_NAME env var
-        run: |
-          SUB_NAME=$(cat submodule_name/submodule_name.txt)
-
-          if [ -z "$SUB_NAME" ]; then
-            echo "Error: Could not determine submodule name from artifact"
-            exit 1
-          else
-            echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
-            echo SUBMODULE_NAME: $SUB_NAME
-          fi 
-
-      # Validate Ability to publish code (Issue #2)
-      # Requires API Key stored as secret
-      - name: Validate Publish Nerdpack
-        if: env.SUBMODULE_NAME != ''
-        env:
-          NR1_API_KEY: ${{ secrets.DEMOTRON_V2_API_KEY }}
-          NR1_REGION: us
-        run: |
-          cd ${{ env.SUBMODULE_NAME }}
-          nr1 profiles:add --name workflow --api-key "$NR1_API_KEY" --region "$NR1_REGION" &&
-          nr1 nerdpack:publish --profile=workflow --dry-run 
-      #        nr1 nerdpack:publish --profile=workflow &&
-      #        nr1 nerdpack:deploy --channel="$NR1_DEPLOY_CHANNEL"
-
-
-# Until Actions has better support for cross-job usage of env variables, it 
-# might not make sense to split work across jobs
-#   build:
-#     if: env.TEST == 'test'
-#     runs-on: ubuntu-latest
-#     needs: checkout
-#     steps:
-#       - name: Please dont run
-#         run: |
-#           echo "Well darn."
-#           echo "Test: ${{ env.TEST }}"
-#           echo "SUBMODULE_NAME: ${{ env.SUBMODULE_NAME }}"
+# Removing publish job for now in favor of validate-catalog-uuid-and-publish
+#  publish: 
+#    name: Publish Nerdpack
+#    needs: checkout-and-build
+#    if: github.event_name != 'pull_request'
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#
+#      - name: Download submodule_name artifact
+#        uses: actions/download-artifact@v1
+#        with:
+#          name: submodule_name
+#      
+#      - name: Set SUBMODULE_NAME env var
+#        run: |
+#          SUB_NAME=$(cat submodule_name/submodule_name.txt)
+#
+#          if [ -z "$SUB_NAME" ]; then
+#            echo "Error: Could not determine submodule name from artifact"
+#            exit 1
+#          else
+#            echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
+#            echo SUBMODULE_NAME: $SUB_NAME
+#          fi 
+#
+#      # Validate Ability to publish code (Issue #2)
+#      # Requires API Key stored as secret
+#      - name: Validate Publish Nerdpack
+#        if: env.SUBMODULE_NAME != ''
+#        env:
+#          NR1_API_KEY: ${{ secrets.DEMOTRON_V2_API_KEY }}
+#          NR1_REGION: us
+#        run: |
+#          cd ${{ env.SUBMODULE_NAME }}
+#          nr1 profiles:add --name workflow --api-key "$NR1_API_KEY" --region "$NR1_REGION" &&
+#          nr1 nerdpack:publish --profile=workflow --dry-run 
+#      #        nr1 nerdpack:publish --profile=workflow &&
+#      #        nr1 nerdpack:deploy --channel="$NR1_DEPLOY_CHANNEL"

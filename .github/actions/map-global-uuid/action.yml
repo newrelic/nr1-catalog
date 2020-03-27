@@ -4,6 +4,9 @@ author: 'jbeveland27'
 inputs:
   submodule-name:              # change this
     description: 'submodule to run'
+outputs:
+  globals-updated:
+    description: 'either "true" or "false", indicates whether the globals file has been updated with a new uuid entry.'
 runs:
   using: 'node12'
   main: 'dist/index.js'
