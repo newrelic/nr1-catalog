@@ -2,7 +2,7 @@ import Diagram from '../diagram';
 
 # Reference Guide
 
-This page contains details of the various requirements for Nerdpacks that are included in the New Relic One Catalog. You can find the checklists for [adding](/add-checklist) or [updating](/update-checklist) on this site. This section augments those lists with additional descriptions and information. Throughout the review process, expect to be referenced to this site for any concerns or requested remediation.
+This page contains details of the various requirements for Nerdpacks that are included in the New Relic One Catalog. You can find the checklists for [adding](/add-checklist) or [updating](/update-checklist) on this site. This section augments those lists with additional descriptions and information. Throughout the verification process, expect to be referenced to this site for any concerns or requested remediation.
 
 #### Detailed workflow diagram of the process
 
@@ -15,7 +15,7 @@ Applications that are globally installable via the New Relic One Catalog must ha
 - They have a referenced support channel via an online forum, issue tracker, email support, or all three
 - They have workflows that support empty-state launch of the application *or else* function without setup and configuration
 - They comply with New Relic licensing and security requirements
-- They have received appropriate review for code, documentation, and design quality
+- They have received appropriate verification for code, documentation, and design quality
 
 ## [Project Structure](#project-structure)
 
@@ -199,7 +199,7 @@ We're working to develop a standard around code coverage and testing frameworks.
     * Use of the *eval* command, the use of Function as a constructor (i.e. new Function(...))
     * Be extremely careful when using dangerouslySetInnerHTML in React. In general, avoid it if you don’t have a solid reason for using it.
 
-* Code that appears to behave dangerously or in a manner different than documented in the README should be escalated to the Security team during code review. Examples include:
+* Code that appears to behave dangerously or in a manner different than documented in the README should be escalated to the Security team during code verification. Examples include:
     * Writing an unspecified object of data to NerdStorage
     * Interacting with an outside URL w/o clear documentation around what is being retrieved
     * Writing data to an outside source

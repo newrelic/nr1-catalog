@@ -26,7 +26,7 @@ Validate that the following are present in your PR ahead of submitting:
 - [ ] Your linked submodule repository contains updated `whatsNew` field in `catalog/config.json`
 - [ ] (if appropriate) Your linked submodule repository contains updated catalog documentation and screenshots
 
-## [Code Review Guidance](#code-review-guidance)
+## [Code Guidance](#code-guidance)
 
 *The following are meant to highlight the types of common issues that can degraded performance for your application.*
 
@@ -39,11 +39,11 @@ Validate that the following are present in your PR ahead of submitting:
 - [ ] Whenever appropriate, the code's React components extend `React.PureComponent` vs. `React.Component`
 - [ ] The code's React components that do extend `React.Component` implement the `shouldComponentUpdate` React lifecycle method
 
-### [Design Review Guidance](#design-review-guidance)
+### [Design Guidance](#design-guidance)
 
 - [ ] The code does not override or amend core NR1 styles
 
-### [Security Review Guidance](#security-review-guidance)
+### [Security Guidance](#security-guidance)
 
 - [ ] The code does not contain hard-coded API keys, access tokens, or other security credentials
 - [ ] The code does not include additional `SCRIPT` tags
@@ -54,7 +54,7 @@ Validate that the following are present in your PR ahead of submitting:
 - [ ] The code does not interact with an outside URL without clear documentation on what is being retrieved
 - [ ] The code does not write unspecified object data to `NerdStorage`
 
-### [NerdStorage Review Guidance](#nerdstorage-review-guidance)
+### [NerdStorage Guidance](#nerdstorage-guidance)
 
 Where appropriate, the code follows the guidance regarding [NerdStorage limits and usage](https://developer.newrelic.com/build-tools/new-relic-one-applications/nerdstorage)
 

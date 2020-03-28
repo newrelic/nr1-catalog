@@ -81,10 +81,10 @@ export default class ProcessTimeline extends React.PureComponent {
                   </TimelineItem>
                   <TimelineItem
                     key="003"
-                    dateText="3: Review"
+                    dateText="3: Verify"
                     dateInnerStyle={{ background: '#3357B2' }}
                     style={{ color: '#3357B2' }}>
-                    <Styled.h2>Review of the Nerdpack</Styled.h2>
+                    <Styled.h2>Verify the Nerdpack</Styled.h2>
                     <Styled.h3>Actor(s)</Styled.h3>
                     <Styled.ul className="timelineKey">
                       <li style={{backgroundColor: '#20A4F3'}}>Developer</li>
@@ -96,14 +96,14 @@ export default class ProcessTimeline extends React.PureComponent {
                       <img src="https://help.github.com/assets/images/help/pull_requests/pull-request-review-statuses.png" style={{maxWidth:'95%'}} />
                     </Styled.p>
 
-                    <Styled.p>Based on the level of change (new Nerdpacks require more review), <strong>Maintainers</strong> shepherd the submitted nerdpack (submitted to the <strong>newrelic/nr1-catalog</strong> repository as a <em>git submodulev</em>) through a number of standards set by expert <strong>Reviewers</strong>. This phase can take hours or days, depending on the size of the Nerdpack and level of change.
+                    <Styled.p>Based on the level of change (new Nerdpacks require more verification), <strong>Maintainers</strong> shepherd the submitted nerdpack (submitted to the <strong>newrelic/nr1-catalog</strong> repository as a <em>git submodulev</em>) through a number of standards set by expert <strong>Reviewers</strong>. This phase can take hours or days, depending on the size of the Nerdpack and level of change.
                     </Styled.p>
-                    <Styled.p>Reviews cover the following
+                    <Styled.p>Verification covers the following
                       <Styled.ul>
-                        <li>Security review</li>
-                        <li>Code review</li>
-                        <li>Design review</li>
-                        <li>Documentation review</li>
+                        <li>Security verification</li>
+                        <li>Code verification</li>
+                        <li>Design verification</li>
+                        <li>Documentation verification</li>
                       </Styled.ul>
                     </Styled.p>
                     <Styled.p>In each phase, remedian may be requested and/or required of the <strong>Developer</strong> by the <strong>Reviewer(s)</strong>, as communicated through the GitHub Pull Request.</Styled.p>
