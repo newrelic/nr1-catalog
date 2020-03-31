@@ -678,6 +678,8 @@ jobs:
   validate-catalog-uuid-and-publish:
     name: validate-catalog-uuid-and-publish
     needs: checkout-and-build-master
+    env:
+      MESSAGE: ${{ github.event.head_commit.message }}
     if: github.event_name != 'pull_request'  
     runs-on: ubuntu-latest
     steps:
@@ -770,8 +772,8 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          echo "globals.json was changed -- not committing right now but will soon"
-          # git commit globals.json "Add new UUID for submodule: ${{ env.SUBMODULE_NAME }}"
+          echo "globals.json was changed -- committing"
+          git commit globals.json "Add new UUID for submodule: ${{ env.SUBMODULE_NAME }}"
       # - name: Push Commit
       #   if: steps.uuid.outputs.globals-updated == 'true'
       #   uses: ad-m/github-push-action@v0.5.0
@@ -815,6 +817,7 @@ jobs:
           # NR1_REGION_STAGING: staging
         run: |
           cd ${{ env.SUBMODULE_NAME }}
+          npm install
           # nr1 profiles:add --name workflow_staging --api-key "$NR1_API_KEY_STAGING" --region "$NR1_REGION_US"
           # nr1 profiles:add --name workflow_eu --api-key "$NR1_API_KEY_EU" --region "$NR1_REGION_US"
           # nr1 profiles:add --name workflow_us --api-key "$NR1_API_KEY_US" --region "$NR1_REGION_US"
@@ -824,9 +827,16 @@ jobs:
           nr1 profiles:list
           nr1 catalog:info
 
-# Don't execute these commands until we're ready to validate they work          
-#          # Publish to Prod Artifact Registry
-#          nr1 nerdpack:publish --profile=workflow_us
+          # Don't execute these commands until we're ready to validate they work
+          # Publish to Prod Artifact Registry
+          echo Message: $MESSAGE
+          if [[ $MESSAGE != *"[skip publish]"* ]]; then
+            echo "publishing nerdpack..."
+            nr1 nerdpack:build
+            nr1 nerdpack:publish --profile=workflow_us --skip-build --verbose
+          else
+            echo "skipping publish"
+          fi
 #
 #          # submit catalog for US
 #          nr1 catalog:submit
