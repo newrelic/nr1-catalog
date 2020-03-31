@@ -773,7 +773,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           echo "globals.json was changed -- committing"
-          git commit globals.json "Add new UUID for submodule: ${{ env.SUBMODULE_NAME }}"
+          git commit globals.json -m "Add new UUID for submodule: ${{ env.SUBMODULE_NAME }}"Ks
       # - name: Push Commit
       #   if: steps.uuid.outputs.globals-updated == 'true'
       #   uses: ad-m/github-push-action@v0.5.0
@@ -833,13 +833,14 @@ jobs:
           if [[ $MESSAGE != *"[skip publish]"* ]]; then
             echo "publishing nerdpack..."
             nr1 nerdpack:build
-            nr1 nerdpack:publish --profile=workflow_us --skip-build --verbose
+            nr1 nerdpack:publish --profile=workflow_us --skip-build # --verbose (only if necessary)
           else
             echo "skipping publish"
           fi
-#
-#          # submit catalog for US
-#          nr1 catalog:submit
+
+          # submit catalog for US
+          echo "Submitting catalog..."
+          nr1 catalog:submit
 #
 #          # submit catalog for EU
 #          nr1 profiles:default --name=workflow_eu
