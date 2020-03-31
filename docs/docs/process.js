@@ -25,8 +25,8 @@ export default class ProcessTimeline extends React.PureComponent {
                     </Styled.p>
                     <Styled.ul>
                       <li><strong>Developer</strong> <Styled.a href="https://help.github.com/en/github/getting-started-with-github/fork-a-repo">forks</Styled.a> the <strong><Styled.a href="https://github.com/newrelic/nr1-catalog">nr1-catalog</Styled.a></strong> repository</li>
-                      <li><strong>Developer</strong> reviews <Styled.a href="/">documentation</Styled.a> on this website</li>
-                      <li><strong>Developer</strong> preps their nerdpack based on the PR checklist to either <Styled.a href="/add-checklist">add</Styled.a> or <Styled.a href="/update-checklist">update</Styled.a> code</li>
+                      <li><strong>Developer</strong> reviews <Styled.a href="#">documentation</Styled.a> on this website</li>
+                      <li><strong>Developer</strong> preps their nerdpack based on the PR checklist to either <Styled.a href="add-checklist">add</Styled.a> or <Styled.a href="update-checklist">update</Styled.a> code</li>
                       <li><strong>Developer</strong> adds that repository as a <Styled.a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">git submodule</Styled.a> under the <strong>apps</strong> directory in the following manner:</li>
                     </Styled.ul>
                     <Styled.p>
