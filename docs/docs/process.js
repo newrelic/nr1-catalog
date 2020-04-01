@@ -71,7 +71,7 @@ export default class ProcessTimeline extends React.PureComponent {
                     <Styled.h3>Outcomes</Styled.h3>
                     <Styled.ul>
                       <li>PR is structurally verified via <Styled.a href="https://github.com/newrelic/nr1-catalog/tree/master/.github/workflows">automation</Styled.a> in <strong>newrelic/nr1-catalog</strong> </li>
-                      <li>Nerdpack is ready for the <strong>Review</strong> phase</li>
+                      <li>Nerdpack is ready for the <strong>Verify</strong> phase</li>
                       <li><strong>Developer</strong> can track the status and queue depth of their Pull Request in GitHub</li>
                     </Styled.ul>
                     <Styled.h3>Next Step(s)</Styled.h3>
