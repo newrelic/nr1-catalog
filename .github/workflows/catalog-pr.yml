@@ -429,7 +429,7 @@ jobs:
         if: env.SUBMODULE_NAME != ''
         run: |
           curl -s https://cli.nr-ext.net/installer.sh | sudo bash
-          nr1 profiles:add --name workflow_us --api-key ${{ secrets.DEMOTRON_V2_API_KEY_US }} --region us
+          nr1 profiles:add --name nr1-apps-us --api-key ${{ secrets.NR1_APPS_KEY_US }} --region us
 
       # Add cli-plugin-catalog - checks out release tag with node_modules included
       # so this repo has everything needed to link as a plugin for the nr1 cli
@@ -494,21 +494,21 @@ jobs:
       - name: Publish Nerdpack
         if: env.SUBMODULE_NAME != ''
         env:
-          NR1_API_KEY_US: ${{ secrets.DEMOTRON_V2_API_KEY_US }}
-          # NR1_API_KEY_EU: ${{ secrets.DEMOTRON_V2_API_KEY_EU }}
-          # NR1_API_KEY_STAGING: ${{ secrets.DEMOTRON_V2_API_KEY_STAGING }}
-          NR1_REGION_US: us
-          # NR1_REGION_EU: eu
-          # NR1_REGION_STAGING: staging
+          # NR1_APPS_KEY_US: ${{ secrets.NR1_APPS_KEY_US }}
+          NR1_APPS_KEY_EU: ${{ secrets.NR1_APPS_KEY_EU }}
+          NR1_APPS_KEY_STAGING: ${{ secrets.NR1_APPS_KEY_STAGING }}
+          # NR1_REGION_US: us
+          NR1_REGION_EU: eu
+          NR1_REGION_STAGING: staging
         run: |
           cd ${{ env.SUBMODULE_NAME }}
           npm install
-          # nr1 profiles:add --name workflow_staging --api-key "$NR1_API_KEY_STAGING" --region "$NR1_REGION_US"
-          # nr1 profiles:add --name workflow_eu --api-key "$NR1_API_KEY_EU" --region "$NR1_REGION_US"
-          # nr1 profiles:add --name workflow_us --api-key "$NR1_API_KEY_US" --region "$NR1_REGION_US"
+          nr1 profiles:add --name nr1-apps-staging --api-key "$NR1_APPS_KEY_STAGING" --region "$NR1_REGION_STAGING"
+          nr1 profiles:add --name nr1-apps-eu --api-key "$NR1_APPS_KEY_EU" --region "$NR1_REGION_EU"
+          # nr1 profiles:add --name nr1-apps-us --api-key "$NR1_APPS_KEY_US" --region "$NR1_REGION_US"
 
-          # check current profile
-          nr1 profiles:default --name=workflow_us
+          # Set nr1-apps-us as current profile
+          nr1 profiles:default --name=nr1-apps-us
           nr1 profiles:list
           nr1 catalog:info
 
@@ -518,19 +518,24 @@ jobs:
           if [[ $MESSAGE != *"[skip publish]"* ]]; then
             echo "publishing nerdpack..."
             nr1 nerdpack:build
-            nr1 nerdpack:publish --profile=workflow_us --skip-build # --verbose (only if necessary)
+            nr1 nerdpack:publish --profile=nr1-apps-us --skip-build # --verbose (only if necessary)
           else
             echo "skipping publish"
           fi
 
           # submit catalog for US
-          echo "Submitting catalog..."
+          echo "Submitting catalog to nr1-apps-us..."
           nr1 catalog:submit
-#
-#          # submit catalog for EU
-#          nr1 profiles:default --name=workflow_eu
-#          nr1 catalog:submit
-#
-#          # submit catalog for STAGING
-#          nr1 profiles:default --name=workflow_staging
-#          nr1 catalog:submit
+          echo "Catalog submitted [nr1-apps-us]"
+
+          # submit catalog for EU
+          nr1 profiles:default --name=nr1-apps-eu
+          echo "Submitting catalog to nr1-apps-eu..."
+          nr1 catalog:submit
+          echo "Catalog submitted [nr1-apps-eu]"
+
+          # submit catalog for STAGING
+          nr1 profiles:default --name=nr1-apps-staging
+          echo "Submitting catalog to nr1-apps-staging..."
+          nr1 catalog:submit
+          echo "Catalog submitted [nr1-apps-staging]"
