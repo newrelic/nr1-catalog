@@ -514,7 +514,7 @@ jobs:
 
           # Don't execute these commands until we're ready to validate they work
           # Publish to Prod Artifact Registry
-          echo Message: $MESSAGE
+          
           if [[ $MESSAGE != *"[skip publish]"* ]]; then
             echo "publishing nerdpack..."
             nr1 nerdpack:build
