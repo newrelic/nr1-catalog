@@ -1,0 +1,3 @@
+[submodule "apps/nr1-browser-analyzer"]
+	path = apps/nr1-browser-analyzer
+	url = https://github.com/newrelic/nr1-browser-analyzer.git
