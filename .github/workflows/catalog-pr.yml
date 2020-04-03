@@ -482,7 +482,7 @@ jobs:
           echo "globals.json was changed -- committing"
           git commit globals.json -m "Add new UUID for submodule: ${{ env.SUBMODULE_NAME }}"Ks
       
-          - name: Push Commit
+      - name: Push Commit
         if: steps.uuid.outputs.globals-updated == 'true'
         uses: ad-m/github-push-action@v0.5.0
         with:
