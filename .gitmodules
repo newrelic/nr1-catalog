@@ -1,0 +1,12 @@
+[submodule "apps/nr1-browser-analyzer"]
+	path = apps/nr1-browser-analyzer
+	url = https://github.com/newrelic/nr1-browser-analyzer.git
+[submodule "apps/nr1-cloud-optimize"]
+	path = apps/nr1-cloud-optimize
+	url = https://github.com/newrelic/nr1-cloud-optimize
+[submodule "apps/nr1-container-explorer"]
+	path = apps/nr1-container-explorer
+	url = https://github.com/newrelic/nr1-container-explorer.git
+[submodule "apps/nr1-datalyzer"]
+	path = apps/nr1-datalyzer
+	url = https://github.com/newrelic/nr1-datalyzer.git
