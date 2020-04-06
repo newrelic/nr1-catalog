@@ -21,25 +21,31 @@ export default class ProcessTimeline extends React.PureComponent {
                     </Styled.ul>
                     <Styled.h3>Step(s)</Styled.h3>
                     <Styled.p>
-                      <img src="https://github.com/newrelic/nr1-catalog/blob/master/docs/docs/images/screenshot01.png?raw=true" style={{width:'95%'}} />
+                      <img src="https://github.com/newrelic-experimental/nr1-catalog/blob/master/docs/docs/images/screenshot01.png?raw=true" style={{width:'95%'}} />
                     </Styled.p>
                     <Styled.ul>
-                      <li><strong>Developer</strong> <Styled.a href="https://help.github.com/en/github/getting-started-with-github/fork-a-repo">forks</Styled.a> the <strong><Styled.a href="https://github.com/newrelic/nr1-catalog">nr1-catalog</Styled.a></strong> repository</li>
+                      <li><strong>Developer</strong> <Styled.a href="https://help.github.com/en/github/getting-started-with-github/fork-a-repo">forks</Styled.a> the <strong><Styled.a href="https://github.com/newrelic-experimental/nr1-catalog">nr1-catalog</Styled.a></strong> repository</li>
                       <li><strong>Developer</strong> reviews <Styled.a href="#">documentation</Styled.a> on this website</li>
                       <li><strong>Developer</strong> preps their nerdpack based on the PR checklist to either <Styled.a href="add-checklist">add</Styled.a> or <Styled.a href="update-checklist">update</Styled.a> code</li>
                       <li><strong>Developer</strong> adds that repository as a <Styled.a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">git submodule</Styled.a> under the <strong>apps</strong> directory in the following manner:</li>
                     </Styled.ul>
+                    <Styled.i>
+                      Note: Before executing a <strong>git submodule add</strong> to include your Nerdpack to your fork of the nr1-catalog, you must ensure that your Nerdpack is in a publicly accessible repository. If that's not the case, you'll need to contact <a href="https://github.com/newrelic/nr1-catalog/issues/new?assignees=&labels=question&template=question.md&title=">nr1-catalog Maintainers</a> to request special assistance.
+                    </Styled.i>
                     <Styled.p>
                     <Styled.pre>
                       <code>
-                        # assumed state: checked out nr1-catalog<br/>
-                        cd apps<br/>
-                        git submodule add [YOUR REPO]<br/>
-                        # example: git submodule add https://github.com/newrelic/nr1-browser-analyzer.git
+                        # assumed state: you've forked newrelic/nr1-catalog<br/>
+                        # assumed state: git clone https://github.com/[YOUR_GITHUB_HANDLE]/nr1-catalog.git<br/>
+                        cd nr1-catalog/apps<br/>
+                        git submodule add [YOUR REPO URL]<br/>
+                        # example: git submodule add https://github.com/newrelic/nr1-browser-analyzer.git<br/>
+                        git commit -a -m "feat: Adding [YOUR REPO NAME] to nr1-catalog."<br/>
+                        git push
                       </code>
                     </Styled.pre>
                     </Styled.p>
-                    <Styled.p><em>Note: You must use an <strong>https</strong> URL for the git repository versus the <strong>ssh</strong> URL.</em></Styled.p>
+                    <Styled.p><em>Note: By convention, you must use the <strong>https</strong> URL for the git repository.</em></Styled.p>
                     <Styled.h3>Outcomes</Styled.h3>
                     <Styled.ul>
                       <li>
