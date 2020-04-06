@@ -482,8 +482,32 @@ jobs:
           echo "globals.json was changed -- committing"
           git commit globals.json -m "Add new UUID for submodule: ${{ env.SUBMODULE_NAME }}"Ks
       
+      # Action for updating versions.json file
+      - name: Update Version File
+        if: env.SUBMODULE_NAME != ''
+        id: versions
+        run: |
+          NERDPACK=${{ env.SUBMODULE_NAME }} # need to strip off the "apps/" portion of the submodule_name
+          SUBMODULE_VERSION=$(node -p "require('./${{ env.SUBMODULE_NAME }}/package.json').version")
+          CURRENT_VERSION=$(node -p "require('./versions.json')['${NERDPACK:5}']")
+
+          if [[ $SUBMODULE_VERSION != $CURRENT_VERSION ]]; then
+            npm install -g json
+            echo "Updating versions.json"
+            json -I -f versions.json -e "this['${NERDPACK:5}']='$SUBMODULE_VERSION'"
+            cat versions.json
+            
+            echo "Versions.json updated -- committing"
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git commit versions.json -m "Updated version.json for submodule: ${{ env.SUBMODULE_NAME }}"
+            echo ::set-output name=versions_updated::true
+          else
+            echo "${{ env.SUBMODULE_NAME }} - Version not updated."
+          fi
+
       - name: Push Commit
-        if: steps.uuid.outputs.globals-updated == 'true'
+        if: steps.uuid.outputs.globals-updated == 'true' || steps.versions.outputs.versions_updated == 'true'
         uses: ad-m/github-push-action@v0.5.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
