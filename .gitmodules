@@ -22,3 +22,6 @@
 [submodule "apps/nr1-github"]
 	path = apps/nr1-github
 	url = https://github.com/newrelic/nr1-github.git
+[submodule "apps/nr1-graphiql-notebook"]
+	path = apps/nr1-graphiql-notebook
+	url = https://github.com/newrelic/nr1-graphiql-notebook.git
