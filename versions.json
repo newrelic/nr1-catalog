@@ -6,5 +6,6 @@
   "nr1-deployment-analyzer": "0.3.1",
   "nr1-event-stream": "1.1.1",
   "nr1-flex-manager": "0.3.1",
-  "nr1-github": "0.6.0"
+  "nr1-github": "0.6.0",
+  "nr1-graphiql-notebook": "0.6.0"
 }
