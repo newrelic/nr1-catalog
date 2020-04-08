@@ -474,11 +474,13 @@ jobs:
           submodule-name: ${{ env.SUBMODULE_NAME }}
 
       # If there's output from the previous Action, commit the globals.json back to master
+      # NOTE: Uses "Justin Eveland <jeveland@newrelic.com>" as the committing author
+      # since the CLA needs to be signed to accept PRs.
       - name: Check and Commit globals.json
         if: steps.uuid.outputs.globals-updated == 'true'
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "jeveland@newrelic.com" # TODO: change to bot user
+          git config --local user.name "Justin Eveland" # TODO: change to bot user
           echo "globals.json was changed -- committing"
           git commit globals.json -m "Add new UUID for submodule: ${{ env.SUBMODULE_NAME }}"Ks
       
