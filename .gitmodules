@@ -13,3 +13,36 @@
 [submodule "apps/nr1-deployment-analyzer"]
 	path = apps/nr1-deployment-analyzer
 	url = https://github.com/newrelic/nr1-deployment-analyzer.git
+[submodule "apps/nr1-event-stream"]
+	path = apps/nr1-event-stream
+	url = https://github.com/newrelic/nr1-event-stream.git
+[submodule "apps/nr1-flex-manager"]
+	path = apps/nr1-flex-manager
+	url = https://github.com/newrelic/nr1-flex-manager.git
+[submodule "apps/nr1-github"]
+	path = apps/nr1-github
+	url = https://github.com/newrelic/nr1-github.git
+[submodule "apps/nr1-graphiql-notebook"]
+	path = apps/nr1-graphiql-notebook
+	url = https://github.com/newrelic/nr1-graphiql-notebook.git
+[submodule "apps/nr1-groundskeeper"]
+	path = apps/nr1-groundskeeper
+	url = https://github.com/newrelic/nr1-groundskeeper.git
+[submodule "apps/nr1-neon"]
+	path = apps/nr1-neon
+	url = https://github.com/newrelic/nr1-neon.git
+[submodule "apps/nr1-network-telemetry"]
+	path = apps/nr1-network-telemetry
+	url = https://github.com/newrelic/nr1-network-telemetry.git
+[submodule "apps/nr1-pageview-map"]
+	path = apps/nr1-pageview-map
+	url = https://github.com/newrelic/nr1-pageview-map.git
+[submodule "apps/nr1-slo-r"]
+	path = apps/nr1-slo-r
+	url = https://github.com/newrelic/nr1-slo-r.git
+[submodule "apps/nr1-status-pages"]
+	path = apps/nr1-status-pages
+	url = https://github.com/newrelic/nr1-status-pages.git
+[submodule "apps/nr1-top"]
+	path = apps/nr1-top
+	url = https://github.com/newrelic/nr1-top.git
