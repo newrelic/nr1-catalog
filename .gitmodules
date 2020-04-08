@@ -40,3 +40,6 @@
 [submodule "apps/nr1-slo-r"]
 	path = apps/nr1-slo-r
 	url = https://github.com/newrelic/nr1-slo-r.git
+[submodule "apps/nr1-status-pages"]
+	path = apps/nr1-status-pages
+	url = https://github.com/newrelic/nr1-status-pages.git
