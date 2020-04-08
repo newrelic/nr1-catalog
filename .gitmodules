@@ -43,3 +43,6 @@
 [submodule "apps/nr1-status-pages"]
 	path = apps/nr1-status-pages
 	url = https://github.com/newrelic/nr1-status-pages.git
+[submodule "apps/nr1-top"]
+	path = apps/nr1-top
+	url = https://github.com/newrelic/nr1-top.git
