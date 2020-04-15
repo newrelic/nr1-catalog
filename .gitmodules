@@ -46,3 +46,6 @@
 [submodule "apps/nr1-top"]
 	path = apps/nr1-top
 	url = https://github.com/newrelic/nr1-top.git
+[submodule "apps/nr1-workload-geoops"]
+	path = apps/nr1-workload-geoops
+	url = https://github.com/newrelic/nr1-workload-geoops.git
