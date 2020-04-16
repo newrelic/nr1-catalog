@@ -102,7 +102,7 @@ export default class ProcessTimeline extends React.PureComponent {
                       <img src="https://help.github.com/assets/images/help/pull_requests/pull-request-review-statuses.png" style={{maxWidth:'95%'}} />
                     </Styled.p>
 
-                    <Styled.p>Based on the level of change (new Nerdpacks require more verification), <strong>Maintainers</strong> shepherd the submitted nerdpack (submitted to the <strong>newrelic/nr1-catalog</strong> repository as a <em>git submodulev</em>) through a number of standards set by expert <strong>Reviewers</strong>. This phase can take hours or days, depending on the size of the Nerdpack and level of change.
+                    <Styled.p>Based on the level of change (new Nerdpacks require more verification), <strong>Maintainers</strong> shepherd the submitted nerdpack (submitted to the <strong>newrelic/nr1-catalog</strong> repository as a <em>git submodule</em>) through a number of standards set by expert <strong>Reviewers</strong>. This phase can take hours or days, depending on the size of the Nerdpack and level of change.
                     </Styled.p>
                     <Styled.p>Verification covers the following
                       <Styled.ul>
