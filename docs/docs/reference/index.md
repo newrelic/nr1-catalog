@@ -28,6 +28,10 @@ In addition to the Nerdpack structure described in [New Relic documentation](htt
     - [ ] `email` a **valid email address** of the team supporting the application (for New Relic, that generally takes the form of `opensource+<repo name>@newrelic.com`)
     - [ ] `community` URL to a support thread, forum, or website for troubleshooting and usage support
   - [ ] `whatsNew` a bulleted list of customer-facing changes in this version, less than **500** characters using carriage returns for formatting and no markdown or HTML markup
+
+_Note: [Click here for a guide to capturing screenshots that adhere to the catalog requirements](./guides/capturing-screenshots)._
+
+
 - [ ] `screenshots` directory containing at most 6 image files that each comply with the following guidance:
   - [ ] 3:2 aspect ratio
   - [ ] .png format
