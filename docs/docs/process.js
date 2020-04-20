@@ -21,10 +21,10 @@ export default class ProcessTimeline extends React.PureComponent {
                     </Styled.ul>
                     <Styled.h3>Step(s)</Styled.h3>
                     <Styled.p>
-                      <img src="https://github.com/newrelic-experimental/nr1-catalog/blob/master/docs/docs/images/screenshot01.png?raw=true" style={{width:'95%'}} />
+                      <img src="https://github.com/newrelic/nr1-catalog/blob/master/docs/docs/images/screenshot01.png?raw=true" style={{width:'95%'}} />
                     </Styled.p>
                     <Styled.ul>
-                      <li><strong>Developer</strong> <Styled.a href="https://help.github.com/en/github/getting-started-with-github/fork-a-repo">forks</Styled.a> this <strong><Styled.a href="https://github.com/newrelic-experimental/nr1-catalog">nr1-catalog</Styled.a></strong> repository</li>
+                      <li><strong>Developer</strong> <Styled.a href="https://help.github.com/en/github/getting-started-with-github/fork-a-repo">forks</Styled.a> this <strong><Styled.a href="https://github.com/newrelic/nr1-catalog">nr1-catalog</Styled.a></strong> repository</li>
                       <li><strong>Developer</strong> reviews <Styled.a href="#">documentation</Styled.a> on this website</li>
                       <li><strong>Developer</strong> preps their nerdpack based on the PR checklist to either <Styled.a href="add-checklist">add</Styled.a> or <Styled.a href="update-checklist">update</Styled.a> code</li>
                       <li><strong>Developer</strong> adds that repository as a <Styled.a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">git submodule</Styled.a> under the <strong>apps</strong> directory in the following manner:</li>
