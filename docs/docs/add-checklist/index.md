@@ -67,13 +67,15 @@ Your project must contain a `catalog` directory with the following:
     - [ ] `email` a **valid email address** of the team supporting the application (for New Relic, that generally takes the form of `opensource+<repo name>@newrelic.com`)
     - [ ] `community` URL to a support thread, forum, or website for troubleshooting and usage support
   - [ ] `whatsNew` a bulleted list of customer-facing changes in this version, less than **500** characters using carriage returns for formatting and no markdown or HTML markup
+
+_Note: [Click here for a guide to capturing screenshots that adhere to the catalog requirements](./guides/capturing-screenshots)._
+
 - [ ] `screenshots` directory containing at most 6 image files that each comply with the following guidance:
   - [ ] 3:2 aspect ratio
   - [ ] .png format
   - [ ] landscape orientation
   - [ ] no less than 1600px wide
   - [ ] no more than 2400px wide
-  - [Click here for a guide to capturing screenshots that adhere to the catalog requirements](../reference/capture-screenshots.md)
 - [ ] `documentation.md` a markdown file  containing no HTML markup nor any markdown images ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/catalog/documentation.md))
 - [ ] (optional) `additionalInfo.md` a markdown file  containing no HTML markup nor any markdown images ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/catalog/additionalInfo.md))
 
