@@ -71,7 +71,9 @@ Your project must contain a `catalog` directory with the following:
   - [ ] 3:2 aspect ratio
   - [ ] .png format
   - [ ] landscape orientation
-  - [ ] at least 1600px wide
+  - [ ] no less than 1600px wide
+  - [ ] no more than 2400px wide
+  - [Click here for a guide to capturing screenshots that adhere to the catalog requirements](../reference/capture-screenshots.md)
 - [ ] `documentation.md` a markdown file  containing no HTML markup nor any markdown images ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/catalog/documentation.md))
 - [ ] (optional) `additionalInfo.md` a markdown file  containing no HTML markup nor any markdown images ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/catalog/additionalInfo.md))
 
