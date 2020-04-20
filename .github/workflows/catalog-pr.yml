@@ -431,25 +431,6 @@ jobs:
           curl -s https://cli.nr-ext.net/installer.sh | sudo bash
           nr1 profiles:add --name nr1-apps-us --api-key ${{ secrets.NR1_APPS_KEY_US }} --region us
 
-      # Add cli-plugin-catalog - checks out release tag with node_modules included
-      # so this repo has everything needed to link as a plugin for the nr1 cli
-      - name: Checkout repo
-        if: env.SUBMODULE_NAME != ''
-        uses: actions/checkout@v2
-        with:
-          repository: newrelic/cli-plugin-catalog
-          ref: v1.2.1
-          token: ${{ secrets.CLI_PLUGIN_CATALOG_TOKEN }}
-          path: cli-plugin-catalog # is this needed?
-
-      - name: Install cli-plugin-catalog
-        run: |
-          cd cli-plugin-catalog
-          npm ci
-          nr1 plugins:link
-          nr1 help # verify catalog is listed under commands
-
-
       # Custom Action - map-global-uuid
       # TODO: Convert these steps to docker-based action
       - name: Setup node
