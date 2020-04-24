@@ -5,7 +5,7 @@ When you initiate a pull request to the `nr1-catalog` repository, the following 
 ## [Nerdpack approver](nerdpack-approver)
 
 The person who signs off on the change ahead of deployment.
-- Provide the **GitHub handle** for the final approver of this Nerdpack in your pull request. 
+- Provide the **GitHub handle** for the final approver of this Nerdpack in your pull request.
 - If known, provide the date when you want the Nerdpack deployed. *Note: the date provides a useful target and we will try to meet it. However, neither New Relic nor the **nr1-catalog maintainer team** are under any obligation to publish on the requested date.*
 
 ### [Functional changes](#functional-changes)
@@ -68,11 +68,15 @@ Your project must contain a `catalog` directory with the following:
     - [ ] `email` - a **valid email address** of the team supporting the application (for New Relic, that generally takes the form of `opensource+<repo name>@newrelic.com`)
     - [ ] `community` - a URL to a support thread, forum, or website for troubleshooting and usage support
   - [ ] `whatsNew` - a bulleted list of customer-facing changes in this version, less than **500** characters using carriage returns for formatting and no markdown or HTML markup
-- [ ] `screenshots` - a directory containing at most **6** image files that each comply with the following guidance:
-  - 3:2 aspect ratio
-  - .png format
-  - landscape orientation
-  - at least 1600px wide
+
+_Note: [Click here for a guide to capturing screenshots that adhere to the catalog requirements](./guides/capturing-screenshots)._	## [Code guidance](#code-guidance)
+
+- [ ] `screenshots` directory containing at most 6 image files that each comply with the following guidance:	*The following are meant to highlight the types of common issues that can degrade performance for your application.*
+  - [ ] 3:2 aspect ratio
+  - [ ] .png format
+  - [ ] landscape orientation
+  - [ ] no less than 1600px wide
+  - [ ] no more than 2400px wide
 - [ ] `documentation.md` - a markdown file containing no HTML markup nor any markdown images ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/catalog/documentation.md))
 - [ ] (optional) `additionalInfo.md` - a markdown file containing no HTML markup nor any markdown images ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/catalog/additionalInfo.md))
 
@@ -90,8 +94,8 @@ The code does not:
 The code does:
 - [ ] make efficient use of the `PlatformStateContext` and `NerdletStateContext` (i.e. not wrapping the entire Nerdlet in a state context when it's not necessary)
 - [ ] handle the asynchronous nature of `setState` updates
-- [ ] whenever appropriate, extend `React.PureComponent` versus `React.Component` with its React components 
-- [ ] implement the `shouldComponentUpdate` React lifecycle method when its React components extend `React.Component` 
+- [ ] whenever appropriate, extend `React.PureComponent` versus `React.Component` with its React components
+- [ ] implement the `shouldComponentUpdate` React lifecycle method when its React components extend `React.Component`
 
 ### [Design guidance](#design-guidance)
 
