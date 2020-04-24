@@ -460,10 +460,10 @@ jobs:
       - name: Check and Commit globals.json
         if: steps.uuid.outputs.globals-updated == 'true'
         run: |
-          git config --local user.email "jeveland@newrelic.com" # TODO: change to bot user
-          git config --local user.name "Justin Eveland" # TODO: change to bot user
+          git config --local user.email "opensource+nr1-catalog@newrelic.com"
+          git config --local user.name "Actionbot"
           echo "globals.json was changed -- committing"
-          git commit globals.json -m "Add new UUID for submodule: ${{ env.SUBMODULE_NAME }}"Ks
+          git commit globals.json -m "chore: Add new UUID for submodule: ${{ env.SUBMODULE_NAME }}"
 
       # Action for updating versions.json file
       - name: Update Version File
@@ -483,7 +483,7 @@ jobs:
             echo "Versions.json updated -- committing"
             git config --local user.email "opensource+nr1-catalog@newrelic.com"
             git config --local user.name "Actionbot"
-            git commit versions.json -m "Updated version.json for submodule: ${{ env.SUBMODULE_NAME }}"
+            git commit versions.json -m "chore: Updated version.json for submodule: ${{ env.SUBMODULE_NAME }}"
             echo ::set-output name=versions_updated::true
           else
             echo "${{ env.SUBMODULE_NAME }} - Version not updated."
