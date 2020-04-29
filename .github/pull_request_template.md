@@ -27,6 +27,27 @@ List the functional changes in the pull request, highlighting the major features
 Validate that the following are present in your PR ahead of submitting:
 
 - [ ] Your application has been added as a [git submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) to the nr1-catalog repo under the `apps` directory (i.e. `nr1-catalog/apps/YOUR_REPO` with an entry in the `.gitmodules` file)
+
+**If adding a submodule**
+
+```bash
+# Assumed forked and cloned nr1-catalog repo
+cd nr1-catalog/apps
+git submodule add [YOUR REPO URL]
+# example: git submodule add https://github.com/newrelic/nr1-browser-analyzer.git
+git commit -a -m "feat: Adding [YOUR REPO NAME] to nr1-catalog."
+```
+
+**If updating a submodule to the latest commit**
+
+```bash
+# Assumed forked and cloned nr1-catalog repo
+cd nr1-catalog/apps/[YOU REPO NAME]
+git pull
+cd ..
+git commit -a -m "feat: Updating [YOUR REPO NAME] to v. [YOUR REPO VERSION]."
+```
+
 - [ ] No other code in the `nr1-catalog` repo has been modified by your PR
 - [ ] the project contains only one Nerdpack with as many artifacts (launchers, nerdlets, etc.) as you choose
 
@@ -65,6 +86,9 @@ Your project must contain a `catalog` directory with the following:
     - [ ] `email` a **valid email address** of the team supporting the application (for New Relic, that generally takes the form of `opensource+<repo name>@newrelic.com`)
     - [ ] `community` URL to a support thread, forum, or website for troubleshooting and usage support
   - [ ] `whatsNew` a bulleted list of customer-facing changes in this version, less than **500** characters using carriage returns for formatting and no markdown or HTML markup
+
+_Note: [Click here for a guide to capturing screenshots that adhere to the catalog requirements](./guides/capturing-screenshots)._
+
 - [ ] `screenshots` directory containing at most 6 image files that each comply with the following guidance:
   - [ ] 3:2 aspect ratio
   - [ ] .png format

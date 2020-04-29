@@ -46,7 +46,7 @@ jobs:
         env:
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
         run: echo "$MATRIX_CONTEXT"
-        
+
   checkout-and-build-master:
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request' # github.event_name == "push" ?
@@ -57,7 +57,7 @@ jobs:
         with:
           # ref: ${{ github.head_ref }}
           fetch-depth: 0
-        
+
       # Checkout submodules
       # Note: Uses 8 jobs for checking out submodules quicker
       - name: Checkout submodules
@@ -68,7 +68,7 @@ jobs:
           auth_header="$(git config --local --get http.https://github.com/.extraheader)"
           git submodule sync --recursive
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
-      
+
       # Get Submodule_name using Git Diff -- could go prior to checking out every submodule?
       - name: Get/Set SUBMODULE_NAME
         run: |
@@ -81,12 +81,12 @@ jobs:
           else
             echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
           fi
-      
+
       - name: Check SUBMODULE_NAME was set
         if: env.SUBMODULE_NAME != ''
-        run: | 
+        run: |
           echo SUBMODULE_NAME: ${{ env.SUBMODULE_NAME }}
-      
+
       # Upload SUBMODULE_NAME as artifact to be used in other jobs
       - name: Create submodule_name.txt artifact
         if: env.SUBMODULE_NAME != ''
@@ -129,7 +129,7 @@ jobs:
         with:
 #           ref: ${{ github.head_ref }}
           fetch-depth: 0
-        
+
       # Checkout submodules
       # Note: Uses 8 jobs for checking out submodules quicker
       - name: Checkout submodules
@@ -140,7 +140,7 @@ jobs:
           auth_header="$(git config --local --get http.https://github.com/.extraheader)"
           git submodule sync --recursive
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
-      
+
       # Get Submodule_name using Git Diff
       - name: Get/Set SUBMODULE_NAME
         run: |
@@ -153,12 +153,12 @@ jobs:
           else
             echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
           fi
-      
+
       - name: Check SUBMODULE_NAME was set
         if: env.SUBMODULE_NAME != ''
-        run: | 
+        run: |
           echo SUBMODULE_NAME: ${{ env.SUBMODULE_NAME }}
-      
+
       # Upload SUBMODULE_NAME as artifact to be used in other jobs
       - name: Create submodule_name.txt artifact
         if: env.SUBMODULE_NAME != ''
@@ -201,7 +201,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-        
+
       # Checkout submodules
       # Note: Uses 8 jobs for checking out submodules quicker
       - name: Checkout submodules
@@ -212,12 +212,12 @@ jobs:
           auth_header="$(git config --local --get http.https://github.com/.extraheader)"
           git submodule sync --recursive
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
-          
+
       - name: Download submodule_name artifact
         uses: actions/download-artifact@v1
         with:
           name: submodule_name
-      
+
       - name: Set SUBMODULE_NAME env var
         run: |
           SUB_NAME=$(cat submodule_name/submodule_name.txt)
@@ -246,7 +246,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-        
+
       # Checkout submodules
       # Note: Uses 8 jobs for checking out submodules quicker
       - name: Checkout submodules
@@ -257,12 +257,12 @@ jobs:
           auth_header="$(git config --local --get http.https://github.com/.extraheader)"
           git submodule sync --recursive
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
-          
+
       - name: Download submodule_name artifact
         uses: actions/download-artifact@v1
         with:
           name: submodule_name
-      
+
       - name: Set SUBMODULE_NAME env var
         run: |
           SUB_NAME=$(cat submodule_name/submodule_name.txt)
@@ -273,7 +273,7 @@ jobs:
           else
             echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
             echo SUBMODULE_NAME: $SUB_NAME
-          fi          
+          fi
 
       # TODO: Convert these steps to docker-based action
       - name: Setup node
@@ -281,17 +281,17 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "10.x"
-        
+
       - name: Install Dependencies
         if: env.SUBMODULE_NAME != ''
         working-directory: ./${{ env.SUBMODULE_NAME }}
         run: npm install
-        
+
       - name: Run npm test
         if: env.SUBMODULE_NAME != ''
         working-directory: ./${{ env.SUBMODULE_NAME }}
         run: npm test
-  
+
   validate-catalog-nerdpack:
     name: validate-catalog-requirements
     needs: checkout-and-build-pr
@@ -302,7 +302,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-        
+
       # Checkout submodules
       # Note: Uses 8 jobs for checking out submodules quicker
       - name: Checkout submodules
@@ -313,12 +313,12 @@ jobs:
           auth_header="$(git config --local --get http.https://github.com/.extraheader)"
           git submodule sync --recursive
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
-          
+
       - name: Download submodule_name artifact
         uses: actions/download-artifact@v1
         with:
           name: submodule_name
-      
+
       - name: Set SUBMODULE_NAME env var
         run: |
           SUB_NAME=$(cat submodule_name/submodule_name.txt)
@@ -345,7 +345,7 @@ jobs:
           cd ./.github/actions/files-present-action
           npm install
           npm run build && npm run pack
-      
+
       - name: files-present-action
         if: env.SUBMODULE_NAME != ''
         uses: ./.github/actions/files-present-action
@@ -388,14 +388,14 @@ jobs:
     needs: checkout-and-build-master
     env:
       MESSAGE: ${{ github.event.head_commit.message }}
-    if: github.event_name != 'pull_request'  
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-        
+
       # Checkout submodules
       # Note: Uses 8 jobs for checking out submodules quicker
       - name: Checkout submodules
@@ -406,12 +406,12 @@ jobs:
           auth_header="$(git config --local --get http.https://github.com/.extraheader)"
           git submodule sync --recursive
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
-          
+
       - name: Download submodule_name artifact
         uses: actions/download-artifact@v1
         with:
           name: submodule_name
-      
+
       - name: Set SUBMODULE_NAME env var
         run: |
           SUB_NAME=$(cat submodule_name/submodule_name.txt)
@@ -423,32 +423,13 @@ jobs:
             echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
             echo SUBMODULE_NAME: $SUB_NAME
           fi
-      
+
       # Install NR1 CLI - The map-global-uuid action needs the nr1 cli executable
       - name: Install NR1 CLI
         if: env.SUBMODULE_NAME != ''
         run: |
           curl -s https://cli.nr-ext.net/installer.sh | sudo bash
           nr1 profiles:add --name nr1-apps-us --api-key ${{ secrets.NR1_APPS_KEY_US }} --region us
-
-      # Add cli-plugin-catalog - checks out release tag with node_modules included
-      # so this repo has everything needed to link as a plugin for the nr1 cli
-      - name: Checkout repo
-        if: env.SUBMODULE_NAME != ''
-        uses: actions/checkout@v2
-        with:
-          repository: newrelic/cli-plugin-catalog
-          ref: v1.2.0
-          token: ${{ secrets.CLI_PLUGIN_CATALOG_TOKEN }}
-          path: cli-plugin-catalog # is this needed?
-      
-      - name: Install cli-plugin-catalog
-        run: |
-          cd cli-plugin-catalog
-          npm ci
-          nr1 plugins:link
-          nr1 help # verify catalog is listed under commands
-
 
       # Custom Action - map-global-uuid
       # TODO: Convert these steps to docker-based action
@@ -457,14 +438,14 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "10.x"
-          
+
       - name: compile map-global-uuid
         if: env.SUBMODULE_NAME != ''
         run: |
           cd ./.github/actions/map-global-uuid
           npm install
           npm run build && npm run pack
-      
+
       - name: map-global-uuid
         if: env.SUBMODULE_NAME != ''
         id: uuid
@@ -479,11 +460,11 @@ jobs:
       - name: Check and Commit globals.json
         if: steps.uuid.outputs.globals-updated == 'true'
         run: |
-          git config --local user.email "jeveland@newrelic.com" # TODO: change to bot user
-          git config --local user.name "Justin Eveland" # TODO: change to bot user
+          git config --local user.email "opensource+nr1-catalog@newrelic.com"
+          git config --local user.name "Actionbot"
           echo "globals.json was changed -- committing"
-          git commit globals.json -m "Add new UUID for submodule: ${{ env.SUBMODULE_NAME }}"Ks
-      
+          git commit globals.json -m "chore: Add new UUID for submodule: ${{ env.SUBMODULE_NAME }}"
+
       # Action for updating versions.json file
       - name: Update Version File
         if: env.SUBMODULE_NAME != ''
@@ -498,11 +479,11 @@ jobs:
             echo "Updating versions.json"
             json -I -f versions.json -e "this['${NERDPACK:5}']='$SUBMODULE_VERSION'"
             cat versions.json
-            
+
             echo "Versions.json updated -- committing"
-            git config --local user.email "action@github.com"
-            git config --local user.name "GitHub Action"
-            git commit versions.json -m "Updated version.json for submodule: ${{ env.SUBMODULE_NAME }}"
+            git config --local user.email "opensource+nr1-catalog@newrelic.com"
+            git config --local user.name "Actionbot"
+            git commit versions.json -m "chore: Updated version.json for submodule: ${{ env.SUBMODULE_NAME }}"
             echo ::set-output name=versions_updated::true
           else
             echo "${{ env.SUBMODULE_NAME }} - Version not updated."
@@ -514,7 +495,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      
+
       # Validate Ability to publish code (Issue #2)
       # Requires API Key stored as secret
       - name: Publish Nerdpack
@@ -540,7 +521,7 @@ jobs:
 
           # Don't execute these commands until we're ready to validate they work
           # Publish to Prod Artifact Registry
-          
+
           if [[ $MESSAGE != *"[skip publish]"* ]]; then
             echo "publishing nerdpack..."
             nr1 nerdpack:build
