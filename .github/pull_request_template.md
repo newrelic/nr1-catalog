@@ -1,6 +1,6 @@
 ## PR checklist to add a new application to the New Relic One Catalog
 
-## [Nerdpack Approver](nerdpack-approver)
+## [Nerdpack Approver](#nerdpack-approver)
 
 - Provide the **GitHub handle** for the final Approver of this Nerdpack in your Pull Request. *Note: this is the person who will need to provide explicit sign off for the change ahead of deployment.*
 - If known, what is the requested date for the deployment of this functionality? *Note: this information is regarded as a courtesy. Neither New Relic nor the **nr1-catalog maintainer team** are under any obligation to meet this request. It simply provides a useful target for completion.*
