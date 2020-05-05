@@ -17,5 +17,5 @@
   "nr1-top": "0.5.2",
   "nr1-workload-geoops": "1.1.1",
   "nr1-observability-maps": "0.4.9",
-  "nr1-metrics-aggregator": "0.8.0"
+  "nr1-metrics-aggregator": "0.8.1"
 }
