@@ -58,6 +58,4 @@
 [submodule "apps/nr1-account-maturity"]
 	path = apps/nr1-account-maturity
 	url = https://github.com/newrelic/nr1-account-maturity.git
-[submodule "apps/apps/nr1-donor-analyzer"]
-	path = apps/apps/nr1-donor-analyzer
-	url = https://github.com/newrelic/nr1-donor-analyzer.git
+
