@@ -20,5 +20,6 @@
   "nr1-workload-geoops": "02f8775c-c248-42d4-be54-2f96443f786a",
   "nr1-observability-maps": "60c04cc2-59d2-416a-a896-e5ff6ef28bbc",
   "nr1-metrics-aggregator": "932f5c04-5ab6-47d9-90ab-0e716237a4a3",
-  "nr1-account-maturity": "384de6e5-8e57-4d56-9d13-299ee7ae8641"
+  "nr1-account-maturity": "384de6e5-8e57-4d56-9d13-299ee7ae8641",
+  "nr1-donor-analyzer": "173db02e-53c8-4893-87bc-d3da6978d7f0"
 }
