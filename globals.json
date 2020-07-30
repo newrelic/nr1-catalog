@@ -6,7 +6,7 @@
   "nr1-datalyzer": "2d20b55d-1939-4b76-abcd-60eea0d0e10a",
   "nr1-deployment-analyzer": "dff857dd-6a9b-4fc4-b223-93087465625c",
   "nr1-event-stream": "4af0e16c-7082-48c0-9276-46c76f1e0747",
-  "nr1-flex-manager": "e9074d13-3fae-46e5-bffd-f271253649bf",
+  "nr1-integrations-manager": "e9074d13-3fae-46e5-bffd-f271253649bf",
   "nr1-github": "4ee1cd5f-0f5e-4326-b153-5468c888ba8d",
   "nr1-graphiql-notebook": "8432e742-6910-4957-b34f-c5115eb8cda3",
   "nr1-groundskeeper": "4a13b4e8-3129-467b-a099-ba5f503fe47f",
