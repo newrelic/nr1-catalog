@@ -65,3 +65,6 @@
 [submodule "apps/nr1-integrations-manager"]
 	path = apps/nr1-integrations-manager
 	url = https://github.com/newrelic/nr1-integrations-manager.git
+[submodule "apps/nr1-synthetics-alerts"]
+	path = apps/nr1-synthetics-alerts
+	url = https://github.com/newrelic-experimental/nr1-synthetics-alerts.git
