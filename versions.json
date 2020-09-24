@@ -19,6 +19,6 @@
   "nr1-observability-maps": "0.7.0",
   "nr1-metrics-aggregator": "0.9.8",
   "nr1-account-maturity": "0.6.0",
-  "nr1-donor-analyzer": "1.2.0",
+  "nr1-donor-analyzer": "1.2.2",
   "nr1-learn-nrql": "1.2.1"
 }
