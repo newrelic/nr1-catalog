@@ -23,5 +23,6 @@
   "nr1-account-maturity": "384de6e5-8e57-4d56-9d13-299ee7ae8641",
   "nr1-donor-analyzer": "173db02e-53c8-4893-87bc-d3da6978d7f0",
   "nr1-learn-nrql": "34b6d49a-d824-4f99-b337-1d9a5467094d",
-  "nr1-nimbus": "f263d06c-9b88-4041-8a1c-8dacfdf4d2b1"
+  "nr1-nimbus": "f263d06c-9b88-4041-8a1c-8dacfdf4d2b1",
+  "nr1-alerts-los-migrator": "6e48950e-bb5b-4c65-a3c3-045d83b4df46"
 }
