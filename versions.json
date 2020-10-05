@@ -21,5 +21,6 @@
   "nr1-account-maturity": "0.6.0",
   "nr1-donor-analyzer": "1.2.2",
   "nr1-learn-nrql": "1.2.1",
-  "nr1-nimbus": "1.0.1"
+  "nr1-nimbus": "1.0.1",
+  "nr1-alerts-los-migrator": "1.2.2"
 }
