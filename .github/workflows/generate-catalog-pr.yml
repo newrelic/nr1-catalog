@@ -15,6 +15,13 @@ on:
       user:
         description: "User who initiated the deployment"
         required: true
+      action:
+        description: "Action to take with submodule. Possible values: add, update"
+        required: true
+        default: "update"
+      repoUrl:
+        description: "If action == `add`, must supply URL of repo"
+        required: false
 
 env:
   GIT_AUTHOR_NAME: "nr-opensource-bot"
@@ -31,6 +38,8 @@ jobs:
           echo "Version: ${{ github.event.inputs.version }}"
           echo "ref: ${{ github.event.inputs.ref }}"
           echo "User: ${{ github.event.inputs.user }}"
+          echo "action: ${{ github.event.inputs.action }}"
+          echo "repoUrl: ${{ github.event.inputs.repoUrl }}"
 
   job-create-pull-request:
     runs-on: ubuntu-latest
@@ -42,7 +51,7 @@ jobs:
           submodules: true
 
       # Create a new branch, Update submodule to the input ref and commit
-      - name: Update submodule
+      - name: Add/Update submodule
         run: |
           git config user.email "${{ env.GIT_AUTHOR_EMAIL }}"
           git config user.name "${{ env.GIT_AUTHOR_NAME }}"
@@ -50,14 +59,27 @@ jobs:
           # Create branch
           # git checkout -b ${{ github.event.inputs.appName }}/${{ github.event.inputs.version }}
 
-          # Update submodule
+          # Add / Update submodule
+          ## If adding, need to `git submodule add` to get the submodule into .gitmodules
+          if [[ ${{ github.event.inputs.action }} == "add "]]; then
+            git submodule add ${{ github.event.inputs.repoUrl }} apps/${{ github.event.inputs.appName }}
+          fi
+
+          ## Now checkout the ref -- this step is the same regardless of add/update
           cd apps/${{ github.event.inputs.appName }}
           git checkout ${{ github.event.inputs.ref }}
           cd ../..
 
           # Commit back to branch
           git add apps/${{ github.event.inputs.appName }}
-          git commit -m 'feat: update ${{ github.event.inputs.appName }} to version ${{ github.event.inputs.version }}'
+
+          ## Variable commit message
+          if [[ ${{ github.event.inputs.action }} == "add "]]; then
+            git commit -m 'feat: Add ${{ github.event.inputs.appName }} at version ${{ github.event.inputs.version }}'
+          else
+            git commit -m 'feat(${{ github.event.inputs.appName }}): Update to version ${{ github.event.inputs.version }}'
+          fi
+
           echo "::set-output name=commit::true"
 
       # Open PR using this new branch
