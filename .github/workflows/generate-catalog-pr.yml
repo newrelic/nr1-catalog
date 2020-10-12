@@ -76,8 +76,10 @@ jobs:
           ## Variable commit message
           if [[ "${{ github.event.inputs.action }}" == "add" ]]; then
             git commit -m 'feat: Add ${{ github.event.inputs.appName }} at version ${{ github.event.inputs.version }}'
+            echo "title='feat: Add ${{ github.event.inputs.appName }} at version ${{ github.event.inputs.version }}'" >> $GITHUB_ENV
           else
             git commit -m 'feat(${{ github.event.inputs.appName }}): Update to version ${{ github.event.inputs.version }}'
+            echo "title='feat(${{ github.event.inputs.appName }}): Update to version ${{ github.event.inputs.version }}'" >> $GITHUB_ENV
           fi
 
           echo "::set-output name=commit::true"
@@ -87,12 +89,11 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.OPENSOURCE_BOT_TOKEN}}
-          commit-message: "Updating ${{ github.event.inputs.appName }} to ${{ github.event.inputs.version }}"
           committer: ${{ env.GIT_COMMITTER_NAME }} <${{ env.GIT_COMMITTER_EMAIL }}>
           author: ${{ env.GIT_AUTHOR_NAME }} <${{ env.GIT_AUTHOR_EMAIL }}>
           branch: ${{ github.event.inputs.appName }}/${{ github.event.inputs.version }}
           base: master
-          title: "Updating ${{ github.event.inputs.appName }} to ${{ github.event.inputs.version }}"
+          title: $title
           body: |
             Automated PR created by nr1-catalog deploy nerdlet. 
 
