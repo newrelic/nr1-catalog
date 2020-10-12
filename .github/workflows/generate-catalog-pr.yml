@@ -19,7 +19,7 @@ on:
         description: "Action to take with submodule. Possible values: add, update"
         required: true
         default: "update"
-      repoUrl:
+      url:
         description: "If action == `add`, must supply URL of repo"
         required: false
 
@@ -39,7 +39,7 @@ jobs:
           echo "ref: ${{ github.event.inputs.ref }}"
           echo "User: ${{ github.event.inputs.user }}"
           echo "action: ${{ github.event.inputs.action }}"
-          echo "repoUrl: ${{ github.event.inputs.repoUrl }}"
+          echo "url: ${{ github.event.inputs.url }}"
 
   job-create-pull-request:
     runs-on: ubuntu-latest
@@ -62,7 +62,7 @@ jobs:
           # Add / Update submodule
           ## If adding, need to `git submodule add` to get the submodule into .gitmodules
           if [[ "${{ github.event.inputs.action }}" == "add" ]]; then
-            git submodule add ${{ github.event.inputs.repoUrl }} apps/${{ github.event.inputs.appName }}
+            git submodule add ${{ github.event.inputs.url }} apps/${{ github.event.inputs.appName }}
           fi
 
           ## Now checkout the ref -- this step is the same regardless of add/update
