@@ -76,10 +76,10 @@ jobs:
           ## Variable commit message
           if [[ "${{ github.event.inputs.action }}" == "add" ]]; then
             git commit -m 'feat: Add ${{ github.event.inputs.appName }} at version ${{ github.event.inputs.version }}'
-            echo "title='feat: Add ${{ github.event.inputs.appName }} at version ${{ github.event.inputs.version }}'" >> $GITHUB_ENV
+            echo "title=feat: Add ${{ github.event.inputs.appName }} at version ${{ github.event.inputs.version }}" >> $GITHUB_ENV
           else
             git commit -m 'feat(${{ github.event.inputs.appName }}): Update to version ${{ github.event.inputs.version }}'
-            echo "title='feat(${{ github.event.inputs.appName }}): Update to version ${{ github.event.inputs.version }}'" >> $GITHUB_ENV
+            echo "title=feat(${{ github.event.inputs.appName }}): Update to version ${{ github.event.inputs.version }}" >> $GITHUB_ENV
           fi
 
           echo "::set-output name=commit::true"
