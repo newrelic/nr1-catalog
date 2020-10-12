@@ -74,7 +74,7 @@ jobs:
           git add apps/${{ github.event.inputs.appName }}
 
           ## Variable commit message
-          if [[ ${{ github.event.inputs.action }} == "add "]]; then
+          if [[ "${{ github.event.inputs.action }}" == "add" ]]; then
             git commit -m 'feat: Add ${{ github.event.inputs.appName }} at version ${{ github.event.inputs.version }}'
           else
             git commit -m 'feat(${{ github.event.inputs.appName }}): Update to version ${{ github.event.inputs.version }}'
