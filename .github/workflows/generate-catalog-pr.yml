@@ -96,7 +96,7 @@ jobs:
           base: master
           title: ${{ env.title }}
           body: |
-            Automated PR created by nr1-catalog deploy nerdlet. 
+            Automated PR created via New Relic One Catalog Manager. 
 
             Initiated by: @${{ github.event.inputs.user }}
           labels: |
