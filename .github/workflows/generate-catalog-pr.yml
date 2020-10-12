@@ -61,7 +61,7 @@ jobs:
 
           # Add / Update submodule
           ## If adding, need to `git submodule add` to get the submodule into .gitmodules
-          if [[ ${{ github.event.inputs.action }} == "add "]]; then
+          if [[ "${{ github.event.inputs.action }}" == "add" ]]; then
             git submodule add ${{ github.event.inputs.repoUrl }} apps/${{ github.event.inputs.appName }}
           fi
 
