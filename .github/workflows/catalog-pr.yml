@@ -351,7 +351,7 @@ jobs:
         uses: ./.github/actions/files-present-action
         with:
           path: ./${{ env.SUBMODULE_NAME }}
-          files: "README.md, .prettierrc.js, .eslintrc.js, .gitignore, package.json, LICENSE, THIRD_PARTY_NOTICES.md, CODE_OF_CONDUCT.md, cla.md, .github/ISSUE_TEMPLATE/bug_report.md, .github/ISSUE_TEMPLATE/enhancement.md, nr1.json, icon.png, catalog/config.json"
+          files: "README.md, .prettierrc.js, .eslintrc.js, .gitignore, package.json, LICENSE, THIRD_PARTY_NOTICES.md, cla.md, .github/ISSUE_TEMPLATE/bug_report.md, .github/ISSUE_TEMPLATE/enhancement.md, nr1.json, icon.png, catalog/config.json"
 
 # Revisit this idea at later time
 #      # Custom action to check for package.json version
