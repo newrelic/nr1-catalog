@@ -79,7 +79,7 @@ jobs:
             echo "Error: Could not determine submodule name"
             exit 1
           else
-            echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
+            echo "SUBMODULE_NAME=$SUB_NAME" >> $GITHUB_ENV
           fi
 
       - name: Check SUBMODULE_NAME was set
@@ -151,7 +151,7 @@ jobs:
             echo "Error: Could not determine submodule name"
             exit 1
           else
-            echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
+            echo "SUBMODULE_NAME=$SUB_NAME" >> $GITHUB_ENV
           fi
 
       - name: Check SUBMODULE_NAME was set
@@ -226,7 +226,7 @@ jobs:
             echo "Error: Could not determine submodule name from artifact"
             exit 1
           else
-            echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
+            echo "SUBMODULE_NAME=$SUB_NAME" >> $GITHUB_ENV
             echo SUBMODULE_NAME: $SUB_NAME
           fi
 
@@ -271,7 +271,7 @@ jobs:
             echo "Error: Could not determine submodule name from artifact"
             exit 1
           else
-            echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
+            echo "SUBMODULE_NAME=$SUB_NAME" >> $GITHUB_ENV
             echo SUBMODULE_NAME: $SUB_NAME
           fi
 
@@ -327,7 +327,7 @@ jobs:
             echo "Error: Could not determine submodule name from artifact"
             exit 1
           else
-            echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
+            echo "SUBMODULE_NAME=$SUB_NAME" >> $GITHUB_ENV
             echo SUBMODULE_NAME: $SUB_NAME
           fi
 
@@ -420,7 +420,7 @@ jobs:
             echo "Error: Could not determine submodule name from artifact"
             exit 1
           else
-            echo ::set-env name=SUBMODULE_NAME::$SUB_NAME
+            echo "SUBMODULE_NAME=$SUB_NAME" >> $GITHUB_ENV
             echo SUBMODULE_NAME: $SUB_NAME
           fi
 
