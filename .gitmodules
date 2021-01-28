@@ -76,4 +76,4 @@
 	url = https://github.com/newrelic/nr1-tag-improver
 [submodule "apps/nr1-quickstarts"]
 	path = apps/nr1-quickstarts
-	url = git@github.com:newrelic/nr1-quickstarts.git
+	url = https://github.com/newrelic/nr1-quickstarts.git
