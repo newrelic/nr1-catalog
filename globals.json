@@ -24,5 +24,6 @@
   "nr1-learn-nrql": "34b6d49a-d824-4f99-b337-1d9a5467094d",
   "nr1-nimbus": "f263d06c-9b88-4041-8a1c-8dacfdf4d2b1",
   "nr1-alerts-los-migrator": "6e48950e-bb5b-4c65-a3c3-045d83b4df46",
-  "nr1-tag-improver": "d5b8c492-0f3e-4686-8539-0ba2fc35ad1a"
+  "nr1-tag-improver": "d5b8c492-0f3e-4686-8539-0ba2fc35ad1a",
+  "nr1-quickstarts": "cd2fc286-eb15-443a-a09f-f08b5993796d"
 }
