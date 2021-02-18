@@ -529,6 +529,10 @@ jobs:
           else
             echo "skipping publish"
           fi
+          
+          # ArtifactRegistry needs a tiny delay (likely due to caching) after a publish before we submit the catalog
+          # Otherwise, the nr1 catalog:submit calls fail ¯\_(ツ)_/¯
+          sleep 30
 
           # submit catalog for US
           echo "Submitting catalog to nr1-apps-us..."
