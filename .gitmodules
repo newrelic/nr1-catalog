@@ -80,3 +80,6 @@
 [submodule "nr1-pathpoint"]
 	path = nr1-pathpoint
 	url = https://github.com/newrelic/nr1-pathpoint.git
+[submodule "apps/nr1-pathpoint"]
+	path = apps/nr1-pathpoint
+	url = https://github.com/newrelic/nr1-pathpoint.git
