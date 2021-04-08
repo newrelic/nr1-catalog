@@ -517,7 +517,6 @@ jobs:
           # Set nr1-apps-us as current profile
           nr1 profiles:default --name=nr1-apps-us
           nr1 profiles:list
-          nr1 catalog:info
 
           # Don't execute these commands until we're ready to validate they work
           # Publish to Prod Artifact Registry
