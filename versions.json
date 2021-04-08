@@ -24,5 +24,6 @@
   "nr1-nimbus": "1.0.3",
   "nr1-alerts-los-migrator": "1.2.5",
   "nr1-tag-improver": "1.1.2",
-  "nr1-quickstarts": "1.4.1"
+  "nr1-quickstarts": "1.4.1",
+  "nr1-pathpoint": "1.0.1"
 }
