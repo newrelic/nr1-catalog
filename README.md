@@ -50,3 +50,9 @@ When a `New Relic Open Source Maintainer` merges a PR to `master`, the reference
 - the New Relic One project is `published` to the `global catalog account`,
 - the New Relic One project is `deployed` to the `STABLE` channel of the `global catalog account`,
 - and the catalog registry is updated with the latest meta data
+
+### Use Case 4: Removal of an Application from the NR1 Catalog
+
+__Actor:__ Application Developer(s), New Relic Open Source Maintainers
+
+Please refer to this [WIKI](https://github.com/newrelic/nr1-catalog/wiki/New-Relic-One-App-Catalog-How-To-Guide#removing-an-app-from-the-nr1-catalog) for details on this process.
