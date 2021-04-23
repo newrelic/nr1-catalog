@@ -64,9 +64,6 @@
 [submodule "apps/nr1-nimbus"]
 	path = apps/nr1-nimbus
 	url = https://github.com/newrelic/nr1-nimbus.git
-[submodule "apps/nr1-alerts-los-migrator"]
-	path = apps/nr1-alerts-los-migrator
-	url = https://github.com/newrelic/nr1-alerts-los-migrator.git
 [submodule "apps/nr1-tag-improver"]
 	path = apps/nr1-tag-improver
 	url = https://github.com/newrelic/nr1-tag-improver
