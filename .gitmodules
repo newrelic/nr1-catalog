@@ -73,6 +73,6 @@
 [submodule "apps/nr1-pathpoint"]
 	path = apps/nr1-pathpoint
 	url = https://github.com/newrelic/nr1-pathpoint
-[submodule "nr1-victory-visualizations"]
-	path = nr1-victory-visualizations
+[submodule "apps/nr1-victory-visualizations"]
+	path = apps/nr1-victory-visualizations
 	url = https://github.com/newrelic/nr1-victory-visualizations.git
