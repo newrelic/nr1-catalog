@@ -6,7 +6,7 @@
   "nr1-deployment-analyzer": "0.3.11",
   "nr1-event-stream": "1.4.0",
   "nr1-integrations-manager": "1.8.2",
-  "nr1-github": "0.6.12",
+  "nr1-github": "0.6.13",
   "nr1-graphiql-notebook": "0.6.0",
   "nr1-groundskeeper": "0.10.2",
   "nr1-neon": "0.4.3",
