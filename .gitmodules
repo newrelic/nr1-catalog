@@ -82,3 +82,6 @@
 [submodule "apps/nr1-kentik-network-monitoring"]
 	path = apps/nr1-kentik-network-monitoring
 	url = https://github.com/newrelic/nr1-kentik-network-monitoring
+[submodule "apps/nr1-catalog"]
+	path = apps/nr1-catalog
+	url = https://github.com/newrelic/nr1-catalog.git
