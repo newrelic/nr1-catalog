@@ -79,3 +79,6 @@
 [submodule "apps/nr1-status-widgets"]
 	path = apps/nr1-status-widgets
 	url = https://github.com/newrelic/nr1-status-widgets
+[submodule "apps/nr1-kentik-network-monitoring"]
+	path = apps/nr1-kentik-network-monitoring
+	url = https://github.com/newrelic/nr1-kentik-network-monitoring.git
