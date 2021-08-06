@@ -45,10 +45,13 @@ From there, `New Relic Open Source Maintainers` will validate (using a combinati
 
 Once your PR has been approved and merged it will publish your app to Production.
 
+The catalog maintainers will then update your nerdpack's subscription model to `GLOBAL`*
+
+*for maintainers: see the hero FAQ doc
+
 To have your app available in the Staging and EU environments:
 Reach out to the platform services team with your app name, UUID (found in this repo's globals.json file), and desired version so they can tag it in Staging and EU.
 
-Finally, the platform services team will need to update the packs subscription model to `GLOBAL` in all environemnts, which will result in your app being available to all users.
 
 ### Use Case 2: PR to an existing submodule
 
