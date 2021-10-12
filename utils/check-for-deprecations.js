@@ -4,13 +4,16 @@ import pRetry from "p-retry";
 import fs from "fs";
 import * as core from "@actions/core";
 import * as github from "@actions/github";
+import { Octokit } from "@octokit/rest";
 const rawGlobalsdata = fs.readFileSync("../globals.json");
 const globals = JSON.parse(rawGlobalsdata);
 
+const pullRequestIntro =
+  "## Description \nThe following apps and deprecation messages have been logged in the platform. To prevent users of these apps seeing error toasts in the platform, please make the necessary changes.\nSee for more context:\n - https://docs.google.com/document/d/1kyaxHKxVqTcyaayKK3TG6MLXvje3Uc59RqX1kC9bjE0/edit#\n - https://nerdlife.datanerd.us/new-relic/logger-improvements-834d24dc-16c0-4e64-b6a1-95c03100e779\n\n## Apps\n";
 const timeframe = "2 months";
 const retries = 5;
-const ACCOUNT_ID = 1067061;
-const queryKey = "NRIQ-pzdsTV4tY9KlIGf5e85fFRpqa2UqYSu_";
+const ACCOUNT_ID = process.env.ACCOUNT_ID;
+const queryKey = process.env.NR_QUERY_KEY;
 const basePath = `https://staging-insights-api.newrelic.com/v1/accounts/${ACCOUNT_ID}/query?nrql=`;
 const options = {
   headers: {
@@ -18,10 +21,31 @@ const options = {
   },
 };
 
-const myToken = core.getInput("GITHUB_TOKEN");
-const octokit = github.getOctokit(myToken);
 const context = github.context;
+const octokit = new Octokit({
+  auth: process.env.GITHUB_TOKEN,
+});
 
+/**
+ * Stringifies an array for use in a NRQL query
+ * @param {Array} arr - An array of appName strings
+ * @returns {String} stringifiedArray
+ */
+const stringifyArrayForNrql = (arr) => {
+  const stringifiedArray = Object.values(arr).reduce((acc, name) => {
+    acc += ",";
+    return (acc += `'${name}'`);
+  }, "");
+
+  return stringifiedArray;
+};
+
+/**
+ * Fetches event data from the Insights Event API
+ * @param {String} url - The url to send the request to
+ * @param {Object} options - The request options
+ * @returns {Object} response.json()
+ */
 const getData = async (url, options) => {
   try {
     const response = await fetch(url, options);
@@ -38,32 +62,16 @@ const getData = async (url, options) => {
     return response.json();
   } catch (err) {
     core.setFailed("Action failed with error:");
-    console.error(err);
+    core.error(err);
     return [];
   }
 };
 
-const get2Data = async (url, options) => {
-  try {
-    const response = await fetch(url, options);
-
-    if (response.status <= 300) {
-      throw new pRetry.AbortError({
-        errorMessage: `Request failed after ${retries} retries`,
-        statusText: response.statusText,
-        status: response.status,
-        retries,
-        url,
-      });
-    }
-    return response.json();
-  } catch (err) {
-    core.setFailed("Action failed with error:");
-    console.error(err);
-    return [];
-  }
-};
-
+/**
+ * Replaces %s in messages with an array of arguments
+ * @param {Object} events - Events from API containing message and args
+ * @returns {Array} An array of unique messages with args replaced
+ */
 const replaceMessageArgs = async (events) => {
   const replacedMessages = await Promise.all(
     events.map(async (event) => {
@@ -77,52 +85,55 @@ const replaceMessageArgs = async (events) => {
       return message;
     })
   );
-
   const uniqueMessages = await getUniqueMessages(replacedMessages);
-
   return uniqueMessages;
 };
 
+/**
+ * Removes duplicates from an array
+ * @param {Array} messages - Messages with args replaced
+ * @returns {Array} An array of Unique Messages
+ */
 const getUniqueMessages = async (messages) => {
   const uniqueMessages = await Promise.all(
     messages.reduce((acc, current) => {
-      const x = acc.find((item) => item === current);
+      const dupe = acc.find((item) => item.message === current.message);
 
-      if (!x) {
-        return acc.concat([current]);
-      } else {
-        return acc;
+      if (!dupe) {
+        acc.push(current);
       }
+      return acc;
     }, [])
   );
 
   return uniqueMessages;
 };
 
+/**
+ * Fetches event data from the Insights Event API
+ * @param {Array} data - An array of objects containing appNames and messages
+ * @returns {String} pullRequestDescription
+ */
 const createPullRequestDescription = (data) => {
   const pullRequestDescription = data.reduce((acc, app) => {
     acc += `\n - [ ] ${app.appName}\n`;
     app.messages.forEach((message) => (acc += `      - [ ] ${message}\n`));
     return acc;
   }, "");
-  console.log(pullRequestDescription);
+
+  // core.info(pullRequestDescription);
   return pullRequestDescription;
 };
-
-const stringifyArrayForNrql = (arr) => {
-  const stringifiedArray = Object.values(arr).reduce((acc, name) => {
-    acc += ",";
-    return (acc += `'${name}'`);
-  }, "");
-
-  return stringifiedArray;
-};
-
+/**
+ * Fetches event data from the Insights Event API for each app
+ * @param {Array} apps - Array of appName strings
+ * @returns {Array} deprecationMessages that aren't empty
+ */
 const getDeprecationMessages = async (apps) => {
   const deprecationMessages = await Promise.all(
     apps.map(async (appName) => {
       const messageQuery = `${basePath}FROM LoggerAction SELECT message, args WHERE nerdpackName = '${appName}'  SINCE ${timeframe} ago`;
-      const messagesData = await pRetry(() => get2Data(messageQuery, options), {
+      const messagesData = await pRetry(() => getData(messageQuery, options), {
         retries,
       });
       if (!messagesData.results) {
@@ -137,7 +148,7 @@ const getDeprecationMessages = async (apps) => {
       };
     })
   );
-  console.log(deprecationMessages.filter(Boolean));
+  core.info(deprecationMessages.filter(Boolean));
   return deprecationMessages.filter(Boolean);
 };
 
@@ -161,21 +172,22 @@ const main = async () => {
 
   const appNames = appResults.map((app) => app.name);
   const deprecationMessages = await getDeprecationMessages(appNames);
-
   if (!deprecationMessages) {
     return;
   }
-
-  const pullRequestDescription =
-    createPullRequestDescription(deprecationMessages);
+  const pullRequestDescription = createPullRequestDescription(deprecationMessages);
 
   try {
     const newIssue = await octokit.rest.issues.create({
       ...context.repo,
-      title: "New issue!",
-      body: "Hello Universe!",
+      title: "[Platform Deprecations] The following apps require updates",
+      body: pullRequestIntro + pullRequestDescription,
     });
-  } catch (error) {}
+    core.info("New issue created successfully!");
+  } catch (error) {
+    core.setFailed("Failed to create new issue with error:");
+    core.error(error);
+  }
 };
 
 main();
