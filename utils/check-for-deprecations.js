@@ -187,6 +187,7 @@ const main = async () => {
       ...context.repo,
       title: "[Platform Deprecations] The following apps require updates",
       body: pullRequestIntro + pullRequestDescription,
+      labels: ['deprecations']
     });
     core.info("New issue created successfully!");
   } catch (error) {

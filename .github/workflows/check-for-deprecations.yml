@@ -1,6 +1,9 @@
 name: Check for Platform Deprecations in Apps
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+  schedule:
+    - cron:  '0 0 20 * *'
 
 jobs:
   check-for-deprecations:
@@ -13,16 +16,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 12
-          token: ${{ secrets.GITHUB_TOKEN }}
+          node-version: 14
   
       - name: Install dependencies
         run: cd utils && yarn install
 
       - name: Validate files
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.OPENSOURCE_BOT_TOKEN }}
           NR_QUERY_KEY: ${{ secrets.NR_QUERY_KEY }}
           NR_ACCOUNT_ID: ${{ secrets.NR_ACCOUNT_ID }}
         run: cd utils && yarn check-for-deprecations
-
