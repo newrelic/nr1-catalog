@@ -10,7 +10,7 @@ const globals = JSON.parse(rawGlobalsdata);
 
 const pullRequestIntro =
   "## Description \nThe following apps and deprecation messages have been logged in the platform. To prevent users of these apps seeing error toasts in the platform, please make the necessary changes.\nSee for more context:\n - https://docs.google.com/document/d/1kyaxHKxVqTcyaayKK3TG6MLXvje3Uc59RqX1kC9bjE0/edit#\n - https://nerdlife.datanerd.us/new-relic/logger-improvements-834d24dc-16c0-4e64-b6a1-95c03100e779\n\n## Apps\n";
-const timeframe = "2 months";
+const timeframe = "1 month";
 const retries = 5;
 const ACCOUNT_ID = process.env.NR_ACCOUNT_ID;
 const queryKey = process.env.NR_QUERY_KEY;
