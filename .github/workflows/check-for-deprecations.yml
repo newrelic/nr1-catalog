@@ -23,7 +23,7 @@ jobs:
 
       - name: Validate files
         env:
-          GITHUB_TOKEN: ${{ secrets.OPENSOURCE_BOT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NR_QUERY_KEY: ${{ secrets.NR_QUERY_KEY }}
           NR_ACCOUNT_ID: ${{ secrets.NR_ACCOUNT_ID }}
         run: cd utils && yarn check-for-deprecations
