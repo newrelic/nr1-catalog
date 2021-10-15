@@ -159,7 +159,7 @@ const main = async () => {
   const appNameString = await stringifyArrayForNrql(appNameArray);
   const appNrqlQuery = `FROM LoggerAction SELECT uniqueCount(message) WHERE nerdpackId IN (${appNameString.substring(
     1
-  )}) FACET nerdpackName SINCE ${timeframe} ago LIMIT 1000`;
+  )}) AND actionType = 'deprecate' FACET nerdpackName SINCE ${timeframe} ago LIMIT 1000`;
 
   const url = basePath + appNrqlQuery;
 
