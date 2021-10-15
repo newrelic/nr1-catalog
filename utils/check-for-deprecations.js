@@ -134,7 +134,7 @@ const createPullRequestDescription = (data) => {
 const getDeprecationMessages = async (apps) => {
   const deprecationMessages = await Promise.all(
     apps.map(async (appName) => {
-      const messageQuery = `${basePath}FROM LoggerAction SELECT message, args WHERE nerdpackName = '${appName}'  SINCE ${timeframe} ago LIMIT 1000`;
+      const messageQuery = `${basePath}FROM LoggerAction SELECT message, args WHERE nerdpackName = '${appName}' AND actionType = 'deprecate' SINCE ${timeframe} ago LIMIT 1000`;
       const messagesData = await pRetry(() => getData(messageQuery, options), {
         retries,
       });
