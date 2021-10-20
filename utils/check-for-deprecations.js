@@ -28,7 +28,7 @@ const octokit = new Octokit({
 
 /**
  * Stringifies an array for use in a NRQL query
- * @param {Array} arr - An array of appName strings
+ * @param {String[]} arr - An array of appName strings
  * @returns {String} stringifiedArray
  */
 const stringifyArrayForNrql = (arr) => {
@@ -70,7 +70,7 @@ const getData = async (url, options) => {
 /**
  * Replaces %s in messages with an array of arguments
  * @param {Object} events - Events from API containing message and args
- * @returns {Array} An array of unique messages with args replaced
+ * @returns {String[]} An array of unique messages with args replaced
  */
 const replaceMessageArgs = (events) => {
   const replacedMessages = events.map((event) => {
@@ -90,8 +90,8 @@ const replaceMessageArgs = (events) => {
 
 /**
  * Removes duplicates from an array
- * @param {Array} messages - Messages with args replaced
- * @returns {Array} An array of Unique Messages
+ * @param {String[]} messages - Messages with args replaced
+ * @returns {String[]} An array of Unique Messages
  */
 const getUniqueMessages = (messages) => {
   const uniqueMessages = messages.reduce((acc, current) => {
@@ -109,7 +109,7 @@ const getUniqueMessages = (messages) => {
 
 /**
  * Fetches event data from the Insights Event API
- * @param {Array} data - An array of objects containing appNames and messages
+ * @param {Object[]} data - An array of objects containing appNames and messages
  * @returns {String} pullRequestDescription
  */
 const createPullRequestDescription = (data) => {
