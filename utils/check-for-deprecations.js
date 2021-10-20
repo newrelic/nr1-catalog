@@ -115,7 +115,7 @@ const getUniqueMessages = (messages) => {
 const createPullRequestDescription = (data) => {
   const pullRequestDescription = data.reduce((acc, app) => {
     acc += `\n - [ ] ${app.appName}\n`;
-    app.messages.forEach((message) => (acc += `      - [ ] ${message}\n`));
+    app.messages.forEach((message) => (acc += `\t- [ ] ${message}\n`));
     return acc;
   }, "");
 
