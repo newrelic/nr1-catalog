@@ -12,8 +12,8 @@ const pullRequestIntro =
   "## Description \nThe following apps and deprecation messages have been logged in the platform. To prevent users of these apps seeing error toasts in the platform, please make the necessary changes.\nSee for more context:\n - https://docs.google.com/document/d/1kyaxHKxVqTcyaayKK3TG6MLXvje3Uc59RqX1kC9bjE0/edit#\n - https://nerdlife.datanerd.us/new-relic/logger-improvements-834d24dc-16c0-4e64-b6a1-95c03100e779\n\n## Apps\n";
 const timeframe = "1 month";
 const retries = 5;
-const ACCOUNT_ID = process.env.NR_ACCOUNT_ID;
-const queryKey = process.env.NR_QUERY_KEY;
+const ACCOUNT_ID = 1067061;
+const queryKey = 'NRIQ-pzdsTV4tY9KlIGf5e85fFRpqa2UqYSu_';
 const basePath = `https://staging-insights-api.newrelic.com/v1/accounts/${ACCOUNT_ID}/query?nrql=`;
 const options = {
   headers: {
@@ -72,21 +72,19 @@ const getData = async (url, options) => {
  * @param {Object} events - Events from API containing message and args
  * @returns {Array} An array of unique messages with args replaced
  */
-const replaceMessageArgs = async (events) => {
-  const replacedMessages = await Promise.all(
-    events.map(async (event) => {
+const replaceMessageArgs = (events) => {
+  const replacedMessages = events.map((event) => {
       const args = JSON.parse(event.args);
 
-      let message = await args.reduce((acc, arg) => {
+      let message = args.reduce((acc, arg) => {
         acc = acc.replace(/%s/, arg);
         return acc;
       }, event.message);
 
       return message;
-    })
-  );
+    });
 
-  const uniqueMessages = await getUniqueMessages(replacedMessages);
+  const uniqueMessages = getUniqueMessages(replacedMessages);
   return uniqueMessages;
 };
 
@@ -95,9 +93,8 @@ const replaceMessageArgs = async (events) => {
  * @param {Array} messages - Messages with args replaced
  * @returns {Array} An array of Unique Messages
  */
-const getUniqueMessages = async (messages) => {
-  const uniqueMessages = await Promise.all(
-    messages.reduce((acc, current) => {
+const getUniqueMessages = (messages) => {
+  const uniqueMessages = messages.reduce((acc, current) => {
       const dupe = acc.find((item) => item === current);
 
       if (!dupe) {
@@ -105,8 +102,7 @@ const getUniqueMessages = async (messages) => {
       } else {
         return acc;
       }
-    }, [])
-  );
+    }, []);
 
   return uniqueMessages;
 };
@@ -128,7 +124,7 @@ const createPullRequestDescription = (data) => {
 
 /**
  * Fetches event data from the Insights Event API for each app
- * @param {Array} apps - Array of appName strings
+ * @param {String[]} apps - Array of appNames
  * @returns {Array} deprecationMessages that aren't empty
  */
 const getDeprecationMessages = async (apps) => {
@@ -142,7 +138,7 @@ const getDeprecationMessages = async (apps) => {
         return null;
       }
       const { events } = messagesData.results[0];
-      const messages = await replaceMessageArgs(events);
+      const messages = replaceMessageArgs(events);
 
       return {
         appName,
@@ -150,7 +146,7 @@ const getDeprecationMessages = async (apps) => {
       };
     })
   );
-  core.info(deprecationMessages.filter(Boolean));
+
   return deprecationMessages.filter(Boolean);
 };
 
