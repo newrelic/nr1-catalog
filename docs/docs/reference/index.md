@@ -9,7 +9,7 @@ This page contains details of the various requirements for Nerdpacks that are in
 Applications that are globally installable via the New Relic One Catalog must have the following characteristics:
 
 - They have a referenced support channel via an online forum, issue tracker, email support, or all three
-- They have workflows that support empty-state launch of the application *or else* function without setup and configuration
+- They have workflows that support empty-state launch of the application _or else_ function without setup and configuration
 - They comply with New Relic licensing and security requirements
 - They have received appropriate verification for code, documentation, and design quality
 
@@ -28,17 +28,18 @@ In addition to the Nerdpack structure described in [New Relic documentation](htt
     - [ ] `email` a **valid email address** of the team supporting the application (for New Relic, that generally takes the form of `opensource+<repo name>@newrelic.com`)
     - [ ] `community` URL to a support thread, forum, or website for troubleshooting and usage support
   - [ ] `whatsNew` a bulleted list of customer-facing changes in this version, less than **500** characters using carriage returns for formatting and no markdown or HTML markup
+  - [ ] `categoryTerms` a list of terms that matches the Nerdpack to a category in the Instant Observability catalog. A mapping of accepted terms for categories can be found by querying nerdgraph [US](https://api.newrelic.com/graphiql?#query=%7B%0A%20%20actor%20%7B%0A%20%20%20%20nr1Catalog%20%7B%0A%20%20%20%20%20%20categories%20%7B%0A%20%20%20%20%20%20%20%20displayName%0A%20%20%20%20%20%20%20%20terms%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A)| [EU](https://api.eu.newrelic.com/graphiql?#query=%7B%0A%20%20actor%20%7B%0A%20%20%20%20nr1Catalog%20%7B%0A%20%20%20%20%20%20categories%20%7B%0A%20%20%20%20%20%20%20%20displayName%0A%20%20%20%20%20%20%20%20terms%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A)
+  - [ ] `keywords` a list of relevant words to help the search discoverability of the Nerdpack, cannot exceed **50** words, each word cannot exceed **64** characters
 
 _Note: [Click here for a guide to capturing screenshots that adhere to the catalog requirements](./guides/capturing-screenshots)._
-
 
 - [ ] `screenshots` directory containing at most 6 image files that each comply with the following guidance:
   - [ ] 3:2 aspect ratio
   - [ ] .png format
   - [ ] landscape orientation
   - [ ] at least 1600px wide
-- [ ] `documentation.md` a markdown file  containing no HTML markup nor any markdown images ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/catalog/documentation.md))
-- [ ] (optional) `additionalInfo.md` a markdown file  containing no HTML markup nor any markdown images ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/catalog/additionalInfo.md))
+- [ ] `documentation.md` a markdown file containing no HTML markup nor any markdown images ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/catalog/documentation.md))
+- [ ] (optional) `additionalInfo.md` a markdown file containing no HTML markup nor any markdown images ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/catalog/additionalInfo.md))
 
 ## [Supported browsers](#supported-browsers)
 
@@ -48,8 +49,8 @@ Items in the NR1 catalog must work in all of New Relic’s [supported browsers](
 
 The following practices are explicitly disallowed
 
-* Hard-coded account ids, user ids, and other identifiers that should be retrieved via the NR1 api based on the user viewing the nerdpack.
-* Hard-coded API keys, access tokens, or other secure credentials
+- Hard-coded account ids, user ids, and other identifiers that should be retrieved via the NR1 api based on the user viewing the nerdpack.
+- Hard-coded API keys, access tokens, or other secure credentials
 
 ### Pinned library versions
 
@@ -69,8 +70,6 @@ The following libraries are pinned to specific versions and defined as externals
     <td>3.5.17</td>
   </tr>
 </table>
-
-
 
 ## [Versioning and Changelogs](#versioning-and-changelogs)
 
@@ -148,19 +147,18 @@ Projects must be developed using the current required version of React (**16.6.3
 - Do not rely on `setState` changes to immediately reflect in `this.state`, because although it is a synchronous function call, the state changes are not applied to `this.state` synchronously, they are queued and batch applied.
 - Do utilize the `prevState` form or 2nd argument callback of `setState` for use-cases where you need guaranteed access to `prevState` or the newly updated `state`.
 - Do not make imperative data fetching api calls (i.e. `NerdGraphQuery.query`) in the `render` method, this leads to significant performance issues.
-- Do use declarative data fetching components or use imperative calls in the React component lifecycle methods. Mutations are acceptable. *Short rule: Queries declarative (i.e. `<AccountsQuery>` at `render` method), mutations imperative (i.e. `UserStorageMutation.mutate(...)` on your `onClick`).*
+- Do use declarative data fetching components or use imperative calls in the React component lifecycle methods. Mutations are acceptable. _Short rule: Queries declarative (i.e. `<AccountsQuery>` at `render` method), mutations imperative (i.e. `UserStorageMutation.mutate(...)` on your `onClick`)._
 - In general, extend from `PureComponent` rather than `Component`, since it provides out-of-the-box shallow comparison, and will only re-render if a prop or state item changes.
 - If you extend `Component`, you MUST implement `shouldComponentUpdate`.
-
 
 ## [NerdStorage](#nerdstorage)
 
 Items in the NR1 catalog may use NerdStorage if their storage needs meet the following requirements:
 
-* Relatively small (see [limits in the NerdStorage documentation](https://developer.newrelic.com/build-tools/new-relic-one-applications/nerdstorage)).
-* Aligns with guidance specific to the type of data being stored (see table below).
-* Works well with the scoping available in NerdStorage (user, account, or entity).
-* Data is unlikely to require structured migrations in the future.
+- Relatively small (see [limits in the NerdStorage documentation](https://developer.newrelic.com/build-tools/new-relic-one-applications/nerdstorage)).
+- Aligns with guidance specific to the type of data being stored (see table below).
+- Works well with the scoping available in NerdStorage (user, account, or entity).
+- Data is unlikely to require structured migrations in the future.
 
 Guidance for usage of NerdStorage varies based on the type of data you plan to store. Consult the table below for guidance about specific data types.
 
@@ -193,69 +191,71 @@ We're working to develop a standard around code coverage and testing frameworks.
 
 ## [Security Requirements](#security-requirements)
 
-* A Pull Request must pass an automated security scan of the code and referenced libraries to be accepted.
-* The following practices are explicitly disallowed:
-    * The inclusion of additional SCRIPT tags
-    * Use of the *eval* command, the use of Function as a constructor (i.e. new Function(...))
-    * Be extremely careful when using dangerouslySetInnerHTML in React. In general, avoid it if you don’t have a solid reason for using it.
+- A Pull Request must pass an automated security scan of the code and referenced libraries to be accepted.
+- The following practices are explicitly disallowed:
 
-* Code that appears to behave dangerously or in a manner different than documented in the README should be escalated to the Security team during code verification. Examples include:
-    * Writing an unspecified object of data to NerdStorage
-    * Interacting with an outside URL w/o clear documentation around what is being retrieved
-    * Writing data to an outside source
+  - The inclusion of additional SCRIPT tags
+  - Use of the _eval_ command, the use of Function as a constructor (i.e. new Function(...))
+  - Be extremely careful when using dangerouslySetInnerHTML in React. In general, avoid it if you don’t have a solid reason for using it.
+
+- Code that appears to behave dangerously or in a manner different than documented in the README should be escalated to the Security team during code verification. Examples include:
+  - Writing an unspecified object of data to NerdStorage
+  - Interacting with an outside URL w/o clear documentation around what is being retrieved
+  - Writing data to an outside source
 
 ## [Legal Requirements](#legal-requirements)
 
-* The Nerdpack and it’s dependencies must but licensed under a permissive license such as Apache, MIT, BSD or similar license.
+- The Nerdpack and it’s dependencies must but licensed under a permissive license such as Apache, MIT, BSD or similar license.
 
-* No code that leverages [viral license](https://en.wikipedia.org/wiki/Viral_license) projects will be accepted for inclusion in the Catalog. Only use permissively licensed open source packages unless given explicit exception.
+- No code that leverages [viral license](https://en.wikipedia.org/wiki/Viral_license) projects will be accepted for inclusion in the Catalog. Only use permissively licensed open source packages unless given explicit exception.
 
 ## [Design Requirements](#design-requirements)
 
 The following practices are explicitly disallowed
 
-* You MUST NOT override / amend core NR1 styles
+- You MUST NOT override / amend core NR1 styles
 
 ## [Design Guidelines](#design-guidelines)
 
-* Nerdpack developers SHOULD attempt to make use of the [NR1 visual components](https://developer.newrelic.com/client-side-sdk/index.html#components/BlockText) whenever possible. Usage of third party visual libraries is allowed, but they may not be able to take advantage of ongoing platform improvements and features.
+- Nerdpack developers SHOULD attempt to make use of the [NR1 visual components](https://developer.newrelic.com/client-side-sdk/index.html#components/BlockText) whenever possible. Usage of third party visual libraries is allowed, but they may not be able to take advantage of ongoing platform improvements and features.
 
 ## [Package Naming](#package-naming)
 
-* Projects SHOULD NOT include the word *New Relic *or *newrelic* in package name or title.
-* Projects SHOULD be named with human-readable, functionally descriptive names.
-* Project names MUST be unique within the catalog to support the internal project mapping of submodules to uuid’s.
-* Project names SHOULD use title case (e.g. "Deployment Analyzer", not “Deployment analyzer”).
-* Profanity or crude language is disallowed.
+- Projects SHOULD NOT include the word *New Relic *or _newrelic_ in package name or title.
+- Projects SHOULD be named with human-readable, functionally descriptive names.
+- Project names MUST be unique within the catalog to support the internal project mapping of submodules to uuid’s.
+- Project names SHOULD use title case (e.g. "Deployment Analyzer", not “Deployment analyzer”).
+- Profanity or crude language is disallowed.
 
 ## [Documentation Guidelines](#documentation-guidelines)
 
-* Nerdpack developers MUST provide the following metadata for each version of their application
-    * tagline for the application (at most 30 characters)
-    * source repository URL (at most 1,000 characters)
-    * application details (at most 1,000 characters)
-    * semantic Version number (e.g. 1.1.0)
-    * description of what’s new in the current version (at most 500 characters)
-    * At least one of the following support channels:
-        * Email (must be a valid email address)
-        * Issues (URL)
-        * Community (URL)
-    * Icon (must be a .png with dimensions 48x48)
+- Nerdpack developers MUST provide the following metadata for each version of their application
 
-* Nerdpack developers SHOULD also provide the following metadata for each version of their application
-    * Screenshots
-        * At most 6
-        * 3:2 aspect ratio
-        * .png
-        * Landscape
-        * At least 1600px wide
-        * At least 72ppi
-    * Documentation file (in Markdown; images and raw HTML not allowed)
-    * Additional information (in Markdown; images and raw HTML not allowed)
+  - tagline for the application (at most 30 characters)
+  - source repository URL (at most 1,000 characters)
+  - application details (at most 1,000 characters)
+  - semantic Version number (e.g. 1.1.0)
+  - description of what’s new in the current version (at most 500 characters)
+  - At least one of the following support channels:
+    - Email (must be a valid email address)
+    - Issues (URL)
+    - Community (URL)
+  - Icon (must be a .png with dimensions 48x48)
+
+- Nerdpack developers SHOULD also provide the following metadata for each version of their application
+  - Screenshots
+    - At most 6
+    - 3:2 aspect ratio
+    - .png
+    - Landscape
+    - At least 1600px wide
+    - At least 72ppi
+  - Documentation file (in Markdown; images and raw HTML not allowed)
+  - Additional information (in Markdown; images and raw HTML not allowed)
 
 Your repository must include a README.md file that provides instructions making it easy for a code reviewer or contributor to:
 
-* Understand what the project does
-* Clone and set up the code (including installing dependencies) for local review
-* Run tests
-* Run the nerdpack locally
+- Understand what the project does
+- Clone and set up the code (including installing dependencies) for local review
+- Run tests
+- Run the nerdpack locally
