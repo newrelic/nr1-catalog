@@ -158,4 +158,4 @@ _Note: this is for New Relic projects only._
 
 - [ ] JavaScript in your nerdpack must use ES6
 - [ ] The code should make use of the NR1 components. Whenever possible, the code should avoid using an external OSS component in favor of highlighting the NR1 SDK's capabilities
-- [ ] The code should make use of the NR1 `Stack` and `Grid` components for layout, as these components respect spacing automatically (Note that CSS flexbox and grid are more complex than what they seem at first and sometimes they’re a bit tricky to get exact results.)
+- [ ] The code should make use of the NR1 `Stack` and `Grid` components for layout, as these components respect spacing automatically (_Note that CSS flexbox and grid are more complex than what they seem at first and sometimes they’re a bit tricky to get exact results._)
