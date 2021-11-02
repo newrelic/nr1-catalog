@@ -2,8 +2,8 @@
 
 ## [Nerdpack Approver](#nerdpack-approver)
 
-- Provide the **GitHub handle** for the final Approver of this Nerdpack in your Pull Request. _Note: this is the person who will need to provide explicit sign off for the change ahead of deployment._
-- If known, what is the requested date for the deployment of this functionality? _Note: this information is regarded as a courtesy. Neither New Relic nor the **nr1-catalog maintainer team** are under any obligation to meet this request. It simply provides a useful target for completion._
+- Provide the **GitHub handle** for the final Approver of this Nerdpack in your Pull Request. \*Note: this is the person who will need to provide explicit sign off for the change ahead of deployment.\_
+- If known, what is the requested date for the deployment of this functionality? \*Note: this information is regarded as a courtesy. Neither New Relic nor the **nr1-catalog maintainer team** are under any obligation to meet this request. It simply provides a useful target for completion.\_
 
 ### [Functional Changes](#functional-changes)
 
@@ -12,7 +12,7 @@ List the functional changes in the pull request, highlighting the major features
 - Major feature #1
 - Major feature #2
 
-_Note: The rest of this template is a checklist and guide for ensuring that your pull request is swiftly and consistently approved._
+\*Note: The rest of this template is a checklist and guide for ensuring that your pull request is swiftly and consistently approved.\_
 
 ## [Project Naming Guidance](#project-naming-guidance)
 
@@ -101,7 +101,7 @@ _Note: [Click here for a guide to capturing screenshots that adhere to the catal
 
 ## [Code Guidance](#code-guidance)
 
-_The following are meant to highlight the types of common issues that can degraded performance for your application._
+\*The following are meant to highlight the types of common issues that can degraded performance for your application.\_
 
 - [ ] The code does not violate the pinned versions of libraries for `react` and `react-dom` of **16.6.3** and `d3` of **3.5.17**
 - [ ] The code does not contain hard-coded New Relic account ids, user ids, or other identifiers that should be retrieved via the NR1 API based on the user viewing the nerdpack
@@ -137,7 +137,7 @@ Where appropriate, the code follows the guidance regarding [NerdStorage limits a
 
 ## [New Relic only](#new-relic-only)
 
-_Note: These concluding sections of instruction are for projects submitted by New Relic teams. If that doesn't apply to you, ignore this section in your PR._
+\*Note: These concluding sections of instruction are for projects submitted by New Relic teams. If that doesn't apply to you, ignore this section in your PR.\_
 
 - [ ] a standard `CONTRIBUTING.md` file in the root of the project ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/CONTRIBUTING.md))
 - [ ] a standard `CODE_OF_CONDUCT.md` file in the root of the project ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/CODE_OF_CONDUCT.md))
@@ -154,7 +154,7 @@ _Note: These concluding sections of instruction are for projects submitted by Ne
 
 ### Additional Code Guidance for New Relic
 
-_Note: this is for New Relic projects only._
+\*Note: this is for New Relic projects only.\_
 
 - [ ] JavaScript in your nerdpack must use ES6
 - [ ] The code should make use of the NR1 components. Whenever possible, the code should avoid using an external OSS component in favor of highlighting the NR1 SDK's capabilities
