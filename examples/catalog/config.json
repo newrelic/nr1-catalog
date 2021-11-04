@@ -14,6 +14,6 @@
     }
   },
   "whatsNew": "You can now sort your cloud dependencies with a great new look using bullets and /n",
-  "categoryTerms": ["categoryTerm1", "categoryTerm2"],
+  "categoryTerms": ["browser agent", "infrastructure"],
   "keywords":["any", "keyword"]
 }
