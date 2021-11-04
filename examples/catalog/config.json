@@ -13,5 +13,7 @@
       "url": "<LINK TO EXPLORERS HUB TOPIC>"
     }
   },
-  "whatsNew": "You can now sort your cloud dependencies with a great new look using bullets and /n"
+  "whatsNew": "You can now sort your cloud dependencies with a great new look using bullets and /n",
+  "categoryTerms": ["browser agent", "infrastructure"],
+  "keywords":["any", "keyword"]
 }

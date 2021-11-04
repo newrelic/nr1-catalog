@@ -2,8 +2,8 @@
 
 ## [Nerdpack Approver](#nerdpack-approver)
 
-- Provide the **GitHub handle** for the final Approver of this Nerdpack in your Pull Request. *Note: this is the person who will need to provide explicit sign off for the change ahead of deployment.*
-- If known, what is the requested date for the deployment of this functionality? *Note: this information is regarded as a courtesy. Neither New Relic nor the **nr1-catalog maintainer team** are under any obligation to meet this request. It simply provides a useful target for completion.*
+- Provide the **GitHub handle** for the final Approver of this Nerdpack in your Pull Request. _Note: this is the person who will need to provide explicit sign off for the change ahead of deployment._
+- If known, what is the requested date for the deployment of this functionality? _Note: this information is regarded as a courtesy. Neither New Relic nor the **nr1-catalog maintainer team** are under any obligation to meet this request. It simply provides a useful target for completion._
 
 ### [Functional Changes](#functional-changes)
 
@@ -12,7 +12,7 @@ List the functional changes in the pull request, highlighting the major features
 - Major feature #1
 - Major feature #2
 
-*Note: The rest of this template is a checklist and guide for ensuring that your pull request is swiftly and consistently approved.*
+_Note: The rest of this template is a checklist and guide for ensuring that your pull request is swiftly and consistently approved._
 
 ## [Project Naming Guidance](#project-naming-guidance)
 
@@ -71,7 +71,7 @@ Your linked submodule repository must contain:
   - [ ] a `scripts.eslint-fix` command
 - [ ] a valid `LICENSE` file containing an approved permissive license (ex. Apache 2, MIT, BSD) ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/LICENSE))
 
-*Note: we do not permit projects that contain **any** [viral licensing](https://en.wikipedia.org/wiki/Viral_license) into the New Relic One Catalog.*
+_Note: we do not permit projects that contain **any** [viral licensing](https://en.wikipedia.org/wiki/Viral_license) into the New Relic One Catalog._
 
 ### [Catalog Metadata](#catalog-metadata)
 
@@ -86,6 +86,8 @@ Your project must contain a `catalog` directory with the following:
     - [ ] `email` a **valid email address** of the team supporting the application (for New Relic, that generally takes the form of `opensource+<repo name>@newrelic.com`)
     - [ ] `community` URL to a support thread, forum, or website for troubleshooting and usage support
   - [ ] `whatsNew` a bulleted list of customer-facing changes in this version, less than **500** characters using carriage returns for formatting and no markdown or HTML markup
+  - [ ] `categoryTerms` a list of terms that matches the Nerdpack to a category in the Instant Observability catalog. A mapping of accepted terms for categories can be found by querying NerdGraph [US](https://api.newrelic.com/graphiql?#query=%7B%0A%20%20actor%20%7B%0A%20%20%20%20nr1Catalog%20%7B%0A%20%20%20%20%20%20categories%20%7B%0A%20%20%20%20%20%20%20%20displayName%0A%20%20%20%20%20%20%20%20terms%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A) | [EU](https://api.eu.newrelic.com/graphiql?#query=%7B%0A%20%20actor%20%7B%0A%20%20%20%20nr1Catalog%20%7B%0A%20%20%20%20%20%20categories%20%7B%0A%20%20%20%20%20%20%20%20displayName%0A%20%20%20%20%20%20%20%20terms%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D%0A)
+  - [ ] `keywords` a list of relevant words to help the search discoverability of the Nerdpack, cannot exceed **50** words, each word cannot exceed **64** characters
 
 _Note: [Click here for a guide to capturing screenshots that adhere to the catalog requirements](./guides/capturing-screenshots)._
 
@@ -94,12 +96,12 @@ _Note: [Click here for a guide to capturing screenshots that adhere to the catal
   - [ ] .png format
   - [ ] landscape orientation
   - [ ] at least 1600px wide
-- [ ] `documentation.md` a markdown file  containing no HTML markup nor any markdown images ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/catalog/documentation.md))
-- [ ] (optional) `additionalInfo.md` a markdown file  containing no HTML markup nor any markdown images ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/catalog/additionalInfo.md))
+- [ ] `documentation.md` a markdown file containing no HTML markup nor any markdown images ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/catalog/documentation.md))
+- [ ] (optional) `additionalInfo.md` a markdown file containing no HTML markup nor any markdown images ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/catalog/additionalInfo.md))
 
 ## [Code Guidance](#code-guidance)
 
-*The following are meant to highlight the types of common issues that can degraded performance for your application.*
+_The following are meant to highlight the types of common issues that can degraded performance for your application._
 
 - [ ] The code does not violate the pinned versions of libraries for `react` and `react-dom` of **16.6.3** and `d3` of **3.5.17**
 - [ ] The code does not contain hard-coded New Relic account ids, user ids, or other identifiers that should be retrieved via the NR1 API based on the user viewing the nerdpack
@@ -133,10 +135,9 @@ Where appropriate, the code follows the guidance regarding [NerdStorage limits a
 - [ ] The code does not store third-party SaaS credentials in `NerdStorage` **UNLESS** a warning about the lack of encryption at rest and possibility of access by New Relic employees is prominently displayed, such as in the GitHub README ([example here](https://github.com/newrelic/nr1-github/blob/master/README.md#using-github-personal-access-tokens)) and/or in documentation portion of the New Relic One Catalog documentation ([example here](https://github.com/newrelic/nr1-github/blob/master/catalog/documentation.md#using-github-personal-access-tokens))
 - [ ] The code does not store personal data ([PII](https://www.gdpreu.org/the-regulation/key-concepts/personal-data/)) in `NerdStorage`
 
-
 ## [New Relic only](#new-relic-only)
 
-*Note: These concluding sections of instruction are for projects submitted by New Relic teams. If that doesn't apply to you, ignore this section in your PR.*
+_Note: These concluding sections of instruction are for projects submitted by New Relic teams. If that doesn't apply to you, ignore this section in your PR._
 
 - [ ] a standard `CONTRIBUTING.md` file in the root of the project ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/CONTRIBUTING.md))
 - [ ] a standard `CODE_OF_CONDUCT.md` file in the root of the project ([example here](https://github.com/newrelic/nr1-catalog/tree/master/examples/CODE_OF_CONDUCT.md))
@@ -153,8 +154,8 @@ Where appropriate, the code follows the guidance regarding [NerdStorage limits a
 
 ### Additional Code Guidance for New Relic
 
-*Note: this is for New Relic projects only.*
+_Note: this is for New Relic projects only._
 
 - [ ] JavaScript in your nerdpack must use ES6
 - [ ] The code should make use of the NR1 components. Whenever possible, the code should avoid using an external OSS component in favor of highlighting the NR1 SDK's capabilities
-- [ ] The code should make use of the NR1 `Stack` and `Grid` components for layout, as these components respect spacing automatically (*Note that CSS flexbox and grid are more complex than what they seem at first and sometimes they’re a bit tricky to get exact results.*)
+- [ ] The code should make use of the NR1 `Stack` and `Grid` components for layout, as these components respect spacing automatically (_Note that CSS flexbox and grid are more complex than what they seem at first and sometimes they’re a bit tricky to get exact results._)
