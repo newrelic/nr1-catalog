@@ -101,10 +101,6 @@ jobs:
             Initiated by: @${{ github.event.inputs.user }}
           labels: |
             Automated PR
-          assignees: |
-            jbeveland27
-          reviewers: |
-            jbeveland27
 
       - name: Check outputs
         run: |
