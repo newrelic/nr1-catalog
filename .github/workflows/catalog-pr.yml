@@ -103,7 +103,7 @@ jobs:
         if: env.SUBMODULE_NAME != ''
         uses: actions/setup-node@v1
         with:
-          node-version: "12.x"
+          node-version: 16
 
       - name: Install Dependencies
         if: env.SUBMODULE_NAME != ''
@@ -175,7 +175,7 @@ jobs:
         if: env.SUBMODULE_NAME != ''
         uses: actions/setup-node@v1
         with:
-          node-version: "12.x"
+          node-version: 16
 
       - name: Install Dependencies
         if: env.SUBMODULE_NAME != ''
@@ -280,7 +280,7 @@ jobs:
         if: env.SUBMODULE_NAME != ''
         uses: actions/setup-node@v1
         with:
-          node-version: "12.x"
+          node-version: 16
 
       - name: Install Dependencies
         if: env.SUBMODULE_NAME != ''
@@ -336,7 +336,7 @@ jobs:
         if: env.SUBMODULE_NAME != ''
         uses: actions/setup-node@v1
         with:
-          node-version: "12.x"
+          node-version: 16
 
       # Custom action to check for OSS files
       - name: compile files-present-action
@@ -437,7 +437,7 @@ jobs:
         if: env.SUBMODULE_NAME != ''
         uses: actions/setup-node@v1
         with:
-          node-version: "12.x"
+          node-version: 16
 
       - name: compile map-global-uuid
         if: env.SUBMODULE_NAME != ''
