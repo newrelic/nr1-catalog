@@ -4,7 +4,7 @@
   "nr1-container-explorer": "0.12.0",
   "nr1-datalyzer": "0.9.1",
   "nr1-deployment-analyzer": "0.5.2",
-  "nr1-event-stream": "1.6.0",
+  "nr1-event-stream": "1.6.1",
   "nr1-integrations-manager": "1.10.0",
   "nr1-github": "0.9.2",
   "nr1-graphiql-notebook": "0.7.0",
