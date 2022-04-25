@@ -491,7 +491,7 @@ jobs:
 
       - name: Push Commit
         if: steps.uuid.outputs.globals-updated == 'true' || steps.versions.outputs.versions_updated == 'true'
-        uses: ad-m/github-push-action@v0.5.0
+        uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
