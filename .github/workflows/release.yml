@@ -1,0 +1,240 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'apps/**'
+env:
+  THIRD_PARTY_GIT_AUTHOR_EMAIL: opensource+bot@newrelic.com
+  THIRD_PARTY_GIT_AUTHOR_NAME: nr-opensource-bot
+
+jobs:
+  checkout-and-build-master:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout PR branch and all history (not just last commit), so we can perform `git diff` below
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # Checkout submodules
+      # Note: Uses 8 jobs for checking out submodules quicker
+      - name: Checkout submodules
+        shell: bash
+        run: |
+          # If your submodules are configured to use SSH instead of HTTPS please uncomment the following line
+          #git config --global url."https://github.com/".insteadOf "git@github.com:"
+          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          git submodule sync --recursive
+          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
+
+      # Get Submodule_name using Git Diff
+      - name: Get/Set SUBMODULE_NAME
+        run: |
+          git diff --submodule=log --diff-filter=AM ${{ github.event.before }} ${{ github.event.after }}
+          SUB_NAME=$(git diff --submodule=log --diff-filter=AM ${{ github.event.before }} ${{ github.event.after }} | awk '{for (I=1;I<=NF;I++) if ($I == "Submodule") {print $(I+1)};}')
+
+          if [ -z "$SUB_NAME" ]; then
+            echo "Error: Could not determine submodule name"
+            exit 1
+          else
+            echo "SUBMODULE_NAME=$SUB_NAME" >> $GITHUB_ENV
+          fi
+
+      - name: Check SUBMODULE_NAME was set
+        if: env.SUBMODULE_NAME != ''
+        run: |
+          echo SUBMODULE_NAME: ${{ env.SUBMODULE_NAME }}
+
+      # Upload SUBMODULE_NAME as artifact to be used in other jobs
+      - name: Create submodule_name.txt artifact
+        if: env.SUBMODULE_NAME != ''
+        run: |
+          echo ${{ env.SUBMODULE_NAME }} > submodule_name.txt
+
+      - name: Upload SUBMODULE_NAME artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: submodule_name
+          path: ./submodule_name.txt
+
+      - name: Setup node
+        if: env.SUBMODULE_NAME != ''
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+
+      - name: Install Dependencies
+        if: env.SUBMODULE_NAME != ''
+        working-directory: ./${{ env.SUBMODULE_NAME }}
+        run: npm install
+
+      - name: Install NR1 CLI
+        if: env.SUBMODULE_NAME != ''
+        run: curl -s https://cli.nr-ext.net/installer.sh | sudo bash
+
+      - name: NR1 Nerdpack Build
+        if: env.SUBMODULE_NAME != ''
+        working-directory: ./${{ env.SUBMODULE_NAME }}
+        run: nr1 nerdpack:build
+
+  validate-catalog-uuid-and-publish:
+    name: validate-catalog-uuid-and-publish
+    needs: checkout-and-build-master
+    env:
+      MESSAGE: ${{ github.event.head_commit.message }}
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # Checkout submodules
+      # Note: Uses 8 jobs for checking out submodules quicker
+      - name: Checkout submodules
+        shell: bash
+        run: |
+          # If your submodules are configured to use SSH instead of HTTPS please uncomment the following line
+          #git config --global url."https://github.com/".insteadOf "git@github.com:"
+          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          git submodule sync --recursive
+          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
+
+      - name: Download submodule_name artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: submodule_name
+
+      - name: Set SUBMODULE_NAME env var
+        run: |
+          SUB_NAME=$(cat submodule_name/submodule_name.txt)
+
+          if [ -z "$SUB_NAME" ]; then
+            echo "Error: Could not determine submodule name from artifact"
+            exit 1
+          else
+            echo "SUBMODULE_NAME=$SUB_NAME" >> $GITHUB_ENV
+            echo SUBMODULE_NAME: $SUB_NAME
+          fi
+
+      # Install NR1 CLI - The map-global-uuid action needs the nr1 cli executable
+      - name: Install NR1 CLI
+        if: env.SUBMODULE_NAME != ''
+        run: |
+          curl -s https://cli.nr-ext.net/installer.sh | sudo bash
+          nr1 profiles:add --name nr1-apps-us --api-key ${{ secrets.NR1_APPS_KEY_US }} --region us
+
+      - name: Setup node
+        if: env.SUBMODULE_NAME != ''
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+
+      - name: compile map-global-uuid
+        if: env.SUBMODULE_NAME != ''
+        run: |
+          cd ./.github/actions/map-global-uuid
+          npm install
+          npm run build && npm run pack
+
+      - name: map-global-uuid
+        if: env.SUBMODULE_NAME != ''
+        id: uuid
+        uses: ./.github/actions/map-global-uuid
+        with:
+          # Array describing the files
+          submodule-name: ${{ env.SUBMODULE_NAME }}
+
+      # If there's output from the previous Action, commit the globals.json back to master
+      - name: Check and Commit globals.json
+        if: steps.uuid.outputs.globals-updated == 'true'
+        run: |
+          git config user.email "${{ env.THIRD_PARTY_GIT_AUTHOR_EMAIL }}"
+          git config user.name "${{ env.THIRD_PARTY_GIT_AUTHOR_NAME }}"
+          echo "globals.json was changed -- committing"
+          git commit globals.json -m "chore: Add new UUID for submodule: ${{ env.SUBMODULE_NAME }}"
+
+      - name: Update Version File
+        if: env.SUBMODULE_NAME != ''
+        id: versions
+        run: |
+          NERDPACK=${{ env.SUBMODULE_NAME }} # need to strip off the "apps/" portion of the submodule_name
+          SUBMODULE_VERSION=$(node -p "require('./${{ env.SUBMODULE_NAME }}/package.json').version")
+          CURRENT_VERSION=$(node -p "require('./versions.json')['${NERDPACK:5}']")
+
+          if [[ $SUBMODULE_VERSION != $CURRENT_VERSION ]]; then
+            npm install -g json
+            echo "Updating versions.json"
+            json -I -f versions.json -e "this['${NERDPACK:5}']='$SUBMODULE_VERSION'"
+            cat versions.json
+
+            echo "Versions.json updated -- committing"
+            git config user.email "${{ env.THIRD_PARTY_GIT_AUTHOR_EMAIL }}"
+            git config user.name "${{ env.THIRD_PARTY_GIT_AUTHOR_NAME }}"
+            git commit versions.json -m "chore: Updated version.json for submodule: ${{ env.SUBMODULE_NAME }}"
+            echo ::set-output name=versions_updated::true
+          else
+            echo "${{ env.SUBMODULE_NAME }} - Version not updated."
+          fi
+
+      - name: Push Commit
+        if: steps.uuid.outputs.globals-updated == 'true' || steps.versions.outputs.versions_updated == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish Nerdpack
+        if: env.SUBMODULE_NAME != ''
+        env:
+          NR1_APPS_KEY_EU: ${{ secrets.NR1_APPS_KEY_EU }}
+          NR1_APPS_KEY_STAGING: ${{ secrets.NR1_APPS_KEY_STAGING }}
+          NR1_REGION_EU: eu
+          NR1_REGION_STAGING: staging
+        run: |
+          cd ${{ env.SUBMODULE_NAME }}
+          npm install
+
+          # US region was added previously when we installed the CLI, now add the other 2 profiles
+          nr1 profiles:add --name nr1-apps-staging --api-key "$NR1_APPS_KEY_STAGING" --region "$NR1_REGION_STAGING"
+          nr1 profiles:add --name nr1-apps-eu --api-key "$NR1_APPS_KEY_EU" --region "$NR1_REGION_EU"
+
+          # Set nr1-apps-us as current profile
+          nr1 profiles:default --name=nr1-apps-us
+          nr1 profiles:list
+
+          # Don't execute these commands until we're ready to validate they work
+          # Publish to Prod Artifact Registry
+
+          if [[ $MESSAGE != *"[skip publish]"* ]]; then
+            echo "publishing nerdpack..."
+            nr1 nerdpack:build
+            nr1 nerdpack:publish --profile=nr1-apps-us --skip-build # --verbose (only if necessary)
+          else
+            echo "skipping publish"
+          fi
+
+          # ArtifactRegistry needs a tiny delay (likely due to caching) after a publish before we submit the catalog
+          # Otherwise, the nr1 catalog:submit calls fail ¯\_(ツ)_/¯
+          sleep 300
+
+          # submit catalog for US
+          echo "Submitting catalog to nr1-apps-us..."
+          nr1 catalog:submit
+          echo "Catalog submitted [nr1-apps-us]"
+
+          # submit catalog for EU
+          nr1 profiles:default --name=nr1-apps-eu
+          echo "Submitting catalog to nr1-apps-eu..."
+          nr1 catalog:submit
+          echo "Catalog submitted [nr1-apps-eu]"
+
+          # submit catalog for STAGING
+          nr1 profiles:default --name=nr1-apps-staging
+          echo "Submitting catalog to nr1-apps-staging..."
+          nr1 catalog:submit
+          echo "Catalog submitted [nr1-apps-staging]"
