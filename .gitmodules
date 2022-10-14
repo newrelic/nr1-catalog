@@ -79,3 +79,6 @@
 [submodule "apps/nr-labs-widget-pack"]
 	path = apps/nr-labs-widget-pack
 	url = https://github.com/newrelic/nr-labs-widget-pack
+[submodule "apps/nr1-roku"]
+	path = apps/nr1-roku
+	url = https://github.com/newrelic/nr1-roku.git
