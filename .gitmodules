@@ -82,3 +82,6 @@
 [submodule "apps/nr1-roku"]
 	path = apps/nr1-roku
 	url = https://github.com/newrelic/nr1-roku
+[submodule "apps/nr1-sap-idocs"]
+	path = apps/nr1-sap-idocs
+	url = https://github.com/newrelic/nr1-sap-idocs
