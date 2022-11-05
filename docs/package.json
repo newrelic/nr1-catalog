@@ -9,8 +9,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "gatsby": "^2.15.24",
-    "gatsby-plugin-sass": "^2.2.1",
+    "gatsby": "^3.0.0",
+    "gatsby-plugin-sass": "^3.0.0",
     "gatsby-source-filesystem": "^2.2.2",
     "gatsby-theme-documentation": "^0.0.27",
     "node-sass": "^4.13.1",
