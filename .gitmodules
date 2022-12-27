@@ -85,3 +85,6 @@
 [submodule "apps/nr1-sap-idocs"]
 	path = apps/nr1-sap-idocs
 	url = https://github.com/newrelic/nr1-sap-idocs
+[submodule "apps/nr1-sap-webservices"]
+	path = apps/nr1-sap-webservices
+	url = https://github.com/newrelic/nr1-sap-webservices.git
