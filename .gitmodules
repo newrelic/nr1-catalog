@@ -88,3 +88,6 @@
 [submodule "apps/nr1-sap-webservices"]
 	path = apps/nr1-sap-webservices
 	url = https://github.com/newrelic/nr1-sap-webservices.git
+[submodule "apps/queries-scan-ageri"]
+	path = apps/queries-scan-ageri
+	url = https://github.com/itallorian/queries-scan-ageri
