@@ -213,7 +213,7 @@ jobs:
           if [[ $MESSAGE != *"[skip publish]"* ]]; then
             echo "publishing nerdpack..."
             nr1 nerdpack:build
-            nr1 nerdpack:publish --profile=nr1-apps-us --skip-build --verbose (only if necessary)
+            nr1 nerdpack:publish --profile=nr1-apps-us --skip-build --verbose #(only if necessary)
           else
             echo "skipping publish"
           fi
