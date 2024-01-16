@@ -217,8 +217,36 @@ jobs:
             echo "skipping publish"
           fi
 
-          # tag eu
-          nr1 nerdpack:tag --profile=nr1-apps-eu
+          # attempt to update the EU tag
+          # Set the maximum number of attempts
+          max_attempts=7
+          
+          # Counter for the attempts
+          attempt=1
+          
+          while [ $attempt -le $max_attempts ]; do
+              # Run the command
+              nr1 nerdpack:tag --profile=nr1-apps-eu
+          
+              # Check the exit status of the command
+              if [ $? -eq 0 ]; then
+                  # The command succeeded, exit the loop
+                  break
+              else
+                  # The command failed
+                  echo "Not ready, retrying in 30s (Attempt $attempt/$max_attempts)"
+                  sleep 30
+                  ((attempt++))
+              fi
+          done
+          
+          # Check if all attempts failed
+          if [ $attempt -gt $max_attempts ]; then
+              echo "Failed after $max_attempts attempts"
+              exit 1
+          fi
+          
+          echo "EU tagging succeeded after $attempt attempts"
 
           # ArtifactRegistry needs a tiny delay (likely due to caching) after a publish before we submit the catalog
           # Otherwise, the nr1 catalog:submit calls fail ¯\_(ツ)_/¯
