@@ -219,7 +219,7 @@ jobs:
 
           # Attempt to update the EU tag - retry logic implemented because sometimes it is not ready yet
           # Set the maximum number of attempts
-          max_attempts=10
+          max_attempts=30
           
           # Counter for the attempts
           attempt=1
@@ -231,8 +231,8 @@ jobs:
               # Check if the output contains the keyword "Error"
               if [[ "$output" == *"Error"* ]]; then
                   # The command failed
-                  echo "Not ready, retrying in 30s (Attempt $attempt/$max_attempts)"
-                  sleep 30
+                  echo "Not ready, retrying in 10s (Attempt $attempt/$max_attempts)"
+                  sleep 10
                   ((attempt++))
               else
                   # The command succeeded, exit the loop
@@ -242,15 +242,11 @@ jobs:
           
           # Check if all attempts failed
           if [ $attempt -gt $max_attempts ]; then
-              echo "Failed after $max_attempts attempts"
+              echo "EU tagging failed after $max_attempts attempts"
               exit 1
           fi
           
           echo "EU tagging succeeded after $attempt attempts"
-
-          # ArtifactRegistry needs a tiny delay (likely due to caching) after a publish before we submit the catalog
-          # Otherwise, the nr1 catalog:submit calls fail ¯\_(ツ)_/¯
-          # sleep 300
 
           # submit catalog for US
           echo "Submitting catalog to nr1-apps-us..."
