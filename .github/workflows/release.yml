@@ -188,6 +188,14 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        env:
+          NR1_APPS_KEY_EU: ${{ secrets.NR1_APPS_KEY_EU }}
+          NR1_APPS_KEY_STAGING: ${{ secrets.NR1_APPS_KEY_STAGING }}
+          NR1_REGION_EU: eu
+          NR1_REGION_STAGING: staging
+
       - name: Publish Nerdpack
         if: env.SUBMODULE_NAME != ''
         env:
@@ -212,8 +220,7 @@ jobs:
 
           if [[ $MESSAGE != *"[skip publish]"* ]]; then
             echo "publishing nerdpack..."
-            nr1 nerdpack:build
-            nr1 nerdpack:publish --profile=nr1-apps-us --skip-build --verbose #(only if necessary)
+            nr1 nerdpack:publish --profile=nr1-apps-us --verbose #(only if necessary)
           else
             echo "skipping publish"
           fi
