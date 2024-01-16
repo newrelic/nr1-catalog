@@ -217,9 +217,12 @@ jobs:
             echo "skipping publish"
           fi
 
+          # tag eu
+          nr1 nerdpack:tag --profile=nr1-apps-eu
+
           # ArtifactRegistry needs a tiny delay (likely due to caching) after a publish before we submit the catalog
           # Otherwise, the nr1 catalog:submit calls fail ¯\_(ツ)_/¯
-          sleep 300
+          # sleep 300
 
           # submit catalog for US
           echo "Submitting catalog to nr1-apps-us..."
@@ -233,7 +236,7 @@ jobs:
           echo "Catalog submitted [nr1-apps-eu]"
 
           # submit catalog for STAGING
-          nr1 profiles:default --name=nr1-apps-staging
-          echo "Submitting catalog to nr1-apps-staging..."
-          nr1 catalog:submit
-          echo "Catalog submitted [nr1-apps-staging]"
+          # nr1 profiles:default --name=nr1-apps-staging
+          # echo "Submitting catalog to nr1-apps-staging..."
+          # nr1 catalog:submit
+          # echo "Catalog submitted [nr1-apps-staging]"
