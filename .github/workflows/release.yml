@@ -217,26 +217,26 @@ jobs:
             echo "skipping publish"
           fi
 
-          # attempt to update the EU tag
+          # Attempt to update the EU tag - retry logic implemented because sometimes it is not ready yet
           # Set the maximum number of attempts
-          max_attempts=7
+          max_attempts=10
           
           # Counter for the attempts
           attempt=1
-          
+
           while [ $attempt -le $max_attempts ]; do
-              # Run the command
-              nr1 nerdpack:tag --profile=nr1-apps-eu
+              # Run the command and capture its output
+              output=$(nr1 nerdpack:tag --profile=nr1-apps-eu 2>&1 || true)
           
-              # Check the exit status of the command
-              if [ $? -eq 0 ]; then
-                  # The command succeeded, exit the loop
-                  break
-              else
+              # Check if the output contains the keyword "Error"
+              if [[ "$output" == *"Error"* ]]; then
                   # The command failed
                   echo "Not ready, retrying in 30s (Attempt $attempt/$max_attempts)"
                   sleep 30
                   ((attempt++))
+              else
+                  # The command succeeded, exit the loop
+                  break
               fi
           done
           
