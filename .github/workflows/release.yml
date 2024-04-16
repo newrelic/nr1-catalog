@@ -217,6 +217,11 @@ jobs:
             echo "skipping publish"
           fi
 
+          # submit catalog for US
+          echo "Submitting catalog to nr1-apps-us..."
+          nr1 catalog:submit
+          echo "Catalog submitted [nr1-apps-us]"
+
           # Attempt to update the EU tag - retry logic implemented because sometimes it is not ready yet
           # Set the maximum number of attempts
           max_attempts=30
@@ -247,11 +252,6 @@ jobs:
           fi
           
           echo "EU tagging succeeded after $attempt attempts"
-
-          # submit catalog for US
-          echo "Submitting catalog to nr1-apps-us..."
-          nr1 catalog:submit
-          echo "Catalog submitted [nr1-apps-us]"
 
           # submit catalog for EU
           nr1 profiles:default --name=nr1-apps-eu
