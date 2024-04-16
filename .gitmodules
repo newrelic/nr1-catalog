@@ -85,3 +85,6 @@
 [submodule "apps/nr1-sap-webservices"]
 	path = apps/nr1-sap-webservices
 	url = https://github.com/newrelic/nr1-sap-webservices.git
+[submodule "apps/nr-user-flows"]
+	path = apps/nr-user-flows
+	url = https://github.com/newrelic/nr-user-flows
