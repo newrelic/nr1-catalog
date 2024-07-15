@@ -88,3 +88,6 @@
 [submodule "apps/nr-user-flows"]
 	path = apps/nr-user-flows
 	url = https://github.com/newrelic/nr-user-flows
+[submodule "apps/nr-labs-hedgehog"]
+	path = apps/nr-labs-hedgehog
+	url = https://github.com/newrelic/nr-labs-hedgehog
