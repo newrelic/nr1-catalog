@@ -91,3 +91,6 @@
 [submodule "apps/nr-labs-hedgehog"]
 	path = apps/nr-labs-hedgehog
 	url = https://github.com/newrelic/nr-labs-hedgehog
+[submodule "apps/nr-labs-pathpoint"]
+	path = apps/nr-labs-pathpoint
+	url = https://github.com/newrelic/nr-labs-pathpoint
