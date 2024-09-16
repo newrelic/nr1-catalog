@@ -130,7 +130,7 @@ jobs:
 
       - name: Set SUBMODULE_NAME env var
         run: |
-          SUB_NAME=$(cat submodule_name/submodule_name.txt)
+          SUB_NAME=$(cat submodule_name.txt)
 
           if [ -z "$SUB_NAME" ]; then
             echo "Error: Could not determine submodule name from artifact"
