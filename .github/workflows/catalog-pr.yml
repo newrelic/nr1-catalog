@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - 'apps/**'
+      - "apps/**"
 
 jobs:
   checkout-and-build-pr:
@@ -53,16 +53,16 @@ jobs:
           echo ${{ env.SUBMODULE_NAME }} > submodule_name.txt
 
       - name: Upload SUBMODULE_NAME artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: submodule_name
           path: ./submodule_name.txt
 
       - name: Setup node
         if: env.SUBMODULE_NAME != ''
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Install Dependencies
         if: env.SUBMODULE_NAME != ''
@@ -118,9 +118,9 @@ jobs:
 
       - name: Setup node
         if: env.SUBMODULE_NAME != ''
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Install Dependencies
         if: env.SUBMODULE_NAME != ''
@@ -172,9 +172,9 @@ jobs:
 
       - name: Setup node
         if: env.SUBMODULE_NAME != ''
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Install Dependencies
         if: env.SUBMODULE_NAME != ''
@@ -226,9 +226,9 @@ jobs:
 
       - name: Setup node
         if: env.SUBMODULE_NAME != ''
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
 
       # Custom action to check for OSS files
       - name: compile files-present-action

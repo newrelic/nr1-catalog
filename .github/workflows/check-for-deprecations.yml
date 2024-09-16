@@ -1,9 +1,9 @@
 name: Check for Platform Deprecations in Apps
 
-on: 
+on:
   workflow_dispatch:
   schedule:
-    - cron:  '0 0 20 * *'
+    - cron: "0 0 20 * *"
 
 jobs:
   check-for-deprecations:
@@ -16,8 +16,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 16
-  
+          node-version: 20
+
       - name: Install dependencies
         run: cd utils && yarn install
 

@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - 'apps/**'
+      - "apps/**"
 env:
   THIRD_PARTY_GIT_AUTHOR_EMAIL: opensource+bot@newrelic.com
   THIRD_PARTY_GIT_AUTHOR_NAME: nr-opensource-bot
@@ -56,16 +56,16 @@ jobs:
           echo ${{ env.SUBMODULE_NAME }} > submodule_name.txt
 
       - name: Upload SUBMODULE_NAME artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: submodule_name
           path: ./submodule_name.txt
 
       - name: Setup node
         if: env.SUBMODULE_NAME != ''
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
 
       - name: Install Dependencies
         if: env.SUBMODULE_NAME != ''
@@ -131,9 +131,9 @@ jobs:
 
       - name: Setup node
         if: env.SUBMODULE_NAME != ''
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
 
       - name: compile map-global-uuid
         if: env.SUBMODULE_NAME != ''
@@ -187,7 +187,7 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Publish Nerdpack
         if: env.SUBMODULE_NAME != ''
         env:
@@ -225,14 +225,14 @@ jobs:
           # Attempt to update the EU tag - retry logic implemented because sometimes it is not ready yet
           # Set the maximum number of attempts
           max_attempts=30
-          
+
           # Counter for the attempts
           attempt=1
 
           while [ $attempt -le $max_attempts ]; do
               # Run the command and capture its output
               output=$(nr1 nerdpack:tag --profile=nr1-apps-eu 2>&1 || true)
-          
+
               # Check if the output contains the keyword "Error"
               if [[ "$output" == *"Error"* ]]; then
                   # The command failed
@@ -244,13 +244,13 @@ jobs:
                   break
               fi
           done
-          
+
           # Check if all attempts failed
           if [ $attempt -gt $max_attempts ]; then
               echo "EU tagging failed after $max_attempts attempts"
               exit 1
           fi
-          
+
           echo "EU tagging succeeded after $attempt attempts"
 
           # submit catalog for EU
