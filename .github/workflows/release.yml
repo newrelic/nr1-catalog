@@ -56,7 +56,7 @@ jobs:
           echo ${{ env.SUBMODULE_NAME }} > submodule_name.txt
 
       - name: Upload SUBMODULE_NAME artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: submodule_name
           path: ./submodule_name.txt
