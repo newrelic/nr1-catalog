@@ -64,6 +64,11 @@ jobs:
         with:
           node-version: 20
 
+      # Set environment variable for OpenSSL compatibility
+      - name: Set Node.js options to support legacy OpenSSL
+        run: |
+          echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
+
       - name: Install Dependencies
         if: env.SUBMODULE_NAME != ''
         working-directory: ./${{ env.SUBMODULE_NAME }}
@@ -140,6 +145,11 @@ jobs:
         with:
           node-version: 20
 
+      # Set environment variable for OpenSSL compatibility
+      - name: Set Node.js options to support legacy OpenSSL
+        run: |
+          echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
+
       - name: Install Dependencies
         if: env.SUBMODULE_NAME != ''
         working-directory: ./${{ env.SUBMODULE_NAME }}
@@ -212,6 +222,11 @@ jobs:
         with:
           node-version: 20
 
+        # Set environment variable for OpenSSL compatibility
+      - name: Set Node.js options to support legacy OpenSSL
+        run: |
+          echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
+
       - name: Install Dependencies
         if: env.SUBMODULE_NAME != ''
         working-directory: ./${{ env.SUBMODULE_NAME }}
@@ -283,6 +298,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+
+      # Set environment variable for OpenSSL compatibility
+      - name: Set Node.js options to support legacy OpenSSL
+        run: |
+          echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
 
       # Custom action to check for OSS files
       - name: compile files-present-action
