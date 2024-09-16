@@ -5,6 +5,9 @@ on:
   schedule:
     - cron: "0 0 20 * *"
 
+env:
+  NODE_OPTIONS: --openssl-legacy-provider
+
 jobs:
   check-for-deprecations:
     name: Check for Deprecated Messages
@@ -17,11 +20,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      # Set environment variable for OpenSSL compatibility
-      - name: Set Node.js options to support legacy OpenSSL
-        run: |
-          echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: cd utils && yarn install
