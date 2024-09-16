@@ -104,11 +104,19 @@ jobs:
           auth_header="$(git config --local --get http.https://github.com/.extraheader)"
           git submodule sync --recursive
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
+          echo "Submodules directory listing after checkout:"
+          ls -al submodule_name/
 
+      # Download submodule_name artifact
       - name: Download submodule_name artifact
         uses: actions/download-artifact@v4
         with:
           name: submodule_name
+      - name: List files in the current directory
+        run: |
+          echo "Directory structure after artifact download:"
+          ls -al
+          cat submodule_name.txt
 
       - name: Set SUBMODULE_NAME env var
         run: |
