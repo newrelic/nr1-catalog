@@ -100,7 +100,7 @@ jobs:
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
 
       - name: Download submodule_name artifact
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: submodule_name
 
@@ -154,7 +154,7 @@ jobs:
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
 
       - name: Download submodule_name artifact
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: submodule_name
 
@@ -208,7 +208,7 @@ jobs:
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
 
       - name: Download submodule_name artifact
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: submodule_name
 
