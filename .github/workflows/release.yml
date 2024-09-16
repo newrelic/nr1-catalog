@@ -9,7 +9,6 @@ on:
 env:
   THIRD_PARTY_GIT_AUTHOR_EMAIL: opensource+bot@newrelic.com
   THIRD_PARTY_GIT_AUTHOR_NAME: nr-opensource-bot
-  NODE_OPTIONS: --openssl-legacy-provider
 
 jobs:
   checkout-and-build-master:

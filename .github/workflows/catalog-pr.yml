@@ -7,10 +7,6 @@ on:
     paths:
       - "apps/**"
 
-env:
-  NODE_VERSION: "20"
-  NODE_OPTIONS: --openssl-legacy-provider
-
 jobs:
   checkout-and-build-pr:
     runs-on: ubuntu-latest
@@ -291,6 +287,8 @@ jobs:
       # Custom action to check for OSS files
       - name: compile files-present-action
         if: env.SUBMODULE_NAME != ''
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
         run: |
           cd ./.github/actions/files-present-action
           npm install
