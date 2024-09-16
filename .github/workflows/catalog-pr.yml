@@ -288,11 +288,6 @@ jobs:
         with:
           node-version: 20
 
-      # Set environment variable for OpenSSL compatibility
-      - name: Set Node.js options to support legacy OpenSSL
-        run: |
-          echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV
-
       # Custom action to check for OSS files
       - name: compile files-present-action
         if: env.SUBMODULE_NAME != ''
