@@ -210,7 +210,7 @@ jobs:
         if: steps.uuid.outputs.globals-updated == 'true' || steps.versions.outputs.versions_updated == 'true'
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.OPENSOURCE_BOT_TOKEN }}
 
       - name: Publish Nerdpack
         if: env.SUBMODULE_NAME != ''
