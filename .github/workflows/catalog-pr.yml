@@ -17,7 +17,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-          submodule: recursive
+          submodules: recursive
 
       # Checkout submodules
       # Note: Uses 8 jobs for checking out submodules quicker
@@ -90,7 +90,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-          submodule: recursive
+          submodules: recursive
 
       # Checkout submodules
       # Note: Uses 8 jobs for checking out submodules quicker
@@ -164,7 +164,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-          submodule: recursive
+          submodules: recursive
 
       # Checkout submodules
       # Note: Uses 8 jobs for checking out submodules quicker
@@ -238,7 +238,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-          submodule: recursive
+          submodules: recursive
 
       # Checkout submodules
       # Note: Uses 8 jobs for checking out submodules quicker
