@@ -49,6 +49,7 @@ jobs:
         with:
           fetch-depth: 0
           submodules: true
+          persist-credentials: false
 
       # Create a new branch, Update submodule to the input ref and commit
       - name: Add/Update submodule

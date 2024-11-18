@@ -19,6 +19,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       # Checkout submodules
       # Note: Uses 8 jobs for checking out submodules quicker
@@ -93,6 +94,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       # Checkout submodules
       # Note: Uses 8 jobs for checking out submodules quicker
