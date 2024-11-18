@@ -20,17 +20,18 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+          submodules: recursive
 
       # Checkout submodules
       # Note: Uses 8 jobs for checking out submodules quicker
-      - name: Checkout submodules
-        shell: bash
-        run: |
-          # If your submodules are configured to use SSH instead of HTTPS please uncomment the following line
-          #git config --global url."https://github.com/".insteadOf "git@github.com:"
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-          git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
+      #- name: Checkout submodules
+      #  shell: bash
+      #  run: |
+      #    # If your submodules are configured to use SSH instead of HTTPS please uncomment the following line
+      #    #git config --global url."https://github.com/".insteadOf "git@github.com:"
+      #    auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+      #    git submodule sync --recursive
+      #    git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
 
       # Get Submodule_name using Git Diff
       - name: Get/Set SUBMODULE_NAME
@@ -95,25 +96,26 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+          submodules: recursive
 
       # Checkout submodules
       # Note: Uses 8 jobs for checking out submodules quicker
-      - name: Checkout submodules
-        shell: bash
-        run: |
-          # If your submodules are configured to use SSH instead of HTTPS please uncomment the following line
-          #git config --global url."https://github.com/".insteadOf "git@github.com:"
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-          git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
-          echo "Submodules directory listing after checkout:"
-          if command -v tree > /dev/null; then
-            echo "Directory tree after submodule checkout in lint job:"
-            tree
-          else
-            echo "Directory listing after submodule checkout (tree not available):"
-            ls -R
-          fi
+      #- name: Checkout submodules
+      #  shell: bash
+      #  run: |
+      #    # If your submodules are configured to use SSH instead of HTTPS please uncomment the following line
+      #    #git config --global url."https://github.com/".insteadOf "git@github.com:"
+      #    auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+      #    git submodule sync --recursive
+      #    git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 --recursive --jobs 8
+      #    echo "Submodules directory listing after checkout:"
+      #    if command -v tree > /dev/null; then
+      #      echo "Directory tree after submodule checkout in lint job:"
+      #      tree
+      #    else
+      #      echo "Directory listing after submodule checkout (tree not available):"
+      #      ls -R
+      #    fi
 
       # Download submodule_name artifact
       - name: Download submodule_name artifact
