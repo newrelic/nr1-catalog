@@ -91,3 +91,6 @@
 [submodule "apps/nr-labs-pathpoint"]
 	path = apps/nr-labs-pathpoint
 	url = https://github.com/newrelic/nr-labs-pathpoint
+[submodule "apps/nr1-aqm"]
+	path = apps/nr1-aqm
+	url = https://github.com/newrelic/nr1-aqm
