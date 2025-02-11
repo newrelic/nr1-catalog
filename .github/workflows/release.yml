@@ -260,6 +260,7 @@ jobs:
               # Check if the output contains the keyword "Error"
               if [[ "$output" == *"Error"* ]]; then
                   # The command failed
+                  echo $output
                   echo "Not ready, retrying in 10s (Attempt $attempt/$max_attempts)"
                   sleep 10
                   ((attempt++))
