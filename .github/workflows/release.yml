@@ -72,7 +72,7 @@ jobs:
       - name: Install Dependencies
         if: env.SUBMODULE_NAME != ''
         working-directory: ./${{ env.SUBMODULE_NAME }}
-        run: npm install
+        run: npm install --legacy-peer-deps --ignore-scripts
 
       - name: Install NR1 CLI
         if: env.SUBMODULE_NAME != ''
@@ -163,7 +163,7 @@ jobs:
           NODE_OPTIONS: --openssl-legacy-provider
         run: |
           cd ./.github/actions/map-global-uuid
-          npm install
+          npm install --legacy-peer-deps --ignore-scripts
           npm run build && npm run pack
 
       - name: map-global-uuid
@@ -221,7 +221,7 @@ jobs:
           NR1_REGION_STAGING: staging
         run: |
           cd ${{ env.SUBMODULE_NAME }}
-          npm install
+          npm install --legacy-peer-deps --ignore-scripts
 
           # US region was added previously when we installed the CLI, now add the other 2 profiles
           nr1 profiles:add --name nr1-apps-staging --api-key "$NR1_APPS_KEY_STAGING" --region "$NR1_REGION_STAGING"
