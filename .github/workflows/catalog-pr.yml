@@ -69,7 +69,7 @@ jobs:
       - name: Install Dependencies
         if: env.SUBMODULE_NAME != ''
         working-directory: ./${{ env.SUBMODULE_NAME }}
-        run: npm install
+        run: npm install --legacy-peer-deps --ignore-scripts
 
       - name: Install NR1 CLI
         if: env.SUBMODULE_NAME != ''
@@ -147,7 +147,7 @@ jobs:
       - name: Install Dependencies
         if: env.SUBMODULE_NAME != ''
         working-directory: ./${{ env.SUBMODULE_NAME }}
-        run: npm install
+        run: npm install --legacy-peer-deps --ignore-scripts
 
       - name: Run eslint-check
         if: env.SUBMODULE_NAME != ''
@@ -221,7 +221,7 @@ jobs:
       - name: Install Dependencies
         if: env.SUBMODULE_NAME != ''
         working-directory: ./${{ env.SUBMODULE_NAME }}
-        run: npm install
+        run: npm install --legacy-peer-deps --ignore-scripts
 
       - name: Run npm test
         if: env.SUBMODULE_NAME != ''
@@ -299,7 +299,7 @@ jobs:
           NODE_OPTIONS: --openssl-legacy-provider
         run: |
           cd ./.github/actions/files-present-action
-          npm install
+          npm install --legacy-peer-deps --ignore-scripts
           npm run build && npm run pack
 
       - name: files-present-action
