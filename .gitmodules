@@ -97,3 +97,6 @@
 [submodule "apps/nr-labs-reports-builder"]
 	path = apps/nr-labs-reports-builder
 	url = https://github.com/newrelic/nr-labs-reports-builder
+[submodule "apps/nr1-command-center-v2"]
+	path = apps/nr1-command-center-v2
+	url = https://github.com/newrelic/nr1-command-center-v2
