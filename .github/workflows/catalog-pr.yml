@@ -76,7 +76,10 @@ jobs:
 
       - name: Install NR1 CLI
         if: env.SUBMODULE_NAME != ''
-        run: curl -s https://cli.nr-ext.net/installer.sh | sudo bash
+        run: |
+          curl -s https://cli.nr-ext.net/installer.sh | sudo bash
+          nr1 update
+          nr1 --version
 
       - name: NR1 Nerdpack Build
         if: env.SUBMODULE_NAME != ''
