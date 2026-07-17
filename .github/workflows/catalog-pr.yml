@@ -7,6 +7,9 @@ on:
     paths:
       - "apps/**"
 
+permissions:
+  contents: read
+
 jobs:
   checkout-and-build-pr:
     runs-on: ubuntu-latest
