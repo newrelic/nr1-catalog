@@ -82,8 +82,8 @@ jobs:
         if: env.SUBMODULE_NAME != ''
         run: |
           curl -s https://cli.nr-ext.net/installer.sh | sudo bash
-          nr1 update
-          nr1 --version
+          # nr1 update
+          # nr1 --version
 
       - name: NR1 Nerdpack Build
         if: env.SUBMODULE_NAME != ''
@@ -156,8 +156,8 @@ jobs:
         if: env.SUBMODULE_NAME != ''
         run: |
           curl -s https://cli.nr-ext.net/installer.sh | sudo bash
-          nr1 update
-          nr1 --version
+          # nr1 update
+          # nr1 --version
           nr1 profiles:add --name nr1-apps-us --api-key ${{ secrets.NR1_APPS_KEY_US }} --region us
 
       - name: Setup node
@@ -226,10 +226,10 @@ jobs:
         env:
           NR1_APPS_KEY_EU: ${{ secrets.NR1_APPS_KEY_EU }}
           NR1_APPS_KEY_STAGING: ${{ secrets.NR1_APPS_KEY_STAGING }}
-          NR1_APPS_KEY_JP: ${{ secrets.NR1_APPS_KEY_JP }}
+          # NR1_APPS_KEY_JP: ${{ secrets.NR1_APPS_KEY_JP }}
           NR1_REGION_EU: eu
           NR1_REGION_STAGING: staging
-          NR1_REGION_JP: jp
+          # NR1_REGION_JP: jp
         run: |
           cd ${{ env.SUBMODULE_NAME }}
           npm install --legacy-peer-deps --ignore-scripts
@@ -237,7 +237,7 @@ jobs:
           # US region was added previously when we installed the CLI, now add the other profiles
           nr1 profiles:add --name nr1-apps-staging --api-key "$NR1_APPS_KEY_STAGING" --region "$NR1_REGION_STAGING"
           nr1 profiles:add --name nr1-apps-eu --api-key "$NR1_APPS_KEY_EU" --region "$NR1_REGION_EU"
-          nr1 profiles:add --name nr1-apps-jp --api-key "$NR1_APPS_KEY_JP" --region "$NR1_REGION_JP"
+          # nr1 profiles:add --name nr1-apps-jp --api-key "$NR1_APPS_KEY_JP" --region "$NR1_REGION_JP"
 
           # Set nr1-apps-us as current profile
           nr1 profiles:default --name=nr1-apps-us
@@ -297,30 +297,30 @@ jobs:
           echo "Catalog submitted [nr1-apps-eu]"
 
           # Attempt to update the JP tag - retry logic implemented because sometimes it is not ready yet
-          max_attempts=30
-          attempt=1
-          while [ $attempt -le $max_attempts ]; do
-              output=$(nr1 nerdpack:tag --profile=nr1-apps-jp 2>&1 || true)
-              if [[ "$output" == *"Error"* ]]; then
-                  echo $output
-                  echo "Not ready, retrying in 10s (Attempt $attempt/$max_attempts)"
-                  sleep 10
-                  ((attempt++))
-              else
-                  break
-              fi
-          done
-          if [ $attempt -gt $max_attempts ]; then
-              echo "JP tagging failed after $max_attempts attempts"
-              exit 1
-          fi
-          echo "JP tagging succeeded after $attempt attempts"
+          # max_attempts=30
+          # attempt=1
+          # while [ $attempt -le $max_attempts ]; do
+          #     output=$(nr1 nerdpack:tag --profile=nr1-apps-jp 2>&1 || true)
+          #     if [[ "$output" == *"Error"* ]]; then
+          #         echo $output
+          #         echo "Not ready, retrying in 10s (Attempt $attempt/$max_attempts)"
+          #         sleep 10
+          #         ((attempt++))
+          #     else
+          #         break
+          #     fi
+          # done
+          # if [ $attempt -gt $max_attempts ]; then
+          #     echo "JP tagging failed after $max_attempts attempts"
+          #     exit 1
+          # fi
+          # echo "JP tagging succeeded after $attempt attempts"
 
           # submit catalog for JP
-          nr1 profiles:default --name=nr1-apps-jp
-          echo "Submitting catalog to nr1-apps-jp..."
-          nr1 catalog:submit
-          echo "Catalog submitted [nr1-apps-jp]"
+          # nr1 profiles:default --name=nr1-apps-jp
+          # echo "Submitting catalog to nr1-apps-jp..."
+          # nr1 catalog:submit
+          # echo "Catalog submitted [nr1-apps-jp]"
 
           # submit catalog for STAGING
           # nr1 profiles:default --name=nr1-apps-staging
