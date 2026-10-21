@@ -16,7 +16,8 @@ env:
 
 jobs:
   checkout-and-build-master:
-    runs-on: ubuntu-latest
+    # Pinned: the NR1 CLI installer uses apt-key, which ubuntu-latest (26.04) no longer ships.
+    runs-on: ubuntu-24.04
     steps:
       # Checkout PR branch and all history (not just last commit), so we can perform `git diff` below
       - name: Checkout repo
@@ -96,7 +97,8 @@ jobs:
     env:
       MESSAGE: ${{ github.event.head_commit.message }}
     if: github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
+    # Pinned: the NR1 CLI installer uses apt-key, which ubuntu-latest (26.04) no longer ships.
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4

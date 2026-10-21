@@ -12,7 +12,8 @@ permissions:
 
 jobs:
   checkout-and-build-pr:
-    runs-on: ubuntu-latest
+    # Pinned: the NR1 CLI installer uses apt-key, which ubuntu-latest (26.04) no longer ships.
+    runs-on: ubuntu-24.04
     steps:
       # Checkout PR branch and all history (not just last commit), so we can perform `git diff` below
       - name: Checkout repo
